@@ -7,14 +7,17 @@ This example contains ORS (Online Result System )complete web project
 
 # How to intall DJango 
 * Make sure you Python 64 Bit installed
-* Use PIP comand to install django
-  >pip install django
+* Use PIP comand to install django `pip install django`
   
 ## Create DJango project 
+
 * Use following commands to create django project, django application and start the server 
->django-admin startproject django-projects
->go to newly created \django-projects folder and run 
->py manage.py runserver
+
+  `django-admin startproject django-projects`
+  
+  go to newly created \django-projects folder and run 
+  
+  `py manage.py runserver`
 
 
 
