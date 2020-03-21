@@ -1,0 +1,13 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Document</title>
+</head>
+<body>
+<select >
+    {% for clg in stateList %}
+    <option value="{{clg.code}}">{{clg.name}}</option>
+    {% endfor %}
+</select>    
+</body>
+</html>
