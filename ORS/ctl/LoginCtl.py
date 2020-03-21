@@ -1,31 +1,45 @@
 from django.http import HttpResponse
 from .BaseCtl import BaseCtl
 from django.shortcuts import render,redirect
+from ORS.utility.DataValidator import DataValidator
 
 class LoginCtl(BaseCtl):
-    def __init__(self):
-        self.name = ""
-        self.address = ""
+
+    def populateRequest(self,requestFrom):
+        self.form["loginId"]  = requestFrom["loginId"]
+        self.form["password"] = requestFrom["password"] 
+
+    def inputValidation(self):
+        super().inputValidation()
+        inputError =  self.form["inputError"]
+        if(DataValidator.isNull(self.form["loginId"])):
+            inputError["loginId"] = "Login can not be null"
+            self.form["error"] = True
+        if(DataValidator.isNull(self.form["password"])):
+            inputError["password"] = "Password can not be null"
+            self.form["error"] = True
+
+        return self.form["error"]
 
     def display(self,request,params={}):
-        res = render(request,"Login.html")
+        res = render(request,self.getTemplate())
         return res
 
+   
     def submit(self,request,params={}):
-        login = request.POST["loginId"]
-        password = request.POST["password"]
-        form = request.POST
-        print('8888888888888888888>', form["loginId"], form["password"])
-        message = ""
-        print(login, password)
-
-        if(login == "admin" and password == "admin"):
-            res = redirect('/ORS/Welcome')
-        else:
-            message = "Invalid ID or Password"
-            res = render(request,"Login.html",{"message":message, "form" :request.POST} )
+        if(self.inputValidation()):
+            print("I am here ")
+            return render(request,self.getTemplate(),{"form":self.form})
+        else:     
+            if(self.form["loginId"]  == "admin" and self.form["password"] == "admin"):
+                res = redirect('/ORS/Welcome')
+            else:
+                self.form["message"] = "Invalid ID or Password"
+                res = render(request,self.getTemplate(),{"form":self.form})
+        
         return res
 
-
+    def getTemplate(self):
+        return "Login.html"        
 
 

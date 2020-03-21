@@ -1,8 +1,13 @@
 <H1>Login</H1>
 
-<p style="color: red;"> {{message}} {{form.loginId}}</p>
+<p style="color: red;"> {{form.message}}</p>
+
 <form method="POST">
-    Login <input name="loginId" value="{{form.loginId}}"> <br>
-    Password <input name="password" value="{{form.password}}"> <br>
+    Login <input name="loginId" value="{{form.loginId}}">
+    <span style="color: red;"> {{form.inputError.loginId}} </span>
+    <br>
+    Password <input name="password" value="{{form.password}}"> 
+    <span style="color: red;"> {{form.inputError.password}} </span>    
+    <br>
     <input type="submit" value="SingnIn">
 </form>
