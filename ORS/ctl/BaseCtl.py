@@ -5,6 +5,7 @@ from abc import ABC,abstractmethod
 Base class is inherited by all application controllers 
 '''
 class BaseCtl(ABC):
+    preloadData={}
 
     def __init__(self):
         self.id = 0
