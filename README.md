@@ -1,13 +1,13 @@
 # SOS_django_projects
 DJango project tutorial
 
-This contaisn examples to develop convenstional and REST API applcation usinag DJango framework
+This contains examples to develop conventional and REST API application using DJango framework
 
-This example contains ORS (Online Result System )complete web project
+This example contains ORS (Online Result System) complete web project
 
-# How to intall DJango 
-* Make sure you Python 64 Bit installed
-* Use PIP comand to install django `pip install django`
+# How to install  DJango 
+* Make sure you have installed 64 Bit Python 
+* Use PIP command to install django `pip install django`
   
 ## Create DJango project 
 
