@@ -9,6 +9,13 @@ from ORS.ctl.AccountCtl import AccountCtl
 from ORS.ctl.CollegeCtl import CollegeCtl
 from ORS.ctl.LoginCtl import LoginCtl
 from ORS.ctl.WelcomeCtl import WelcomeCtl
+from ORS.ctl.RoleCtl import RoleCtl
+from ORS.ctl.FacultyCtl import FacultyCtl
+from ORS.ctl.CourseCtl import CourseCtl
+from ORS.ctl.StudentCtl import StudentCtl
+from ORS.ctl.MarksheetCtl import MarksheetCtl
+from ORS.ctl.SubjectCtl import SubjectCtl
+from ORS.ctl.TimetableCtl import TimetableCtl
 
 def info(request,page,action ):
     print("REQ Method: ", request.method )
