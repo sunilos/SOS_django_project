@@ -1,0 +1,16 @@
+<H1>Login</H1>
+
+<p style="color: red;"> {{form.message}}</p>
+
+<form method="POST">
+    <input name="id" value="{{form.id}}">
+    <br>
+    Name <input name="name" value="{{form.name}}">
+    <span style="color: red;"> {{form.inputError.name}} </span>
+    <br>
+    Description <input name="description" value="{{form.description}}"> 
+    <span style="color: red;"> {{form.inputError.description}} </span>    
+    <br>
+    <input type="submit" value="Save">
+    <a href="/ORS/RoleList"> List </a>
+</form>

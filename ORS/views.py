@@ -10,6 +10,7 @@ from ORS.ctl.CollegeCtl import CollegeCtl
 from ORS.ctl.LoginCtl import LoginCtl
 from ORS.ctl.WelcomeCtl import WelcomeCtl
 from ORS.ctl.RoleCtl import RoleCtl
+from ORS.ctl.RoleListCtl import RoleListCtl
 from ORS.ctl.FacultyCtl import FacultyCtl
 from ORS.ctl.CourseCtl import CourseCtl
 from ORS.ctl.StudentCtl import StudentCtl

@@ -13,21 +13,20 @@ Including another URLconf
     1. Import the include() function: from django.urls import include, path
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
-
 from django.contrib import admin
 from django.urls import path, include
-from . import views
 
 urlpatterns = [
     #Root path 
-    path('', views.index),
+    #path('', views.index),
+
     path('admin/', admin.site.urls),
 
     #Test submodule
     path('test/', include("Test.urls")),
 
     #ORS submodule
-    path('ORS/', include("ORS.urls")),         
+    path('ORS/', include("ORS.urls")),
 
     #ORS API submodule
     path('ORSAPI/', include("ORSAPI.urls")),  

@@ -4,6 +4,12 @@ import datetime
 
 # Create your views here.
 
+def index(request):
+    now = datetime.datetime.now()
+    html = "<h1>Hello %s.</h1>" % now
+    return HttpResponse(html)
+
+
 def welcome(request):
     now = datetime.datetime.now()
     html = "<h1>Welcome in test app at %s.</h1>" % now
