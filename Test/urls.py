@@ -22,4 +22,6 @@ urlpatterns = [
     #Root path 
     path('', views.welcome),
     path('info', views.info),
+    path('html', views.tempate),
+    path('pdf', views.pdf),
 ]
