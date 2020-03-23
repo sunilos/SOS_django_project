@@ -20,16 +20,6 @@ from . import views
 
 urlpatterns = [
     #Root path 
-    path('', views.index),
-    path('admin/', admin.site.urls),
-
-    #Test submodule
-    path('test/', include("Test.urls")),
-
-    #ORS submodule
-    path('ORS/', include("ORS.urls")),         
-
-    #ORS API submodule
-    path('ORSAPI/', include("ORSAPI.urls")),  
-
+    path('', views.welcome),
+    path('info', views.info),
 ]

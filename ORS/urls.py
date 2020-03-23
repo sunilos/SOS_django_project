@@ -18,8 +18,16 @@ from django.urls import path
 from . import views
 
 urlpatterns = [
+    #/ORS/User/get
+    #/ORS/User/search
     path('<page>/<action>/', views.action),       
+
+    #/ORS/User/1
+    #/ORS/Account/1
     path('<page>/<int:id>', views.actionId),       
+
+    #/ORS/Login
+    #/ORS/ChangePassword 
     path('<page>/', views.actionId),       
 
 ]

@@ -6,7 +6,9 @@ from django.shortcuts import render,redirect
 Base class is inherited by all application controllers 
 '''
 class BaseCtl(ABC):
+
     preloadData = {}
+    pageList = {}
 
     '''
     Initialize controller attributes
