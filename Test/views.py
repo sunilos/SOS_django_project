@@ -49,7 +49,7 @@ def pdf(request):
         response['Content-Disposition'] = 'inline; filename=a.pdf'
         return response
         
-def exel(request):
+def excel(request):
     response = HttpResponse(content_type='application/ms-excel')
     response['Content-Disposition'] = 'attachment; filename="data.xls"'
 
