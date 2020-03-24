@@ -41,7 +41,7 @@ class Faculty(models.Model):
     address = models.CharField(max_length=50)
     gender = models.CharField(max_length=50) 
     dob = models.DateField(max_length=20) 
-    college_ID=models.IntegerIntegerField() 
+    college_ID=models.IntegerField() 
     collegeName = models.CharField(max_length=50) 
     subject_ID=IntegerFIntegerField() 
     subjectName = models.CharField(max_length=50) 
