@@ -4,6 +4,9 @@ import datetime
 from io import BytesIO
 from django.template.loader import get_template
 from xhtml2pdf import pisa
+from django.http.response import JsonResponse
+from django.views.decorators.csrf import csrf_exempt
+
 
 
 # Create your views here.
@@ -47,9 +50,12 @@ def exel(request):
     res = HttpResponse("Excel")
     return res
 
+@csrf_exempt
 def json(request):
-    res = HttpResponse("Excel")
+    data=[{"name":"Ram","address":"Indore"},{"name":"Shyam","address":"Bhopal"}]
+    res = JsonResponse(data,safe=False)
     return res
+
 
 #readGet?firstName=Ram&lastName=Sharma
 def readGetParams(request):
