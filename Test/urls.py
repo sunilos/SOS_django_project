@@ -26,5 +26,7 @@ urlpatterns = [
     path('pdf', views.pdf),
     path('getpdf', views.GenPdf),
     path('getJson', views.json),
+    path('login', views.login),
+    
 
 ]
