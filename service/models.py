@@ -43,9 +43,9 @@ class Faculty(models.Model):
     dob = models.DateField(max_length=20) 
     college_ID=models.IntegerField() 
     collegeName = models.CharField(max_length=50) 
-    subject_ID=IntegerFIntegerField() 
+    subject_ID=models.IntegerField() 
     subjectName = models.CharField(max_length=50) 
-    course_ID=IntegerFIntegerField() 
+    course_ID=models.IntegerField() 
     courseName = models.CharField(max_length=50)
     class Meta:  
         db_table = "SOS_FACULTY"
@@ -53,10 +53,10 @@ class Faculty(models.Model):
 class Marksheet(models.Model):  
     rollNumber = models.CharField(max_length=50)  
     name = models.CharField(max_length=50)  
-    physics=IntegerFIntegerField() 
-    chemistry=IntegerFIntegerField() 
-    maths=IntegerFIntegerField()
-    student_ID=IntegerFIntegerField() 
+    physics=models.IntegerField() 
+    chemistry=models.IntegerField() 
+    maths=models.IntegerField()
+    student_ID=models.IntegerField() 
     class Meta:  
         db_table = "SOS_MARKSHEET"
 
@@ -66,7 +66,7 @@ class student(models.Model):
     dob = models.DateField(max_length=20)
     mobileNumber=models.CharField(max_length=20)
     email =  models.EmailField()
-    college_ID=IntegerFIntegerField()
+    college_ID=models.IntegerField()
     collegeName = models.CharField(max_length=50)
     class Meta:  
         db_table = "SOS_STUDENT"
@@ -75,7 +75,7 @@ class subject(models.Model):
     subjectName = models.CharField(max_length=50)  
     subjectDescription = models.CharField(max_length=50)  
     dob = models.DateField(max_length=20)
-    course_ID=IntegerFIntegerField()
+    course_ID=models.IntegerField()
     courseName = models.CharField(max_length=50)
     class Meta:  
         db_table = "SOS_SUBJECT"
@@ -84,9 +84,9 @@ class subject(models.Model):
 class timeTable(models.Model):  
     examTime = models.DateTimeField()
     examDate = models.DateField()
-    subject_ID=models.IntegerFIntegerField() 
+    subject_ID=models.IntegerField() 
     subjectName = models.CharField(max_length=50) 
-    course_ID=IntegerFIntegerField() 
+    course_ID=models.IntegerField() 
     courseName = models.CharField(max_length=50)
     semester = models.CharField(max_length=50)
     class Meta:  
