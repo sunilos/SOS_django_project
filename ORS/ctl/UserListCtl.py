@@ -1,17 +1,16 @@
-
+from django.shortcuts import render,redirect
+from service.utility.DataValidator import DataValidator
 from django.http import HttpResponse
 from .BaseCtl import BaseCtl
-from django.shortcuts import render
-from ORS.utility.DataValidator import DataValidator
-from service.forms import RoleForm, UserForm
-from service.models import User, Role
-from service.service.RoleService import RoleService
+from service.models import User
+from service.service.UserService import UserService
 
-class RoleListCtl(BaseCtl):
+class UserListCtl(BaseCtl):
 
     def request_to_form(self,requestForm):
-        self.form["name"] = requestForm.get( "name", None)
-        self.form["description"] =  requestForm.get( "description", None) 
+        self.form["firstName"] = requestForm.get( "firstName", None)
+        self.form["lastName"] =  requestForm.get( "lastName", None) 
+        self.form["login"] =  requestForm.get( "login", None) 
 
     def display(self,request,params={}):
         self.page_list = self.get_service().search(self.form)
@@ -25,12 +24,11 @@ class RoleListCtl(BaseCtl):
         return res
         
     def get_template(self):
-        return "ors/RoleList.html"          
+        return "ors/UserList.html" 
 
     # Service of Role     
     def get_service(self):
-        return RoleService()        
-
+        return UserService()        
 
 
 

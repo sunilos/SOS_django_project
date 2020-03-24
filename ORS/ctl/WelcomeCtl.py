@@ -6,6 +6,9 @@ from django.shortcuts import render
 class WelcomeCtl(BaseCtl):
 
     def display(self,request,params={}):
+        user = request.session.get("user",None)
+        if(user is not None):
+            self.form["message"] = "Welcome " + user.login
         return render(request,self.get_template(),{"form":self.form})
 
     def submit(self,request,params={}):

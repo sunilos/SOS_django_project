@@ -17,6 +17,9 @@ from ORS.ctl.StudentCtl import StudentCtl
 from ORS.ctl.MarksheetCtl import MarksheetCtl
 from ORS.ctl.SubjectCtl import SubjectCtl
 from ORS.ctl.TimetableCtl import TimetableCtl
+from ORS.ctl.UserListCtl import UserListCtl
+from ORS.ctl.UserCtl import UserCtl
+
 
 def info(request,page,action ):
     print("REQ Method: ", request.method )

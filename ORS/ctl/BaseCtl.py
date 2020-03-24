@@ -62,19 +62,20 @@ class BaseCtl(ABC):
     @abstractmethod
     def submit(self,request,params = {}):
         pass      
-    '''
-    returns template of controller
-    '''    
-
-    @abstractmethod
-    def get_template(self):
-        pass
 
     '''
     Populate values from Request POST/GET to Controller form object
     '''
     def request_to_form(self,requestFrom):
         pass
+
+    #Populate Form from Model 
+    def model_to_form(self,obj):
+        pass
+
+    #Convert form into module
+    def form_to_model(self,obj):
+        pass        
 
     '''
     Apply input validation 
@@ -83,4 +84,13 @@ class BaseCtl(ABC):
         self.form["error"] = False
         self.form["message"] = ""
 
+    '''
+    returns template of controller
+    '''    
+    @abstractmethod
+    def get_template(self):
+        pass
 
+    @abstractmethod
+    def get_service(self):
+        pass

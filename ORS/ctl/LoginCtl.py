@@ -1,7 +1,8 @@
 from django.http import HttpResponse
 from .BaseCtl import BaseCtl
 from django.shortcuts import render,redirect
-from ORS.utility.DataValidator import DataValidator
+from service.utility.DataValidator import DataValidator
+from service.service.UserService import UserService
 
 class LoginCtl(BaseCtl):
 
@@ -29,12 +30,13 @@ class LoginCtl(BaseCtl):
         if(self.input_validation()):
             return render(request,self.get_template(),{"form":self.form})
         else:     
-            if(self.form["loginId"]  == "admin" and self.form["password"] == "admin"):
-                res = redirect('/ORS/Welcome')
-            else:
+            user = self.get_service().authenticate(self.form)
+            if(user is None):
                 self.form["message"] = "Invalid ID or Password"
                 res = render(request,self.get_template(),{"form":self.form})
-        
+            else:
+                request.session["user"] = user
+                res = redirect('/ORS/Welcome')
         return res
 
     # Template html of Role page    
@@ -43,6 +45,6 @@ class LoginCtl(BaseCtl):
 
     # Service of Role     
     def get_service(self):
-        return "RoleService()"        
+        return UserService()        
 
 

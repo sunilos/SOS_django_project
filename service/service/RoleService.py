@@ -1,5 +1,5 @@
 from service.models import Role
-from ORS.utility.DataValidator import DataValidator
+from service.utility.DataValidator import DataValidator
 from .BaseService import BaseService
 
 '''
