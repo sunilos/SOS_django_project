@@ -15,6 +15,7 @@ class User(models.Model):
 
     class Meta:  
         db_table = "SOS_USER"          
+        
 class College(models.Model):  
     collegeName = models.CharField(max_length=50)  
     collegeAddress = models.CharField(max_length=50)  
