@@ -1,4 +1,4 @@
-from django.shortcuts import render
+from django.shortcuts import render,redirect
 from django.http import HttpResponse, FileResponse 
 import datetime
 from io import BytesIO
@@ -72,8 +72,19 @@ def readPostParams(request):
     return res
 
 #Login 
+@csrf_exempt
 def login(request):
-    pass
+    if request.method=="POST":
+        loginId=request.POST["loginId"]
+        password=request.POST["password"]    
+        if(loginId  == "admin" and password == "admin"):
+                res = redirect('/test/html')
+        else:
+                message = "Invalid ID or Password"
+                res = render(request,"test/Login.html",{"form":message})
+    else:
+        res=render(request,"test/Login.html")
+    return res
 
 #Generate custom pdf
 def GenPdf(request):
