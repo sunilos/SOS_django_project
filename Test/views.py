@@ -77,7 +77,7 @@ def login(request):
 
 #Generate custom pdf
 def GenPdf(request):
-        pdf =render_to_pdf('Welcome.html')
+        pdf =render_to_pdf('test/Welcome.html')
 
         if pdf:
             return HttpResponse(pdf, content_type='application/pdf')
@@ -85,7 +85,7 @@ def GenPdf(request):
 
 def render_to_pdf(template_src, context_dict={}):
         template = get_template(template_src)
-        html  = template.render({})
+        html  = template.render({"message":"pdf response"})
         result = BytesIO()
         pdf = pisa.pisaDocument(BytesIO(html.encode("ISO-8859-1")), result)
         if not pdf.err:
