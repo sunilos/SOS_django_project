@@ -7,20 +7,21 @@ Base class is inherited by all application controllers
 '''
 class BaseCtl(ABC):
 
-    preloadData = {}
-    pageList = {}
+    #Contains preload data
+    preload_data = {}
+
+    #Contains list of objects, it will be displayed at list page 
+    page_list = {}
 
     '''
     Initialize controller attributes
     '''
     def __init__(self):
-        self.id = 0
         self.form = {}
         self.form["id"] = 0
         self.form["message"] = ""
         self.form["error"] = False
         self.form["inputError"] = {}
-
 
     '''
     It loads preload data of the page 
@@ -39,8 +40,8 @@ class BaseCtl(ABC):
         if("GET" ==  request.method):
             return self.display(request, params) 
         elif ("POST" ==  request.method):
-            self.populateRequest(request.POST)
-            if(self.inputValidation()):
+            self.request_to_form(request.POST)
+            if(self.input_validation()):
                 return render(request,self.getTemplate(),{"form":self.form})
             else:
                 return self.submit(request,params) 
@@ -66,19 +67,19 @@ class BaseCtl(ABC):
     '''    
 
     @abstractmethod
-    def getTemplate(self):
+    def get_template(self):
         pass
 
     '''
     Populate values from Request POST/GET to Controller form object
     '''
-    def populateRequest(self,requestFrom):
+    def request_to_form(self,requestFrom):
         pass
 
     '''
     Apply input validation 
     '''        
-    def inputValidation(self):
+    def input_validation(self):
         self.form["error"] = False
         self.form["message"] = ""
 

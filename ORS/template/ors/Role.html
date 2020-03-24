@@ -1,6 +1,10 @@
-<H1>Login</H1>
+<H1>Role</H1>
 
-<p style="color: red;"> {{form.message}}</p>
+{% if form.error  %}
+    <p style="color: red;"> {{form.message}}</p>
+{% else %}
+    <p style="color: green;"> {{form.message}}</p>
+{% endif %}
 
 <form method="POST">
     <input name="id" value="{{form.id}}">
