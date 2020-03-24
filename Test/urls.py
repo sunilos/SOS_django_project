@@ -24,4 +24,7 @@ urlpatterns = [
     path('info', views.info),
     path('html', views.tempate),
     path('pdf', views.pdf),
+    path('getpdf', views.GenPdf),
+    path('getJson', views.json),
+
 ]
