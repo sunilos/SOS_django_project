@@ -6,6 +6,9 @@ from django.template.loader import get_template
 from xhtml2pdf import pisa
 from django.http.response import JsonResponse
 from django.views.decorators.csrf import csrf_exempt
+import xlwt
+import logging
+from service.models import User, Role
 
 
 
@@ -47,8 +50,34 @@ def pdf(request):
         return response
         
 def exel(request):
-    res = HttpResponse("Excel")
-    return res
+    response = HttpResponse(content_type='application/ms-excel')
+    response['Content-Disposition'] = 'attachment; filename="data.xls"'
+
+    wb = xlwt.Workbook(encoding='utf-8')
+    ws = wb.add_sheet('Users Data') # this will make a sheet named Users Data
+
+    # Sheet header, first row
+    row_num = 0
+
+    font_style = xlwt.XFStyle()
+    font_style.font.bold = True
+
+    columns = ['id', 'name', 'description' ]
+
+    for col_num in range(len(columns)):
+        ws.write(row_num, col_num, columns[col_num], font_style) # at 0 row 0 column 
+
+    # Sheet body, remaining rows
+    font_style = xlwt.XFStyle()
+
+    rows = Role.objects.all().values_list('id', 'name', 'description',)
+    for row in rows:
+        row_num += 1
+        for col_num in range(len(row)):
+            ws.write(row_num, col_num, row[col_num], font_style)
+    wb.save(response)
+    return response
+
 
 @csrf_exempt
 def json(request):
