@@ -1,6 +1,10 @@
 from django.shortcuts import render
 from django.http import HttpResponse, FileResponse 
 import datetime
+from io import BytesIO
+from django.template.loader import get_template
+from xhtml2pdf import pisa
+
 
 # Create your views here.
 
@@ -67,5 +71,18 @@ def login(request):
 
 #Generate custom pdf
 def GenPdf(request):
-    pass
+        pdf =render_to_pdf('Welcome.html')
+
+        if pdf:
+            return HttpResponse(pdf, content_type='application/pdf')
+        return HttpResponse("Not Found")
+
+def render_to_pdf(template_src, context_dict={}):
+        template = get_template(template_src)
+        html  = template.render({})
+        result = BytesIO()
+        pdf = pisa.pisaDocument(BytesIO(html.encode("ISO-8859-1")), result)
+        if not pdf.err:
+            return HttpResponse(result.getvalue(), content_type='application/pdf')
+        return None
 
