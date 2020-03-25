@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <title>Document</title>
+</head>
+
+<body>
+    <H1>Marksheet List </H1>
+
+    <table>
+        <tr>
+            <form method="POST">
+                <td>RollNumber <input name="rollNumber" value="{{form.rollNumber}}"></td>
+                <td>Name <input name="name" value="{{form.name}}"></td>
+                <td><input type="submit" value="Search"></td>
+            </form>
+        </tr>
+    </table>
+
+    <table border="1" width="50%">
+        {% for e in pageList %}
+        <tr>
+            <td>{{e.id}}</td>
+            <td>{{e.rollNumber}}</td>
+            <td>{{e.name}}</td>
+            <td>{{e.physics}}</td>
+            <td>{{e.chemistry}}</td>
+            <td>{{e.maths}}</td>
+            <td>{{e.student_ID}}</td>
+            <td><a href="/ORS/Marksheet/{{e.id}}"> Edit </a></td>
+        </tr>
+        {% endfor %}
+    </table>
+    <a href="/ORS/Marksheet"> New </a>
+</body>
+
+</html>

@@ -1,0 +1,33 @@
+<H1>Marksheet</H1>
+
+{% if form.error  %}
+    <p style="color: red;"> {{form.message}}</p>
+{% else %}
+    <p style="color: green;"> {{form.message}}</p>
+{% endif %}
+
+<form method="POST">
+    <input type="hidden" name="id" value="{{form.id}}">
+    <br>
+    rollNumber <input name="rollNumber" value="{{form.rollNumber}}">
+    <span style="color: red;"> {{form.inputError.rollNumber}} </span>
+    <br>
+    Name <input name="name" value="{{form.name}}">
+    <span style="color: red;"> {{form.inputError.name}} </span>
+    <br>
+    physics <input name="physics" value="{{form.physics}}">
+    <span style="color: red;"> {{form.inputError.physics}} </span>
+    <br>
+    chemistry <input name="chemistry" value="{{form.chemistry}}">
+    <span style="color: red;"> {{form.inputError.chemistry}} </span>
+    <br>
+    maths <input name="maths" value="{{form.maths}}">
+    <span style="color: red;"> {{form.inputError.maths}} </span>
+    <br>
+
+    student_ID <input name="student_ID" value="{{form.student_ID}}"> 
+    <span style="color: red;"> {{form.inputError.student_ID}} </span>    
+    <br>
+    <input type="submit" value="Save">
+    <a href="/ORS/MarksheetList"> List </a>
+</form>
