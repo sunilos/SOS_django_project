@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <title>Document</title>
+</head>
+
+<body>
+    <H1>Course List </H1>
+
+    <table>
+        <tr>
+            <form method="POST">
+                <td>Name <input name="courseName" value="{{form.courseName}}"></td>
+                <td>Description <input name="courseDescription" value="{{form.courseDescription}}"></td>
+                <td>Duration <input name="courseDuration" value="{{form.courseDuration}}"></td>
+                <td><input type="submit" value="Search"></td>
+            </form>
+        </tr>
+    </table>
+
+    <table border="1" width="50%">
+        {% for e in pageList %}
+        <tr>
+            <td>{{e.id}}</td>
+            <td>{{e.courseName}}</td>
+            <td>{{e.courseDescription}}</td>
+            <td>{{e.courseDuration}}</td>
+            <td><a href="/ORS/Course/{{e.id}}"> Edit </a></td>
+        </tr>
+        {% endfor %}
+    </table>
+    <a href="/ORS/Course"> New </a>
+</body>
+
+</html>
