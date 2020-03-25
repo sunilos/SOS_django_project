@@ -1,0 +1,30 @@
+<H1>College</H1>
+
+{% if form.error  %}
+    <p style="color: red;"> {{form.message}}</p>
+{% else %}
+    <p style="color: green;"> {{form.message}}</p>
+{% endif %}
+
+<form method="POST">
+    <input type="hidden" name="id" value="{{form.id}}">
+    <br>
+    Name <input name="collegeName" value="{{form.collegeName}}">
+    <span style="color: red;"> {{form.inputError.collegeName}} </span>
+    <br>
+    Address <input name="collegeAddress" value="{{form.collegeAddress}}"> 
+    <span style="color: red;"> {{form.inputError.collegeAddress}} </span>    
+    <br>
+    State <input name="collegeState" value="{{form.collegeState}}"> 
+    <span style="color: red;"> {{form.inputError.collegeState}} </span>    
+    <br>
+    City <input name="collegeCity" value="{{form.collegeCity}}"> 
+    <span style="color: red;"> {{form.inputError.collegeCity}} </span>    
+    <br>
+    Phone_Number <input name="collegePhoneNumber" value="{{form.collegePhoneNumber}}"> 
+    <span style="color: red;"> {{form.inputError.collegePhoneNumber}} </span>    
+    <br>
+  
+    <input type="submit" value="Save">
+    <a href="/ORS/CollegeList"> List </a>
+</form>

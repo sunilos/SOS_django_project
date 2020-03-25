@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <title>Document</title>
+</head>
+
+<body>
+    <H1>College List </H1>
+
+    <table>
+        <tr>
+            <form method="POST">
+                <td>Name <input name="collegeName" value="{{form.collegeName}}"></td>
+                <td>Address <input name="collegeAddress" value="{{form.collegeAddress}}"></td>
+                <td>State <input name="collegeState" value="{{form.collegeState}}"></td>
+                <td>City<input name="collegeCity" value="{{form.collegeCity}}"></td>
+                <td>PhoneNumber <input name="collegePhoneNumber" value="{{form.collegePhoneNumber}}"></td>
+                <td><input type="submit" value="Search"></td>
+            </form>
+        </tr>
+    </table>
+
+    <table border="1" width="50%">
+        {% for e in pageList %}
+        <tr>
+            <td>{{e.id}}</td>
+            <td>{{e.collegeName}}</td>
+            <td>{{e.collegeAddress}}</td>
+            <td>{{e.collegeState}}</td>
+            <td>{{e.collegeCity}}</td>
+            <td>{{e.collegePhoneNumber}}</td>
+          
+            <td><a href="/ORS/College/{{e.id}}"> Edit </a></td>
+        </tr>
+        {% endfor %}
+    </table>
+    <a href="/ORS/College"> New </a>
+</body>
+
+</html>
