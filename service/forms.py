@@ -1,5 +1,5 @@
 from django import forms  
-from .models import User, Role  
+from .models import User, Role,College
 
 class UserForm(forms.ModelForm):  
     class Meta:  
@@ -9,4 +9,9 @@ class UserForm(forms.ModelForm):
 class RoleForm(forms.ModelForm):  
     class Meta:  
         model = Role  
+        fields = "__all__"         
+        
+class CollegeForm(forms.ModelForm):  
+    class Meta:  
+        model = College  
         fields = "__all__"          
