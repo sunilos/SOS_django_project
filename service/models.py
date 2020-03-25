@@ -60,7 +60,7 @@ class Marksheet(models.Model):
     class Meta:  
         db_table = "SOS_MARKSHEET"
 
-class student(models.Model):  
+class Student(models.Model):  
     firstName = models.CharField(max_length=50)  
     lastName = models.CharField(max_length=50)  
     dob = models.DateField(max_length=20)
@@ -71,7 +71,7 @@ class student(models.Model):
     class Meta:  
         db_table = "SOS_STUDENT"
 
-class subject(models.Model):  
+class Subject(models.Model):  
     subjectName = models.CharField(max_length=50)  
     subjectDescription = models.CharField(max_length=50)  
     dob = models.DateField(max_length=20)
@@ -81,7 +81,7 @@ class subject(models.Model):
         db_table = "SOS_SUBJECT"
 
 
-class timeTable(models.Model):  
+class TimeTable(models.Model):  
     examTime = models.DateTimeField()
     examDate = models.DateField()
     subject_ID=models.IntegerField() 
