@@ -21,6 +21,8 @@ from ORS.ctl.UserListCtl import UserListCtl
 from ORS.ctl.UserCtl import UserCtl
 from ORS.ctl.CollegeListCtl import CollegeListCtl
 from ORS.ctl.CourseListCtl import CourseListCtl
+from ORS.ctl.MarksheetListCtl import MarksheetListCtl
+from ORS.ctl.StudentListCtl import StudentListCtl
 
 
 def info(request,page,action ):
