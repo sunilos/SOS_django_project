@@ -69,7 +69,7 @@ class UserCtl(BaseCtl):
         if(DataValidator.isNull(self.form["password"])):
             inputError["password"] = "Password can not be null"
             self.form["error"] = True
-                 if(DataValidator.isNull(self.form["dob"])):
+        if(DataValidator.isNull(self.form["dob"])):
             inputError["dob"] = "dob can not be null"
             self.form["error"] = True
         if(DataValidator.isNull(self.form["mobileNumber"])):
