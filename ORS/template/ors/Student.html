@@ -25,10 +25,14 @@
     email <input name="email" value="{{form.email}}"> 
     <span style="color: red;"> {{form.inputError.email}} </span>    
     <br>
-    college_ID <input name="college_ID" value="{{form.college_ID}}"> 
-    <span style="color: red;"> {{form.inputError.college_ID}} </span>    
-    <br>
-    college_ID <input name="collegeName" value="{{form.collegeName}}"> 
+    college_ID<select name="college_ID">
+        <option>--Select--</option>
+        {% for form in collegeList %}
+        <option value="{{form.id}}">{{form.id}}</option>
+        {% endfor %}
+    </select>
+      <br>
+    college_Name <input name="collegeName" value="{{form.collegeName}}"> 
     <span style="color: red;"> {{form.inputError.collegeName}} </span>    
     <br>
     
