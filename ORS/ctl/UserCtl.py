@@ -4,8 +4,12 @@ from django.http import HttpResponse
 from .BaseCtl import BaseCtl
 from service.models import User
 from service.service.UserService import UserService
+from service.service.RoleService import RoleService
 
 class UserCtl(BaseCtl):
+    def preload(self,request):
+        self.page_list = RoleService().search(self.form)
+        self.preloadData=self.page_list
 
     #Populate Form from HTTP Request 
     def request_to_form(self,requestForm):
@@ -14,6 +18,10 @@ class UserCtl(BaseCtl):
         self.form["lastName"] = requestForm["lastName"]
         self.form["login"] = requestForm["login"]
         self.form["password"] = requestForm["password"]
+        self.form["dob"] = requestForm["dob"]
+        self.form["mobileNumber"] = requestForm["mobileNumber"]
+        self.form["gender"] = requestForm["gender"]
+        self.form["role_ID"] = requestForm["role_ID"]
 
     #Populate Form from Model 
     def model_to_form(self,obj):
@@ -24,6 +32,11 @@ class UserCtl(BaseCtl):
         self.form["lastName"] = obj.lastName 
         self.form["login"] = obj.login 
         self.form["password"] = obj.password 
+        self.form["dob"] = obj.dob
+        self.form["mobileNumber"] = obj.mobileNumber
+        self.form["gender"] = obj.gender
+        self.form["role_ID"] = obj.role_ID
+
 
     #Convert form into module
     def form_to_model(self,obj):
@@ -34,6 +47,11 @@ class UserCtl(BaseCtl):
         obj.lastName = self.form["lastName"]
         obj.login = self.form["login"]
         obj.password = self.form["password"]
+        obj.dob = self.form["dob"]
+        obj.mobileNumber = self.form["mobileNumber"]
+        obj.gender = self.form["gender"]
+        obj.role_ID = self.form["role_ID"]
+
         return obj
 
     #Validate form 
@@ -59,7 +77,7 @@ class UserCtl(BaseCtl):
         if( params["id"] > 0):
             r = self.get_service().get(params["id"])
             self.model_to_form(r)
-        res = render(request,self.get_template(), {"form":self.form})
+        res = render(request,self.get_template(), {"form":self.form,"roleList":self.preloadData})
         return res
 
     #Submit Role page
