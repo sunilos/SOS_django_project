@@ -1,0 +1,99 @@
+{% include  "./Header.html"%}
+{% if form.error  %}
+<p style="color: red;"> {{form.message}}</p>
+{% else %}
+<p style="color: green;"> {{form.message}}</p>
+{% endif %}
+<div class="modal-dialog">
+
+    <div class="modal-content">
+        <div class="modal-header text-center">
+            <h4 class="modal-title ">College Information</h4>
+        </div>
+
+        <form method="POST">
+            <input type="hidden" name="id" value="{{form.id}}">
+            <div class="modal-body">
+                <div class="form-group row">
+                    <label class="col-lg-3 form-control-label">Name * </label>
+                    <div class="col-lg-9">
+                        <input class="form-control" type="text" name="collegeName" value="{{form.collegeName}}">
+                        <span style="color: red;"> {{form.inputError.collegeName}} </span>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label class="col-lg-3 form-control-label">Address * </label>
+                    <div class="col-lg-9">
+                        <input class="form-control" type="text" name="collegeAddress" value="{{form.collegeAddress}}">
+                        <span style="color: red;"> {{form.inputError.collegeAddress}} </span>
+
+                    </div>
+                </div>
+
+                <div class="form-group row">
+                    <label class="col-lg-3 form-control-label">State * </label>
+                    <div class="col-lg-9">
+                        <input class="form-control" type="text" name="collegeState" value="{{form.collegeState}}">
+                        <span style="color: red;"> {{form.inputError.collegeState}} </span>
+
+                    </div>
+                </div>
+
+                <div class="form-group row">
+                    <label class="col-lg-3 form-control-label">City * </label>
+                    <div class="col-lg-9">
+                        <input class="form-control" type="text" name="collegeCity" value="{{form.collegeCity}}">
+                        <span style="color: red;"> {{form.inputError.collegeCity}} </span>
+
+                    </div>
+                </div>
+
+                <div class="form-group row">
+                    <label class="col-lg-3 form-control-label">PhoneNumber * </label>
+                    <div class="col-lg-9">
+                        <input name="collegePhoneNumber" value="{{form.collegePhoneNumber}}" class="form-control">
+                        <span style="color: red;"> {{form.inputError.collegePhoneNumber}} </span>
+
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <div class="col-lg-12">
+                        <button type="submit" class="btn btn-primary form-control">Save
+                            <span class="fas fa-paper-plane"></span>
+                        </button>
+                    </div>
+                    <div class="col-lg-12">
+                        <a href="/ORS/CollegeList"> List
+                            <span class="fas fa-paper-plane"></span>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+<!--
+<form method="POST">
+    <input type="hidden" name="id" value="{{form.id}}">
+    <br>
+    Name <input name="collegeName" value="{{form.collegeName}}">
+    <span style="color: red;"> {{form.inputError.collegeName}} </span>
+    <br>
+    Address <input name="collegeAddress" value="{{form.collegeAddress}}">
+    <span style="color: red;"> {{form.inputError.collegeAddress}} </span>
+    <br>
+    State <input name="collegeState" value="{{form.collegeState}}">
+    <span style="color: red;"> {{form.inputError.collegeState}} </span>
+    <br>
+    City <input name="collegeCity" value="{{form.collegeCity}}">
+    <span style="color: red;"> {{form.inputError.collegeCity}} </span>
+    <br>
+    Phone_Number <input name="collegePhoneNumber" value="{{form.collegePhoneNumber}}">
+    <span style="color: red;"> {{form.inputError.collegePhoneNumber}} </span>
+    <br>
+
+    <input type="submit" value="Save">
+    <a href="/ORS/CollegeList"> List </a>
+</form>
+-->
+{% include  "./Footer.html"%}
