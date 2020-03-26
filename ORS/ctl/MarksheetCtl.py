@@ -6,8 +6,13 @@ from ORS.utility.DataValidator import DataValidator
 from service.models import Marksheet
 from service.forms import MarksheetForm
 from service.service.MarksheetService import MarksheetService
+from service.service.StudentService import StudentService
 
 class MarksheetCtl(BaseCtl):
+    def preload(self,request):
+        self.page_list = StudentService().search(self.form)
+        self.preloadData=self.page_list
+
     #Populate Form from HTTP Request 
     def request_to_form(self,requestForm):
         self.form["id"]  = requestForm["id"]
@@ -76,7 +81,7 @@ class MarksheetCtl(BaseCtl):
         if( params["id"] > 0):
             r = self.get_service().get(params["id"])
             self.model_to_form(r)
-        res = render(request,self.get_template(), {"form":self.form})
+        res = render(request,self.get_template(), {"form":self.form,"studentList":self.preloadData})
         return res
 
     #Submit Marksheet page
