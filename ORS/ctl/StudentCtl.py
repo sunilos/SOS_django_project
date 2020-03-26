@@ -6,9 +6,14 @@ from ORS.utility.DataValidator import DataValidator
 from service.models import Student
 from service.forms import StudentForm
 from service.service.StudentService import StudentService
+from service.service.CollegeService import CollegeService
 
 class StudentCtl(BaseCtl):
-    #Populate Form from HTTP Request 
+    def preload(self,request):
+        self.page_list = CollegeService().search(self.form)
+        self.preloadData=self.page_list
+
+        #Populate Form from HTTP Request 
     def request_to_form(self,requestForm):
         self.form["id"]  = requestForm["id"]
         self.form["firstName"] = requestForm["firstName"]
@@ -85,7 +90,7 @@ class StudentCtl(BaseCtl):
         if( params["id"] > 0):
             r = self.get_service().get(params["id"])
             self.model_to_form(r)
-        res = render(request,self.get_template(), {"form":self.form})
+        res = render(request,self.get_template(), {"form":self.form,"collegeList":self.preloadData})
         return res
 
     #Submit Marksheet page
