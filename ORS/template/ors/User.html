@@ -21,6 +21,28 @@
     Password  <input name="password" value="{{form.password}}"> 
     <span style="color: red;"> {{form.inputError.password}} </span>    
     <br>
+        dob <input type="date" name="dob" value="{{form.dob}}">
+    <span style="color: red;"> {{form.inputError.dob}} </span>
+    <br>
+    mobileNumber <input name="mobileNumber" value="{{form.mobileNumber}}">
+    <span style="color: red;"> {{form.inputError.mobileNumber}} </span>
+    <br>
+    gender <select name="gender">
+        <option >--Select--</option>
+        <option value="Male">Male</option>
+        <option value="Female">Female</option>
+    </select>
+    <span style="color: red;"> {{form.inputError.gender}} </span>
+    <br>
+    role_ID<select name="role_ID">
+        <option >--Select--</option>
+        {% for form in roleList %}
+
+        <option value="{{form.id}}">{{form.id}}</option>
+        {% endfor %}
+
+    </select>
+    <br>
     <input type="submit" value="Save">
     <a href="/ORS/UserList"> List </a>
 </form>
