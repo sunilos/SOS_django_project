@@ -24,9 +24,12 @@
     maths <input name="maths" value="{{form.maths}}">
     <span style="color: red;"> {{form.inputError.maths}} </span>
     <br>
-
-    student_ID <input name="student_ID" value="{{form.student_ID}}"> 
-    <span style="color: red;"> {{form.inputError.student_ID}} </span>    
+     student_ID<select name="student_ID">
+        <option>--Select--</option>
+        {% for form in studentList %}
+        <option value="{{form.id}}">{{form.id}}</option>
+        {% endfor %}
+    </select> 
     <br>
     <input type="submit" value="Save">
     <a href="/ORS/MarksheetList"> List </a>
