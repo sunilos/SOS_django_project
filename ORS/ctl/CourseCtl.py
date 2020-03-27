@@ -45,7 +45,7 @@ class CourseCtl(BaseCtl):
         if(DataValidator.isNull(self.form["courseDescription"])):
             inputError["courseDescription"] = "Description can not be null"
             self.form["error"] = True
-        return self.form["error"]        
+            
         if(DataValidator.isNull(self.form["courseDuration"])):
             inputError["courseDuration"] = "Duration can not be null"
             self.form["error"] = True
