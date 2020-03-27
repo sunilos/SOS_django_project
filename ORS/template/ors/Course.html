@@ -1,0 +1,56 @@
+{% include  "./Header.html"%}
+<div class="modal-dialog" role="document">
+    <div class="modal-content">
+        <div class="modal-header text-center">
+            <h4 class="modal-title ">Course Information</h4>
+        </div>
+        <form class="form" method="POST">
+            {% if form.error  %}
+            <p style="color: red;"> {{form.message}}</p>
+            {% else %}
+            <p style="color: green;"> {{form.message}}</p>
+            {% endif %}
+            <input type="hidden" name="id" value="{{form.id}}">
+            <div class="modal-body">
+                <div class="form-group row">
+                    <label class="col-lg-3 form-control-label">Course_Name* </label>
+                    <div class="col-lg-9">
+                        <input class="form-control" name="courseName" value="{{form.courseName}}"
+                            placeholder="Course_Name">
+                        <span style="color: red;"> {{form.inputError.courseName}} </span>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label class="col-lg-3 form-control-label">Description* </label>
+                    <div class="col-lg-9">
+                        <input class="form-control" name="courseDescription" value="{{form.courseDescription}}"
+                            placeholder="Course_Description">
+                        <span style="color: red;"> {{form.inputError.courseDescription}} </span>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label class="col-lg-3 form-control-label">Duration* </label>
+                    <div class="col-lg-9">
+                        <input class="form-control" name="courseDuration" value="{{form.courseDuration}}"
+                            placeholder="Course_Duration">
+                        <span style="color: red;"> {{form.inputError.courseDuration}} </span>
+
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <div class="col-lg-12">
+                        <button type="submit" class="btn btn-primary form-control">Save
+                            <span class="fas fa-paper-plane"></span>
+                        </button>
+                        <a href="/ORS/CourseList"> List </a>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+</div>
+</div>
+
+
+{% include  "./Footer.html"%}
