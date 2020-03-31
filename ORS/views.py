@@ -23,6 +23,8 @@ from ORS.ctl.CollegeListCtl import CollegeListCtl
 from ORS.ctl.CourseListCtl import CourseListCtl
 from ORS.ctl.MarksheetListCtl import MarksheetListCtl
 from ORS.ctl.StudentListCtl import StudentListCtl
+from ORS.ctl.RegistrationCtl import RegistrationCtl
+
 
 
 def info(request,page,action ):
