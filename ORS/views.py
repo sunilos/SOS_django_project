@@ -24,6 +24,8 @@ from ORS.ctl.CourseListCtl import CourseListCtl
 from ORS.ctl.MarksheetListCtl import MarksheetListCtl
 from ORS.ctl.StudentListCtl import StudentListCtl
 from ORS.ctl.RegistrationCtl import RegistrationCtl
+from ORS.ctl.ForgetPasswordCtl import ForgetPasswordCtl
+from ORS.ctl.ChangePasswordCtl import ChangePasswordCtl
 
 
 
