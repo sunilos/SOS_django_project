@@ -16,6 +16,8 @@ import os
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 ORS_TEMPLATE = os.path.join(BASE_DIR,"ORS/template")
 TEST_TEMPLATE = os.path.join(BASE_DIR,"Test/template")
+ORSAPI_TEMPLATE = os.path.join(BASE_DIR,"ORSAPI/template")
+
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/3.0/howto/deployment/checklist/
@@ -42,6 +44,8 @@ INSTALLED_APPS = [
     'ORS',
     'ORSAPI',
     'service',
+    'corsheaders',#RESTAPI
+
 ]
 
 MIDDLEWARE = [
@@ -52,6 +56,12 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'corsheaders.middleware.CorsMiddleware',#RESTAPI
+
+]
+
+CORS_ORIGIN_WHITELIST = [
+    "https://localhost:4200",
 ]
 
 SESSION_SERIALIZER = 'django.contrib.sessions.serializers.PickleSerializer'
@@ -61,7 +71,7 @@ ROOT_URLCONF = 'SOS_django_projects.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [ORS_TEMPLATE, TEST_TEMPLATE],
+        'DIRS': [ORS_TEMPLATE, TEST_TEMPLATE,ORSAPI_TEMPLATE],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -132,3 +142,5 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/3.0/howto/static-files/
 
 STATIC_URL = '/static/'
+
+
