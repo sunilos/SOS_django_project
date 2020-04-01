@@ -1,0 +1,84 @@
+{% include  "./Header.html"%}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <title>Document</title>
+</head>
+<div class="container">
+    <div>
+        <H2>Student </H2>
+    </div>
+    <form method="POST">
+        <div class="form-group row">
+            <div class="col-lg-3">
+                <input class="form-control" name="collegeName" value="{{form.collegeName}}" placeholder="College">
+            </div>
+            <div class="col-lg-3">
+                <input class="form-control" name="firstName" value="{{form.firstName}}" placeholder="First Name">
+            </div>
+            <div class="col-lg-1">
+                <button class="btn btn-primary">Search
+                    <i class="fas fa-search"></i>
+                </button>
+            </div>
+    </form>
+    <div class="offset-lg-4">
+        <a href="/ORS/Student">
+
+            <font class="btn btn-success " data-target="#update" data-toggle="modal" ng-click="display()">Add
+                <i class="fas fa-plus-circle"></i>
+            </font>
+
+        </a>
+    </div>
+</div>
+<div class="row">
+    <div class="col-md-12">
+        <table class="table table-sm table-bordered table-hover table-responsive-sm">
+            <thead class="thead-dark">
+                <th scope="row">#</th>
+                <th scope="row">College ID
+                </th>
+                <th scope="row">College Name
+                </th>
+                <th scope="row">First Name
+                </th>
+                <th scope="row">Last Name
+                </th>
+                <th scope="row">DOB
+                </th>
+                <th scope="row">Mobile
+                </th>
+                <th scope="row">Email
+                </th>
+                <th scope="row">Action</th>
+            </thead>
+            <tbody>
+                {% for e in pageList %}
+                <tr>
+                    <td>{{e.id}}</td>
+                    <td>{{e.college_ID}}</td>
+                    <td>{{e.collegeName}}</td>
+                    <td>{{e.firstName}}</td>
+                    <td>{{e.lastName}}</td>
+                    <td>{{e.dob}}</td>
+                    <td>{{e.mobileNumber}}</td>
+                    <td>{{e.email}}</td>
+                    <td><a href="/ORS/Student/{{e.id}}"> Edit
+
+                            <font data-target="#update" data-toggle="modal" class="btn btn-primary">
+                                <i class="fas fa-edit">
+                                </i>
+                            </font></a>
+                    </td>
+                </tr>
+                {% endfor %}
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+</html>
+
+{% include  "./Footer.html"%}

@@ -1,0 +1,49 @@
+{% include  "./Header.html"%}
+<br>
+<div class="col-sm-6">
+    <div class="card">
+        <div class="card-header ">
+            <h2>Login</h2>
+        </div>
+        <div class="card-body">
+            <div class="container">
+                <p style="color: red;"> {{form.message}}</p>
+
+                <form method="POST" novalidate>
+                    <fieldset>
+                        <div class="form-group">
+                            <label class="col-md-12 control-label">Login </label>
+                            <div class="col-md-12 inputGroupContainer">
+                                <div class="input-group">
+                                    <input name="loginId" value="{{form.loginId}}" class="form-control" type="email">
+                                    <span style="color: red;"> {{form.inputError.loginId}} </span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-md-12 control-label">Password</label>
+                            <div class="col-md-12 inputGroupContainer">
+                                <div class="input-group">
+                                    <input name="password" value="{{form.password}}" class="form-control"
+                                        type="password" id="password" required class="form-control">
+                                    <span style="color: red;"> {{form.inputError.password}} </span>
+
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label class="col-md-12 control-label"></label>
+                            <div class="col-md-10 pull-right">
+                                <button type="submit" value="SingnIn" class="btn btn-primary">Login
+                                    <span class="fas fa-paper-plane"></span>
+                                </button>
+                            </div>
+                        </div>
+                        <a href="/ORS/ForgetPassword">forgot Password</a>
+                    </fieldset>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% include  "./Footer.html"%}

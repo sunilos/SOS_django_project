@@ -1,0 +1,82 @@
+{% include  "./Header.html"%}
+<br>
+<div class="container">
+    <form method="POST">
+        <div>
+            <H2>User List</H2>
+        </div>
+        <div class="form-group row">
+
+            <div class="col-lg-2">
+                <input class="form-control" name="firstName" value="{{form.firstName}}" placeholder="First Name">
+            </div>
+            <div class="col-lg-2">
+                <input class="form-control" name="login" value="{{form.login}}" placeholder="Login">
+            </div>
+            <div class="col-lg-2">
+                <input class="form-control" name="mobileNumber" value="{{form.mobileNumber}}" placeholder="Mobile">
+            </div>
+            <div class="col-lg-1">
+                <button class="btn btn-primary" type="submit">Search
+                    <i class="fas fa-search"></i>
+                </button>
+            </div>
+    </form>
+    <div class="offset-lg-4">
+        <a href="/ORS/User">
+            <font class="btn btn-success " data-target="#update" data-toggle="modal">ADD<i class="fas fa-plus-circle"></i></font>
+            
+        </a>
+    </div>
+</div>
+
+
+<div class="row">
+    <div class="col-md-12">
+        <table class="table table-sm table-bordered table-hover table-responsive-sm">
+            <thead class="thead-dark">
+                <th scope="row">#</th>
+                <th scope="row">FIRST_NAME
+                </th>
+                <th scope="row">LAST_NAME
+                </th>
+                <th scope="row">LOGIN
+                </th>
+                <th scope="row">PASSWORD
+                </th>
+                <th scope="row">DATE_OF_BIRTH
+                </th>
+                <th scope="row">MOBILE_NO
+                </th>
+                <th scope="row">ROLE_ID
+                </th>
+                <th scope="row">GENDER
+                </th>
+                <th scope="row">EDIT</th>
+
+            </thead>
+            <tbody>
+                {% for e in pageList %}
+
+
+                <td>{{e.id}}</td>
+                <td>{{e.firstName}}</td>
+                <td>{{e.lastName}}</td>
+                <td>{{e.login}}</td>
+                <td>{{e.password}}</td>
+                <td>{{e.dob}}</td>
+                <td>{{e.mobileNumber}}</td>
+                <td>{{e.role_ID}}</td>
+                <td>{{e.gender}}</td>
+                <td>
+                    <a href="/ORS/User/{{e.id}}">Edit
+                        <i class="fas fa-edit">
+                        </i>
+                    </a>
+                </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    {% include  "./Footer.html"%}

@@ -1,0 +1,62 @@
+{% include  "./Header.html"%}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <title>Document</title>
+</head>
+<div class="container">
+    <div>
+        <H2>Role</H2>
+    </div>
+    <form method="POST">
+        <div class="form-group row">
+            <div class="col-lg-3">
+                <input class="form-control" name="name" value="{{form.name}}" placeholder="Name">
+            </div>
+            <div class="col-lg-3">
+                <input class="form-control" name="description" value="{{form.description}}" placeholder="Description">
+            </div>
+            <div class="col-lg-1">
+                <button class="btn btn-primary">Search
+                    <i class="fas fa-search"></i>
+                </button>
+            </div>
+            <div class="offset-lg-4"> <a href="/ORS/Role">
+                    <font class="btn btn-success" data-target="#update" data-toggle="modal">Add
+                        <i class="fas fa-plus-circle"></i>
+                    </font>
+                </a>
+            </div>
+        </div>
+    </form>
+
+    <div class="row">
+        <div class="col-md-12">
+            <table class="table table-sm table-bordered table-hover table-responsive-sm">
+                <thead class="thead-dark">
+                    <th scope="row">#</th>
+                    <th scope="row">Role
+                    </th>
+                    <th scope="row">Description
+                    </th>
+                    <th scope="row">Action</th>
+                </thead>
+                <tbody>
+                    {% for e in pageList %}
+
+                    <tr>
+                        <td>{{e.id}}</td>
+                        <td>{{e.name}}</td>
+                        <td>{{e.description}}</td>
+                        <td><a href="/ORS/Role/{{e.id}}">
+                                <font data-target="#update" data-toggle="modal" class="btn btn-primary">
+                                    <i class="fas fa-edit"></i>
+                                </font>
+                            </a>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>

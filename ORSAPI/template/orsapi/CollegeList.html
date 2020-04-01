@@ -1,0 +1,70 @@
+{% include  "./Header.html"%}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Document</title>
+</head>
+
+<body>
+    <H1>College List </H1>
+    <form method="POST">
+        <div class="form-group row">
+            <div class="col-lg-3">
+                <input class="form-control" name="collegeName" value="{{form.collegeName}}" placeholder="College">
+            </div>
+            <div class="col-lg-3">
+                <input class="form-control" name="collegeAddress" value="{{form.collegeAddress}}" placeholder="Address">
+            </div>
+            <div class="col-lg-1">
+                <button class="btn btn-primary" type="submit" value="Search">Search
+                    <i class="fas fa-search"></i>
+                </button>
+            </div>
+    </form>
+    <div class="offset-lg-4">
+        <a href="/ORS/College">
+            <font class="btn btn-success " data-target="#update" data-toggle="modal">ADD<i
+                    class="fas fa-plus-circle"></i></font>
+        </a>
+
+    </div>
+    </div>
+
+
+    <table border="1" width="50%">
+        <div class="row">
+            <div class="col-md-12">
+                <table class="table table-sm table-bordered table-hover table-responsive-sm">
+                    <thead class="thead-dark">
+                        <th scope="row">#</th>
+                        <th scope="row">NAME
+                        </th>
+                        <th scope="row">ADDRESS
+                        </th>
+                        <th scope="row">STATE
+                        </th>
+                        <th scope="row">CITY
+                        </th>
+                        <th scope="row">PHONE_NO
+                        </th>
+                        <th scope="row">ACTION</th>
+                    </thead>
+                    <tbody>
+                        {% for e in pageList %}
+                        <tr>
+                            <td>{{e.id}}</td>
+                            <td>{{e.collegeName}}</td>
+                            <td>{{e.collegeAddress}}</td>
+                            <td>{{e.collegeState}}</td>
+                            <td>{{e.collegeCity}}</td>
+                            <td>{{e.collegePhoneNumber}}</td>
+
+                            <td><a href="/ORS/College/{{e.id}}"> Edit </a></td>
+                        </tr>
+                        {% endfor %}
+                </table>
+                <a href="/ORS/College"> New </a>
+</body>
+
+</html>
+{% include  "./Footer.html"%}
