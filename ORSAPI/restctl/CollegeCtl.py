@@ -22,10 +22,9 @@ class CollegeCtl(BaseCtl):
 
     #Submit College page
     def submit(self,request,params={}):
-        rr=JSONParser().parse(request)
-        print("qqqqqqqqqqqqqq==========",rr)
-        dd=CollegeSerializers(data=rr)
-        self.get_service().save(dd)
+        parseData=JSONParser().parse(request)
+        r=CollegeSerializers(data=parseData)
+        self.get_service().save(r)
         res = render(request,self.get_template(),{"form":self.form})
         return res
         
