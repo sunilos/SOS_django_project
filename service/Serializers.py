@@ -5,5 +5,5 @@ from .models import User, Role,College,Course,Faculty,Marksheet,Student,Subject,
 class CollegeSerializers(serializers.ModelSerializer):  
     class Meta:  
         model = College  
-        fields = "__all__"          
-
+        fields = ['id','collegeName','collegeAddress','collegeState','collegeCity','collegePhoneNumber']          
+      
