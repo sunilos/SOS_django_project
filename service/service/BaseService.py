@@ -12,9 +12,11 @@ class BaseService(ABC):
             return None
 
     def save(self,role):
-        if(role.id == 0):
-            role.id = None
-        role.save()   
+        if role.is_valid():
+            role.save()
+        #if(role.id == 0):
+            #role.id = None
+            #role.save()   
 
     def delete(self,rid):
         r = self.get(rid)
