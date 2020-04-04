@@ -11,13 +11,19 @@ class BaseService(ABC):
         except self.get_model().DoesNotExist :
             return None
 
-    def save(self,role):
-        if role.is_valid():
-            role.save()
-        #if(role.id == 0):
-            #role.id = None
-            #role.save()   
+    def search(self):
+        try:
+            r = self.get_model().objects.all()
+            return r
+        except self.get_model().DoesNotExist :
+            return None
 
+    def save(self,role):
+        if(role.id == 0):
+            role.id = None
+        role.save()
+        
+       
     def delete(self,rid):
         r = self.get(rid)
         r.delete()       
