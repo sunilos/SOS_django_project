@@ -7,3 +7,7 @@ class CollegeSerializers(serializers.ModelSerializer):
         model = College  
         fields = ['id','collegeName','collegeAddress','collegeState','collegeCity','collegePhoneNumber']          
       
+class CourseSerializers(serializers.ModelSerializer):  
+    class Meta:  
+        model = Course  
+        fields = ['id','courseName','courseDescription','courseDuration']          
