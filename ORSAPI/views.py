@@ -6,6 +6,8 @@ from ORSAPI.restctl.CollegeCtl import CollegeCtl
 from ORSAPI.restctl.CourseCtl import CourseCtl
 from ORSAPI.restctl.CourseListCtl import CourseListCtl
 
+from django.views.decorators.csrf import csrf_exempt
+
 
 # Create your views here.
 def info(request,page,action ):
@@ -15,20 +17,9 @@ def info(request,page,action ):
     print("Base Path: ", __file__)    
 
 @csrf_exempt
-def action(request,page, action = "" ):
-    print("------------------>1")
+def action(request,page, action = "get",id=0 ):
+    print("---------->",id)
     info(request,page,action)
-    ctlName =  page + "Ctl()"
-    ctlObj = eval(ctlName)
-    return ctlObj.execute(request,{"id":0})
-
-'''
-Calls respective controller with id
-'''
-@csrf_exempt
-def actionId(request,page, id = 0 ):
-    print("------------------>",id)    
-    info(request,page,id)
-    ctlName =  page + "Ctl()"
-    ctlObj = eval(ctlName)
-    return ctlObj.execute(request,{"id":id})
+    methodCall =  page + "Ctl()."+action+"(request,{'id':id})"
+    response = eval(methodCall)
+    return response
