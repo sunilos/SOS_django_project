@@ -11,8 +11,10 @@ class User(models.Model):
     firstName = models.CharField(max_length=50)  
     lastName = models.CharField(max_length=50)  
     login =  models.EmailField()
-    password = models.CharField(max_length=20)  
-
+    password = models.CharField(max_length=20)
+    dob = models.DateField(max_length=20)
+    role_ID=models.IntegerField() 
+    role_Name = models.CharField(max_length=50)
     class Meta:  
         db_table = "SOS_USER"          
 
@@ -22,13 +24,29 @@ class College(models.Model):
     collegeState =  models.CharField(max_length=50)
     collegeCity = models.CharField(max_length=20)  
     collegePhoneNumber=models.CharField(max_length=20)
+
     class Meta:  
         db_table = "SOS_COLLEGE"          
+
+class BaseModel(models.Model):
+    def to_json(self):
+        data={}
+        return data
+
 
 class Course(models.Model):  
     courseName = models.CharField(max_length=50)  
     courseDescription = models.CharField(max_length=100)  
     courseDuration = models.CharField(max_length=100)  
+    def to_json(self):
+        data={
+        "id":self.id,
+        "name":self.courseName,
+        "description":self.courseDescription,
+        "duration":self.courseDuration
+        }
+        return data
+
     class Meta:  
         db_table = "SOS_COURSE"          
 
