@@ -3,6 +3,8 @@ from django.http import HttpResponse
 from django.views.decorators.csrf import csrf_exempt
 from ORSAPI.restctl.CollegeListCtl import CollegeListCtl
 from ORSAPI.restctl.CollegeCtl import CollegeCtl
+from ORSAPI.restctl.CourseCtl import CourseCtl
+from ORSAPI.restctl.CourseListCtl import CourseListCtl
 
 
 # Create your views here.
