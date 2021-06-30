@@ -24,9 +24,13 @@ It contains
   
   `py manage.py runserver`
 
+## Dependencies 
 
-
-
+1. pip install django-cors-headers
+1. pip install xhtml2pdf
+1. pip install xlwt
+1. pip install djangorestframework
+1. pip install serializers
 
 
 
