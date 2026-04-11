@@ -24,6 +24,9 @@ This repository contains multiple Django applications designed for learning and 
   - Android
   - iOS
 
+### 🔗 Database
+- SQLite
+
 ---
 
 ## ⚙️ Tech Stack
