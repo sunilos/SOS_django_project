@@ -51,7 +51,7 @@ python --version
 
 ---
 
-### 2️⃣ Create Virtual Environment
+### 2️⃣ Create and Activate Virtual Environment
 
 **Windows**
 ```bash
