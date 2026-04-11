@@ -32,6 +32,13 @@ It contains
 1. pip install djangorestframework
 1. pip install serializers
 
+# Test URL
+1. http://127.0.0.1:8000/admin  - See the migraiton and table structure
+2. http://127.0.0.1:8000/ORS/Login
+3. http://127.0.0.1:8000/Test  
+4. http://127.0.0.1:8000/ORSAPI - run from Postman 
+   
+
 
 
 
