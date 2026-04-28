@@ -4,7 +4,7 @@ from django.shortcuts import render,redirect
 from service.utility.DataValidator import DataValidator
 from service.service.UserService import UserService
 
-class LoginCtl(BaseCtl):
+class LogoutCtl(BaseCtl):
 
     def request_to_form(self,requestFrom):
         self.form["loginId"]  = requestFrom["loginId"]
@@ -23,6 +23,7 @@ class LoginCtl(BaseCtl):
         return self.form["error"]
 
     def display(self,request,params={}):
+        request.session["user"] = None
         res = render(request,self.get_template())
         return res
 

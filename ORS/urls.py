@@ -18,7 +18,13 @@ from django.urls import path
 from . import views
 
 urlpatterns = [
-    #/ORS/User/get
+
+    #/ORS/auth/Login
+    #/ORS/auth/CP  - Change password
+    #/ORS/auth/FP  - Forgot Password
+    #/ORS/auth/Registration  - Forgot Password
+    path('auth/<page>', views.auth_action),       
+
     #/ORS/User/search
     path('<page>/<action>/', views.action),       
 

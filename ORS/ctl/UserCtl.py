@@ -21,7 +21,7 @@ class UserCtl(BaseCtl):
         self.form["dob"] = requestForm["dob"]
         self.form["mobileNumber"] = requestForm["mobileNumber"]
         self.form["gender"] = requestForm["gender"]
-        self.form["role_ID"] = requestForm["role_ID"]
+        self.form["role_ID"] = requestForm.get("role_ID", "")
 
     #Populate Form from Model 
     def model_to_form(self,obj):
@@ -32,7 +32,7 @@ class UserCtl(BaseCtl):
         self.form["lastName"] = obj.lastName 
         self.form["login"] = obj.login 
         self.form["password"] = obj.password 
-        self.form["dob"] = obj.dob
+        self.form["dob"] = obj.dob.strftime("%Y-%m-%d") if obj.dob else ""
         self.form["mobileNumber"] = obj.mobileNumber
         self.form["gender"] = obj.gender
         self.form["role_ID"] = obj.role_ID
@@ -69,9 +69,6 @@ class UserCtl(BaseCtl):
         if(DataValidator.isNull(self.form["password"])):
             inputError["password"] = "Password can not be null"
             self.form["error"] = True
-        if(DataValidator.isNull(self.form["dob"])):
-            inputError["dob"] = "dob can not be null"
-            self.form["error"] = True
         if(DataValidator.isNull(self.form["mobileNumber"])):
             inputError["mobileNumber"] = "mobileNumber can not be null"
             self.form["error"] = True
@@ -92,7 +89,7 @@ class UserCtl(BaseCtl):
         self.form["id"] = r.id
         self.form["error"] = False
         self.form["message"] = "Data is saved"
-        res = render(request,self.get_template(),{"form":self.form})
+        res = render(request,self.get_template(), {"form":self.form,"roleList":self.preloadData})
         return res
 
     def get_template(self):

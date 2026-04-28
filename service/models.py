@@ -12,9 +12,11 @@ class User(models.Model):
     lastName = models.CharField(max_length=50)  
     login =  models.EmailField()
     password = models.CharField(max_length=20)
-    dob = models.DateField(max_length=20)
+    dob = models.DateField(default='2000-01-01')
     role_ID=models.IntegerField() 
     role_Name = models.CharField(max_length=50)
+    mobileNumber = models.CharField(max_length=15)
+    gender = models.CharField(max_length=10, default='Male')
     class Meta:  
         db_table = "SOS_USER"          
 

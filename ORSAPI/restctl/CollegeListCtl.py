@@ -6,7 +6,6 @@ from ORS.utility.DataValidator import DataValidator
 from service.forms import CollegeForm
 from service.models import College
 from service.service.CollegeService import CollegeService
-from service.Serializers import CollegeSerializers
 from django.http.response import JsonResponse
 from rest_framework.parsers import JSONParser
 from django.views.decorators.csrf import csrf_exempt

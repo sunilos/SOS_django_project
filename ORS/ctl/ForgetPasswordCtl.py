@@ -25,13 +25,13 @@ class ForgetPasswordCtl(BaseCtl):
         if(self.input_validation()):
             return render(request,self.get_template(),{"form":self.form})
         else:     
-            user = self.get_service().search(self.form)
-            print("============",user[0].login)
-            if(user is None):
+            user_qs = self.get_service().search(self.form)
+            print("============",user_qs)
+            if(user_qs.count() == 0):
                 self.form["message"] = "Invalid ID"
                 res = render(request,self.get_template(),{"form":self.form})
             else:
-                request.session["user"] = user
+                request.session["user"] = user_qs[0].login
                 res = redirect('/ORS/Login')
         return res
 

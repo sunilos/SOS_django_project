@@ -7,6 +7,7 @@ from ORS.ctl.UserCtl import UserCtl
 from ORS.ctl.AccountCtl import AccountCtl
 from ORS.ctl.CollegeCtl import CollegeCtl
 from ORS.ctl.LoginCtl import LoginCtl
+from ORS.ctl.LogoutCtl import LogoutCtl
 from ORS.ctl.WelcomeCtl import WelcomeCtl
 from ORS.ctl.RoleCtl import RoleCtl
 from ORS.ctl.RoleListCtl import RoleListCtl
@@ -32,7 +33,9 @@ def info(request,page,action ):
     print("REQ Method: ", request.method )
     print("Page: ", page)
     print("Action: ", action)
-    print("Base Path: ", __file__)    
+    print("File Path: ", __file__)    
+    print("Path: ", request.path )    
+    print("Full Path: ", request.get_full_path)    
 
 @csrf_exempt
 def action(request,page, action = "" ):
@@ -53,4 +56,12 @@ def actionId(request,page, id = 0 ):
     ctlObj = eval(ctlName)
     return ctlObj.execute(request,{"id":id})
 
+
+@csrf_exempt
+def auth_action(request,page):
+    print("Auth Action------------------>", page )    
+    info(request,page,0)
+    ctlName =  page + "Ctl()"
+    ctlObj = eval(ctlName)
+    return ctlObj.execute(request,{})
 

@@ -61,8 +61,9 @@
                     <label class="col-lg-3 form-control-label">Role_ID </label>
                     <div class="col-lg-9">
                         <select class="form-control" name="role_ID">
-                            {% for form in roleList %}
-                            <option value="{{form.id}}">{{form.id}}</option>
+                            <option value="0">--Select--</option>
+                            {% for role in roleList %}
+                            <option value="{{role.id}}" {% if form.role_ID|stringformat:"s" == role.id|stringformat:"s" %}selected{% endif %}>{{role.name}}</option>
                             {% endfor %}
                         </select>
                     </div>
@@ -73,8 +74,8 @@
 
                         <select class="form-control" name="gender">
                             <option>--Select--</option>
-                            <option value="Male">Male</option>
-                            <option value="Female">Female</option>
+                            <option value="Male" {% if form.gender == "Male" %}selected{% endif %}>Male</option>
+                            <option value="Female" {% if form.gender == "Female" %}selected{% endif %} >Female</option>
                         </select>
                     </div>
                 </div>
