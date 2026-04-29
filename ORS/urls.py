@@ -25,6 +25,10 @@ urlpatterns = [
     #/ORS/auth/Registration  - Forgot Password
     path('auth/<page>', views.auth_action),       
 
+
+    #/ORS/User/search
+    path('<page>/<action>/<int:id>', views.action_id),  
+
     #/ORS/User/search
     path('<page>/<action>/', views.action),       
 

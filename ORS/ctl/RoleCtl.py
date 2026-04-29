@@ -2,16 +2,15 @@
 from django.http import HttpResponse
 from .BaseCtl import BaseCtl
 from django.shortcuts import render
-from ORS.utility.DataValidator import DataValidator
+from service.utility.DataValidator import DataValidator
 from service.models import Role
-from service.forms import RoleForm
 from service.service.RoleService import RoleService
 
 class RoleCtl(BaseCtl):
 
     #Populate Form from HTTP Request 
     def request_to_form(self,requestForm):
-        self.form["id"]  = requestForm["id"]
+        self.form["id"]  = requestForm.get("id", 0)
         self.form["name"] = requestForm["name"]
         self.form["description"] = requestForm["description"]
 

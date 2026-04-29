@@ -1,4 +1,4 @@
-{% include  "./Header.html"%}
+{% include "./Header.html"%}
 <!DOCTYPE html>
 <html lang="en">
 
@@ -22,7 +22,8 @@
                     <i class="fas fa-search"></i>
                 </button>
             </div>
-            <div class="offset-lg-4"> <a href="/ORS/Role">
+            <div class="offset-lg-4">
+                <a href="/ORS/Role">
                     <font class="btn btn-success" data-target="#update" data-toggle="modal">Add
                         <i class="fas fa-plus-circle"></i>
                     </font>
@@ -49,9 +50,15 @@
                         <td>{{e.id}}</td>
                         <td>{{e.name}}</td>
                         <td>{{e.description}}</td>
-                        <td><a href="/ORS/Role/{{e.id}}">
+                        <td>
+                            <a href="/ORS/Role/{{e.id}}">
                                 <font data-target="#update" data-toggle="modal" class="btn btn-primary">
                                     <i class="fas fa-edit"></i>
+                                </font>
+                            </a>
+                            <a href="/ORS/RoleList/delete/{{e.id}}">
+                                <font data-target="#update" data-toggle="modal" class="btn btn-danger">
+                                    <i class="fas fa-trash"></i>
                                 </font>
                             </a>
                         </td>

@@ -2,7 +2,7 @@ from django.shortcuts import render
 from django.http import HttpResponse
 from django.views.decorators.csrf import csrf_exempt
 
-#Import controller classes
+# Import controller classes
 from ORS.ctl.UserCtl import UserCtl
 from ORS.ctl.AccountCtl import AccountCtl
 from ORS.ctl.CollegeCtl import CollegeCtl
@@ -28,40 +28,51 @@ from ORS.ctl.ForgetPasswordCtl import ForgetPasswordCtl
 from ORS.ctl.ChangePasswordCtl import ChangePasswordCtl
 
 
-
-def info(request,page,action ):
-    print("REQ Method: ", request.method )
+def info(request, page, action):
+    """Log incoming request details (method, page, action, and path) to stdout."""
+    print("REQ Method: ", request.method)
     print("Page: ", page)
     print("Action: ", action)
-    print("File Path: ", __file__)    
-    print("Path: ", request.path )    
-    print("Full Path: ", request.get_full_path)    
+    print("File Path: ", __file__)
+    print("Path: ", request.path)
+    print("Full Path: ", request.get_full_path)
+
 
 @csrf_exempt
-def action(request,page, action = "" ):
+def action_id(request, page, action="", id=0):
+    """Route a request to the controller matching `page`, passing id=0."""
     print("------------------>1")
-    info(request,page,action)
-    ctlName =  page + "Ctl()"
+    info(request, page, action)
+    ctlName = page + "Ctl()"
     ctlObj = eval(ctlName)
-    return ctlObj.execute(request,{"id":0})
-
-'''
-Calls respective controller with id
-'''
-@csrf_exempt
-def actionId(request,page, id = 0 ):
-    print("------------------>",id)    
-    info(request,page,id)
-    ctlName =  page + "Ctl()"
-    ctlObj = eval(ctlName)
-    return ctlObj.execute(request,{"id":id})
+    return ctlObj.execute(request, {"id": id, "action": action})
 
 
 @csrf_exempt
-def auth_action(request,page):
-    print("Auth Action------------------>", page )    
-    info(request,page,0)
-    ctlName =  page + "Ctl()"
+def action(request, page, action=""):
+    """Route a request to the controller matching `page`, passing id=0."""
+    print("------------------>1")
+    info(request, page, action)
+    ctlName = page + "Ctl()"
     ctlObj = eval(ctlName)
-    return ctlObj.execute(request,{})
+    return ctlObj.execute(request, {"id": 0, "action": action})
 
+
+@csrf_exempt
+def actionId(request, page, id=0):
+    """Route a request to the controller matching `page`, passing the given `id`."""
+    print("------------------>", id)
+    info(request, page, id)
+    ctlName = page + "Ctl()"
+    ctlObj = eval(ctlName)
+    return ctlObj.execute(request, {"id": id})
+
+
+@csrf_exempt
+def auth_action(request, page):
+    """Route an authentication request (login, registration, etc.) to the matching controller."""
+    print("Auth Action------------------>", page)
+    info(request, page, 0)
+    ctlName = page + "Ctl()"
+    ctlObj = eval(ctlName)
+    return ctlObj.execute(request, {})

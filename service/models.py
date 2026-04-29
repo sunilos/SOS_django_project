@@ -1,24 +1,53 @@
 from django.db import models
+from abc import ABCMeta, abstractmethod
+
+class ModelABCMeta(type(models.Model), ABCMeta):
+    """Combined metaclass resolving the conflict between Django's ModelBase and ABCMeta."""
+    pass
+
+class DropdownItem(metaclass=ModelABCMeta):
+    """Mixin that enforces a standard key/value interface for dropdown lists."""
+    @abstractmethod
+    def get_key(self):
+        pass
+
+    @abstractmethod
+    def get_value(self):
+        pass
 
 # Create your models here.
-class Role(models.Model):  
-    name = models.CharField(max_length=100)  
+class Role(models.Model, DropdownItem):
+    name = models.CharField(max_length=100)
     description =  models.CharField(max_length=500)
-    class Meta:  
-        db_table = "SOS_ROLE"  
 
-class User(models.Model):  
-    firstName = models.CharField(max_length=50)  
-    lastName = models.CharField(max_length=50)  
+    def get_key(self):
+        return self.id
+
+    def get_value(self):
+        return self.name
+
+    class Meta:
+        db_table = "SOS_ROLE"
+
+class User(models.Model, DropdownItem):
+    firstName = models.CharField(max_length=50)
+    lastName = models.CharField(max_length=50)
     login =  models.EmailField()
     password = models.CharField(max_length=20)
     dob = models.DateField(default='2000-01-01')
-    role_ID=models.IntegerField() 
+    role_id=models.IntegerField()
     role_Name = models.CharField(max_length=50)
     mobileNumber = models.CharField(max_length=15)
     gender = models.CharField(max_length=10, default='Male')
-    class Meta:  
-        db_table = "SOS_USER"          
+
+    def get_key(self):
+        return self.id
+
+    def get_value(self):
+        return f"{self.firstName} {self.lastName}"
+
+    class Meta:
+        db_table = "SOS_USER"
 
 class College(models.Model):  
     collegeName = models.CharField(max_length=50)  
@@ -60,7 +89,7 @@ class Faculty(models.Model):
     mobileNumber=models.CharField(max_length=20)
     address = models.CharField(max_length=50)
     gender = models.CharField(max_length=50) 
-    dob = models.DateField(max_length=20) 
+    dob = models.DateField()
     college_ID=models.IntegerField() 
     collegeName = models.CharField(max_length=50) 
     subject_ID=models.IntegerField() 
@@ -83,18 +112,18 @@ class Marksheet(models.Model):
 class Student(models.Model):  
     firstName = models.CharField(max_length=50)  
     lastName = models.CharField(max_length=50)  
-    dob = models.DateField(max_length=20)
+    dob = models.DateField()
     mobileNumber=models.CharField(max_length=20)
     email =  models.EmailField()
     college_ID=models.IntegerField()
     collegeName = models.CharField(max_length=50)
-    class Meta:  
+    class Meta:
         db_table = "SOS_STUDENT"
 
 class Subject(models.Model):  
     subjectName = models.CharField(max_length=50)  
     subjectDescription = models.CharField(max_length=50)  
-    dob = models.DateField(max_length=20)
+    dob = models.DateField()
     course_ID=models.IntegerField()
     courseName = models.CharField(max_length=50)
     class Meta:  

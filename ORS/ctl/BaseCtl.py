@@ -2,95 +2,86 @@ from django.http import HttpResponse
 from abc import ABC,abstractmethod
 from django.shortcuts import render,redirect
 
-'''
-Base class is inherited by all application controllers 
-'''
 class BaseCtl(ABC):
+    """Base class inherited by all application controllers."""
 
-    #Contains preload data
-    preload_data = {}
+    
+    
 
-    #Contains list of objects, it will be displayed at list page 
+    #Contains list of objects, it will be displayed at list page
     page_list = {}
 
-    '''
-    Initialize controller attributes
-    '''
     def __init__(self):
+        """Initialize controller attributes with default form values."""
         self.form = {}
         self.form["id"] = 0
         self.form["message"] = ""
         self.form["error"] = False
         self.form["inputError"] = {}
+        self.preload_data = {} #Contains preload data
 
-    '''
-    It loads preload data of the page 
-    '''
-    def preload(self,request):
+    def preload(self, request):
+        """Load preload data required by the page before rendering."""
         print("This is preload")
 
-    '''
-    execute method is executed for each HTTP request.  
-    It in turn calls display() or submit() method for 
-    HTTP GET and HTTP POST methods 
-    '''
-    def execute(self,request, params = {}):
+    def execute(self, request, params={}):
+        """
+        Execute method called for each HTTP request.
+        Calls display() for GET and submit() for POST after validation.
+        """
         print("This is execute")
+
+        if("delete" == params.get("action")):
+            id: int = params.get("id")
+            self.get_service().delete(id)
+            print("This is deleted id", id)
+
         self.preload(request)
-        if("GET" ==  request.method):
-            return self.display(request, params) 
-        elif ("POST" ==  request.method):
+        if("GET" == request.method):
+            return self.display(request, params)
+        elif("POST" == request.method):
             self.request_to_form(request.POST)
             if(self.input_validation()):
-                return render(request,self.get_template(),{"form":self.form})
+                return render(request, self.get_template(), {"form": self.form})
             else:
-                return self.submit(request,params) 
+                return self.submit(request, params)
         else:
             message = "Request is not supported"
-            return HttpResponse(message)          
+            return HttpResponse(message)
 
-    '''
-    Displays rceord of received ID    
-    '''
     @abstractmethod
-    def display(self,request,params = {}):
-        pass 
-
-    '''
-    Submit data 
-    '''
-    @abstractmethod
-    def submit(self,request,params = {}):
-        pass      
-
-    '''
-    Populate values from Request POST/GET to Controller form object
-    '''
-    def request_to_form(self,requestFrom):
+    def display(self, request, params={}):
+        """Display the record for the received ID."""
         pass
 
-    #Populate Form from Model 
-    def model_to_form(self,obj):
+    @abstractmethod
+    def submit(self, request, params={}):
+        """Submit and persist form data."""
         pass
 
-    #Convert form into module
-    def form_to_model(self,obj):
-        pass        
+    def request_to_form(self, requestFrom):
+        """Populate form values from HTTP POST/GET request data."""
+        pass
 
-    '''
-    Apply input validation 
-    '''        
+    def model_to_form(self, obj):
+        """Populate form dictionary from a model instance."""
+        pass
+
+    def form_to_model(self, obj):
+        """Populate a model instance from the form dictionary."""
+        pass
+
     def input_validation(self):
+        """Apply input validation and reset error state before each submission."""
         self.form["error"] = False
         self.form["message"] = ""
 
-    '''
-    returns template of controller
-    '''    
     @abstractmethod
     def get_template(self):
+        """Return the template path for this controller."""
         pass
 
     @abstractmethod
     def get_service(self):
+        """Return the service instance for database operations."""
         pass
