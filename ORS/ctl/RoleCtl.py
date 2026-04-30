@@ -1,4 +1,3 @@
-
 from django.http import HttpResponse
 from .BaseCtl import BaseCtl
 from django.shortcuts import render
@@ -6,67 +5,78 @@ from service.utility.DataValidator import DataValidator
 from service.models import Role
 from service.service.RoleService import RoleService
 
+
 class RoleCtl(BaseCtl):
 
-    #Populate Form from HTTP Request 
-    def request_to_form(self,requestForm):
-        self.form["id"]  = requestForm.get("id", 0)
+    # Populate Form from HTTP Request
+    def request_to_form(self, requestForm):
+        self.form["id"] = requestForm.get("id", 0)
         self.form["name"] = requestForm.get("name", "")
         self.form["description"] = requestForm.get("description", "")
 
-    #Populate Form from Model 
-    def model_to_form(self,obj):
-        if (obj == None):
+    # Populate Form from Model
+    def model_to_form(self, obj):
+        if obj == None:
             return
-        self.form["id"]  = obj.id 
+        self.form["id"] = obj.id
         self.form["name"] = obj.name
         self.form["description"] = obj.description
 
-    #Convert form into module
-    def form_to_model(self,obj):
+    # Convert form into module
+    def form_to_model(self, obj):
         pk = int(self.form.get("id", 0))
-        if(pk>0):
+        if pk > 0:
             obj.id = pk
         obj.name = self.form.get("name", "")
         obj.description = self.form.get("description", "")
         return obj
 
-    #Validate form 
+    def preload(self, _request):
+        """Load preload data required by the Role page before rendering."""
+        return self.preload_data
+
+    # Validate form
     def input_validation(self):
         super().input_validation()
-        inputError =  self.form["inputError"]
-        if(DataValidator.isNull(self.form["name"])):
+        inputError = self.form["inputError"]
+        if DataValidator.isNull(self.form["name"]):
             inputError["name"] = "Name can not be null"
             self.form["error"] = True
-        if(DataValidator.isNull(self.form["description"])):
+        if DataValidator.isNull(self.form["description"]):
             inputError["description"] = "Description can not be null"
             self.form["error"] = True
-        return self.form["error"]        
+        return self.form["error"]
 
-    #Display Role page 
-    def display(self,request,params={}):
-        if( params["id"] > 0):
+    # Display Role page
+    def display(self, request, params={}):
+        if params["id"] > 0:
             r = self.get_service().get(params["id"])
             self.model_to_form(r)
-        res = render(request,self.get_template(), {"form":self.form})
+        res = render(
+            request,
+            self.get_template(),
+            {"form": self.form, "preload_data": self.preload(request)},
+        )
         return res
 
-    #Submit Role page
-    def submit(self,request,params={}):
+    # Submit Role page
+    def submit(self, request, _params={}):
         r = self.form_to_model(Role())
         self.get_service().save(r)
         self.form["id"] = r.id
         self.form["error"] = False
         self.form["message"] = "Data is saved"
-        res = render(request,self.get_template(),{"form":self.form})
+        res = render(
+            request,
+            self.get_template(),
+            {"form": self.form, "preload_data": self.preload(request)},
+        )
         return res
-        
-    # Template html of Role page    
+
+    # Template html of Role page
     def get_template(self):
-        return "ors/Role.html"          
+        return "ors/Role.html"
 
-    # Service of Role     
+    # Service of Role
     def get_service(self):
-        return RoleService()        
-
-
+        return RoleService()

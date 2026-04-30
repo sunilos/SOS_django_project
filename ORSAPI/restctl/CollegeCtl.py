@@ -1,9 +1,7 @@
 
-from django.http import HttpResponse
 from .BaseCtl import BaseCtl
 from django.shortcuts import render
-from ORSAPI.utility.DataValidator import DataValidator
-from service.models import College
+from django.http.response import JsonResponse
 from service.service.CollegeService import CollegeService
 from rest_framework.parsers import JSONParser
 from service.Serializers import CollegeSerializers
@@ -23,10 +21,19 @@ class CollegeCtl(BaseCtl):
     #Submit College page
     def submit(self,request,params={}):
         parseData=JSONParser().parse(request)
-        r=CollegeSerializers(data=parseData)
-        self.get_service().save(r)
-        res = render(request,self.get_template(),{"form":self.form})
-        return res
+        serializer = CollegeSerializers(data=parseData)
+        if serializer.is_valid():
+            serializer.save()
+            return JsonResponse({
+                "data": serializer.data,
+                "error": False,
+                "message": "Data is successfully saved",
+            })
+        return JsonResponse({
+            "errors": serializer.errors,
+            "error": True,
+            "message": "Validation failed",
+        }, status=400)
         
     # Template html of Role page    
     def get_template(self):

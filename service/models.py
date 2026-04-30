@@ -49,12 +49,12 @@ class User(models.Model, DropdownItem):
     class Meta:
         db_table = "SOS_USER"
 
-class College(models.Model):  
-    collegeName = models.CharField(max_length=50)  
-    collegeAddress = models.CharField(max_length=50)  
-    collegeState =  models.CharField(max_length=50)
-    collegeCity = models.CharField(max_length=20)  
-    collegePhoneNumber=models.CharField(max_length=20)
+class College(models.Model):
+    name = models.CharField(max_length=50)
+    address = models.CharField(max_length=50)
+    state = models.CharField(max_length=50)
+    city = models.CharField(max_length=20)
+    phoneNumber = models.CharField(max_length=20)
 
     class Meta:  
         db_table = "SOS_COLLEGE"          

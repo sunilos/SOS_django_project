@@ -9,16 +9,17 @@ from service.service.CollegeService import CollegeService
 from django.http.response import JsonResponse
 from rest_framework.parsers import JSONParser
 from django.views.decorators.csrf import csrf_exempt
+from service.Serializers import CollegeSerializers
 
 
 class CollegeListCtl(BaseCtl):
 
     def request_to_form(self,requestForm):
-        self.form["collegeName"]=requestForm.get("collegeName",None)
-        self.form["collegeAddress"]=requestForm.get("collegeAddress",None)
-        self.form["collegeState"]=requestForm.get("collegeState",None)
-        self.form["collegeCity"]=requestForm.get("collegeCity",None)
-        self.form["collegePhoneNumber"]=requestForm.get("collegePhoneNumber",None)
+        self.form["name"]=requestForm.get("name",None)
+        self.form["address"]=requestForm.get("address",None)
+        self.form["state"]=requestForm.get("state",None)
+        self.form["city"]=requestForm.get("city",None)
+        self.form["phoneNumber"]=requestForm.get("phoneNumber",None)
 
     def display(self,request,params={}):
         list= self.get_service().search(self.form)

@@ -1,99 +1,117 @@
 
 from django.http import HttpResponse
-from .BaseCtl import BaseCtl
 from django.shortcuts import render
-from ORS.utility.DataValidator import DataValidator
+from .BaseCtl import BaseCtl
+from service.utility.DataValidator import DataValidator
 from service.models import College
-from service.forms import CollegeForm
 from service.service.CollegeService import CollegeService
 
-class CollegeCtl(BaseCtl):    
-    def preload(self,request):
-         self.preloadData=[{"name":"Madhya Pradesh","code":"MP"},{"name":"Uttar Pradesh","code":"UP"}]
-        
 
-    #Populate Form from HTTP Request 
-    def request_to_form(self,requestForm):
-        self.form["id"]  = requestForm["id"]
-        self.form["collegeName"] = requestForm["collegeName"]
-        self.form["collegeAddress"] = requestForm["collegeAddress"]
-        self.form["collegeState"] = requestForm["collegeState"]
-        self.form["collegeCity"] = requestForm["collegeCity"]
-        self.form["collegePhoneNumber"] = requestForm["collegePhoneNumber"]
+class CollegeCtl(BaseCtl):
+    """Controller for managing College CRUD operations."""
 
-    #Populate Form from Model 
-    def model_to_form(self,obj):
-        if (obj == None):
+    def preload(self, request):
+        """Load college-related preload data for the college form."""
+        state_list = ["Madhya Pradesh", "Uttar Pradesh"]
+        self.preload_data["state_list"] = state_list
+        return self.preload_data
+
+    def request_to_form(self, requestForm):
+        """Populate form dictionary from HTTP POST request data."""
+        self.form["id"] = requestForm.get("id", 0)
+        self.form["name"] = requestForm.get("name", "")
+        self.form["address"] = requestForm.get("address", "")
+        self.form["state"] = requestForm.get("state", "")
+        self.form["city"] = requestForm.get("city", "")
+        self.form["phoneNumber"] = requestForm.get("phoneNumber", "")
+
+    def model_to_form(self, obj):
+        """Populate form dictionary from a College model instance."""
+        if obj is None:
             return
-        self.form["id"]  = obj.id
-        self.form["collegeName"] = obj.collegeName
-        self.form["collegeAddress"] = obj.collegeAddress
-        self.form["collegeState"] = obj.collegeState
-        self.form["collegeCity"] = obj.collegeCity
-        self.form["collegePhoneNumber"] = obj.collegePhoneNumber
+        self.form["id"] = obj.id
+        self.form["name"] = obj.name
+        self.form["address"] = obj.address
+        self.form["state"] = obj.state
+        self.form["city"] = obj.city
+        self.form["phoneNumber"] = obj.phoneNumber
 
-    #Convert form into module
-    def form_to_model(self,obj):
-        pk = int(self.form["id"])
-        if(pk>0):
+    def form_to_model(self, obj):
+        """Populate a College model instance from the form dictionary."""
+        pk = int(self.form.get("id", 0))
+        if pk > 0:
             obj.id = pk
-        obj.collegeName=self.form["collegeName"]
-        obj.collegeAddress=self.form["collegeAddress"] 
-        obj.collegeState=self.form["collegeState"]
-        obj.collegeCity=self.form["collegeCity"]
-        obj.collegePhoneNumber=self.form["collegePhoneNumber"]
+        obj.name = self.form.get("name", "")
+        obj.address = self.form.get("address", "")
+        obj.state = self.form.get("state", "")
+        obj.city = self.form.get("city", "")
+        obj.phoneNumber = self.form.get("phoneNumber", "")
         return obj
 
-    #Validate form 
     def input_validation(self):
+        """Validate required fields and populate inputError messages."""
         super().input_validation()
-        inputError =  self.form["inputError"]
-        if(DataValidator.isNull(self.form["collegeName"])):
-            inputError["collegeName"] = "Name can not be null"
+        inputError = self.form.get("inputError", {})
+
+        if DataValidator.isNull(self.form.get("name")):
+            inputError["name"] = "Name can not be null"
             self.form["error"] = True
 
-        if(DataValidator.isNull(self.form["collegeAddress"])):
-            inputError["collegeAddress"] = "Address can not be null"
+        if DataValidator.isNull(self.form.get("address")):
+            inputError["address"] = "Address can not be null"
             self.form["error"] = True
 
-        if(DataValidator.isNull(self.form["collegeState"])):
-            inputError["collegeState"] = "State can not be null"
+        if DataValidator.isNull(self.form.get("state")):
+            inputError["state"] = "State can not be null"
             self.form["error"] = True
 
-        if(DataValidator.isNull(self.form["collegeCity"])):
-            inputError["collegeCity"] = "City can not be null"
-            self.form["error"] = True
-        if(DataValidator.isNull(self.form["collegePhoneNumber"])):
-            inputError["collegePhoneNumber"] = "PhoneNumber can not be null"
+        if DataValidator.isNull(self.form.get("city")):
+            inputError["city"] = "City can not be null"
             self.form["error"] = True
 
-        return self.form["error"]        
+        if DataValidator.isNull(self.form.get("phoneNumber")):
+            inputError["phoneNumber"] = "Phone Number can not be null"
+            self.form["error"] = True
+        else:
+            if not DataValidator.isMobileNumber(self.form.get("phoneNumber")):
+                inputError["phoneNumber"] = "Phone Number must be a mobile number (10 digits)"
+                self.form["error"] = True
 
-    #Display College page 
-    def display(self,request,params={}):
-        if( params["id"] > 0):
-            r = self.get_service().get(params["id"])
-            self.model_to_form(r)
-        res = render(request,self.get_template(), {"form":self.form})
+        return self.form.get("error", False)
+
+    def display(self, request, params={}):
+        """Render the College form, loading existing college data when an id is provided."""
+        if params.get("id", 0) > 0:
+            college = self.get_service().get(params["id"])
+            self.model_to_form(college)
+        res = render(
+            request,
+            self.get_template(),
+            {"form": self.form, "preload_data": self.preload(request)},
+        )
         return res
 
-    #Submit College page
-    def submit(self,request,params={}):
-        r = self.form_to_model(College())
-        self.get_service().save(r)
-        self.form["id"] = r.id
+    def submit(self, request, params={}):
+        """Save the College form data and re-render the form with a success message."""
+        college = self.form_to_model(College())
+        self.get_service().save(college)
+        self.form["id"] = college.id
         self.form["error"] = False
         self.form["message"] = "Data is saved"
-        res = render(request,self.get_template(),{"form":self.form})
+        res = render(
+            request,
+            self.get_template(),
+            {"form": self.form, "preload_data": self.preload(request)},
+        )
         return res
-        
-    # Template html of Role page    
-    def get_template(self):
-        return "ors/College.html"          
 
-    # Service of Role     
+    def get_template(self):
+        """Return the template path for the College form."""
+        return "ors/College.html"
+
     def get_service(self):
-        return CollegeService()        
+        """Return the CollegeService instance for database operations."""
+        return CollegeService()
 
 
 

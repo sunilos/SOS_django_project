@@ -18,7 +18,17 @@ class UserCtl(BaseCtl):
         gender_list = ["Male", "Female"]
         self.preload_data["role_list"] = role_list
         self.preload_data["gender_list"] = gender_list
-        print("a-------", self.preload_data)
+
+        self.preload_data["role_select"] = HtmlUtility.get_list_from_beans(
+            "role_id",
+            int(self.form.get("role_id") or 0),
+            self.preload_data["role_list"],
+        )
+        self.preload_data["gender_select"] = HtmlUtility.get_list_from_list(
+            "gender", self.form.get("gender"), self.preload_data["gender_list"]
+        )
+        print("a-------", self.form.get("gender"))
+        return self.preload_data
 
     def request_to_form(self, requestForm):
         """Populate form dictionary from HTTP POST request data."""
@@ -45,8 +55,6 @@ class UserCtl(BaseCtl):
         self.form["mobileNumber"] = obj.mobileNumber
         self.form["gender"] = obj.gender
         self.form["role_id"] = int(obj.role_id) if obj.role_id else 0
-
-
 
     def form_to_model(self, obj):
         """Populate a User model instance from the form dictionary and return it."""
@@ -76,33 +84,34 @@ class UserCtl(BaseCtl):
         if DataValidator.isNull(self.form.get("login")):
             inputError["login"] = "Login can not be null"
             self.form["error"] = True
+        else:
+            if not DataValidator.isEmail(self.form.get("login")):
+                inputError["login"] = "Login must be a valid email address"
+                self.form["error"] = True
+
         if DataValidator.isNull(self.form.get("password")):
             inputError["password"] = "Password can not be null"
             self.form["error"] = True
         if DataValidator.isNull(self.form.get("mobileNumber")):
             inputError["mobileNumber"] = "Mobile Number can not be null"
             self.form["error"] = True
-        return self.form.get("error", False)
+        else:
+            if not DataValidator.isMobileNumber(self.form.get("mobileNumber")):
+                inputError["mobileNumber"] = "Mobile Number must be 10 digits"
+                self.form["error"] = True
 
-    def _get_role_select(self):
-        """Generate the Role dropdown HTML using HtmlUtility."""
-        try:
-            selected = int(self.form.get("role_id") or 0)
-        except (ValueError, TypeError):
-            selected = 0
-        return HtmlUtility.get_list_from_beans(
-            "role_id", selected, self.preload_data["role_list"]
-        )
+        return self.form.get("error", False)
 
     def display(self, request, params={}):
         """Render the User form. Loads existing user data if a valid id is provided in params."""
         if params["id"] > 0:
             r = self.get_service().get(params["id"])
             self.model_to_form(r)
+            # self.preload(request);
         res = render(
             request,
             self.get_template(),
-            {"form": self.form, "role_select": self._get_role_select()},
+            {"form": self.form, "preload_data": self.preload(request)},
         )
         return res
 
@@ -116,7 +125,7 @@ class UserCtl(BaseCtl):
         res = render(
             request,
             self.get_template(),
-            {"form": self.form, "role_select": self._get_role_select()},
+            {"form": self.form, "preload_data": self.preload(request)},
         )
         return res
 

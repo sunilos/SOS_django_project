@@ -29,13 +29,13 @@ class HtmlUtility:
         return "".join(sb)
 
     @staticmethod
-    def get_list_from_list(name: str, selected_val: int, list_data: list[str]) -> str:
+    def get_list_from_list(name: str, selected_val: str, list_data: list[str]) -> str:
         """
         Generate an HTML SELECT element from a list.
 
         Args:
             name:         The name attribute of the <select> element.
-            selected_val: The integer key of the option to pre-select.
+            selected_val: The string value of the option to pre-select.
             list_data:    A list of strings for the options.
 
         Returns:
@@ -44,8 +44,8 @@ class HtmlUtility:
         sb = [f"<select class='form-control' name='{name}'>"]
         sb.append("<option value='0'>--Select--</option>")
 
-        for key, val in enumerate(list_data):
-            if key == selected_val:
+        for val in list_data:
+            if val == selected_val:
                 sb.append(f"<option selected value='{val}'>{val}</option>")
             else:
                 sb.append(f"<option value='{val}'>{val}</option>")

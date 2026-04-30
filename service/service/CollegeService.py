@@ -10,25 +10,25 @@ class CollegeService(BaseService):
     def search(self,params):
         q = self.get_model().objects.filter()
 
-        val = params.get("collegeName",None)
+        val = params.get("name",None)
         if( DataValidator.isNotNull(val)):
-            q= q.filter( collegeName = val)
+            q= q.filter( name = val)
 
-        val = params.get("collegeAddress",None)
+        val = params.get("address",None)
         if( DataValidator.isNotNull(val)):
-            q= q.filter( collegeAddress = val)
+            q= q.filter( address = val)
 
-        val = params.get("collegeState",None)
+        val = params.get("state",None)
         if( DataValidator.isNotNull(val)):
-            q= q.filter( collegeState = val)
+            q= q.filter( state = val)
 
-        val = params.get("collegeCity",None)
+        val = params.get("city",None)
         if( DataValidator.isNotNull(val)):
-            q= q.filter( collegeCity = val)
+            q= q.filter( city = val)
 
-        val = params.get("collegePhoneNumber",None)
+        val = params.get("phoneNumber",None)
         if( DataValidator.isNotNull(val)):
-            q= q.filter( collegePhoneNumber = val)
+            q= q.filter( phoneNumber = val)
 
 
         return q

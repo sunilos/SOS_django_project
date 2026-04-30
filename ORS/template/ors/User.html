@@ -1,96 +1,89 @@
-{% include  "./Header.html"%}
-    
+{% include "./Header.html"%}
+
 <div class="container">
-<div class="modal-dialog">
-    {% if form.error  %}
-    <p style="color: red;"> {{form.message}}</p>
-    {% else %}
-    <p style="color: green;"> {{form.message}}</p>
-    {% endif %}
-    
-    <div class="modal-content">
-        <div class="modal-header text-center">
-            <h4 class="modal-title ">User Information</h4>
-        </div>
-        <form method="POST">
-            <input type="hidden" name="id" value="{{form.id}}">
-            <div class="modal-body">
-                <div class="form-group row">
-                    <label class="col-lg-3 form-control-label">First Name * </label>
-                    <div class="col-lg-9">
-                        <input name="firstName" value="{{form.firstName}}" class="form-control">
-                        <span style="color: red;"> {{form.inputError.firstName}} </span>
-                    </div>
-                </div>
-                <div class="form-group row">
-                    <label class="col-lg-3 form-control-label">Last Name * </label>
-                    <div class="col-lg-9">
-                        <input class="form-control" name="lastName" value="{{form.lastName}}">
-                        <span style="color: red;"> {{form.inputError.lastName}} </span> </div>
-                </div>
-                <div class="form-group row">
-                    <label class="col-lg-3 form-control-label">Login * </label>
-                    <div class="col-lg-9">
-                        <input class="form-control" name="login" value="{{form.login}}">
-                        <span style="color: red;"> {{form.inputError.login}} </span>
-                    </div>
-                </div>
-                <div class="form-group row">
-                    <label class="col-lg-3 form-control-label">Password * </label>
-                    <div class="col-lg-9">
-                        <input class="form-control" name="password" value="{{form.password}}">
-                        <span style="color: red;"> {{form.inputError.password}} </span>
-                    </div>
-                </div>
-                <div class="form-group row">
-                    <label class="col-lg-3 form-control-label">Date Of Birth </label>
-                    <div class="col-lg-9">
-                        <input style="cursor: pointer" type="date" name="dob" value="{{form.dob}}" class="form-control"
-                            placeholder="DD-MM-YYYY" />
-                        <span style="color: red;"> {{form.inputError.dob}} </span>
-                    </div>
-                </div>
-                <div class="form-group row">
-                    <label class="col-lg-3 form-control-label">Mobile</label>
-                    <div class="col-lg-9">
-                        <input class="form-control" name="mobileNumber" value="{{form.mobileNumber}}">
-                        <span style="color: red;"> {{form.inputError.mobileNumber}} </span>
-                    </div>
-                </div>
-                <div class="form-group row">
-                    <label class="col-lg-3 form-control-label">Role </label>
-                    <div class="col-lg-9">
-                        {{ role_select|safe }}
-                    </div>
-                </div>
-                <div class="form-group row">
-                    <label class="col-lg-3 form-control-label">Gender </label>
-                    <div class="col-lg-9">
+    <div class="modal-dialog">
+        {% if form.error %}
+        <p style="color: red;"> {{form.message}}</p>
+        {% else %}
+        <p style="color: green;"> {{form.message}}</p>
+        {% endif %}
 
-                        <select class="form-control" name="gender">
-                            <option>--Select--</option>
-                            <option value="Male" {% if form.gender == "Male" %}selected{% endif %}>Male</option>
-                            <option value="Female" {% if form.gender == "Female" %}selected{% endif %} >Female</option>
-                        </select>
-                    </div>
-                </div>
-
-                <div class="form-group row">
-                    <div class="col-lg-12">
-                        <button type="submit" class="btn btn-primary"><i class="fas fa-save"></i> Save</button>
-                        <a href="/ORS/UserList" class="btn btn-secondary"><i class="fas fa-list"></i> List</a>
-                        {% if form.id %}
-                        <a href="/ORS/UserList/delete/{{form.id}}" class="btn btn-danger">
-                            <i class="fas fa-trash"></i> Delete
-                        </a>
-                        {% endif %}
-                    </div>
-                </div>
+        <div class="modal-content">
+            <div class="modal-header text-center">
+                <h4 class="modal-title ">User Information</h4>
             </div>
-        </form>
+            <form method="POST">
+                <input type="hidden" name="id" value="{{form.id}}">
+                <div class="modal-body">
+                    <div class="form-group row">
+                        <label class="col-lg-3 form-control-label">First Name * </label>
+                        <div class="col-lg-9">
+                            <input name="firstName" value="{{form.firstName}}" class="form-control">
+                            <span style="color: red;"> {{form.inputError.firstName}} </span>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label class="col-lg-3 form-control-label">Last Name * </label>
+                        <div class="col-lg-9">
+                            <input class="form-control" name="lastName" value="{{form.lastName}}">
+                            <span style="color: red;"> {{form.inputError.lastName}} </span> </div>
+                    </div>
+                    <div class="form-group row">
+                        <label class="col-lg-3 form-control-label">Login * </label>
+                        <div class="col-lg-9">
+                            <input class="form-control" name="login" value="{{form.login}}">
+                            <span style="color: red;"> {{form.inputError.login}} </span>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label class="col-lg-3 form-control-label">Password * </label>
+                        <div class="col-lg-9">
+                            <input class="form-control" name="password" value="{{form.password}}">
+                            <span style="color: red;"> {{form.inputError.password}} </span>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label class="col-lg-3 form-control-label">Date Of Birth </label>
+                        <div class="col-lg-9">
+                            <input style="cursor: pointer" type="date" name="dob" value="{{form.dob}}" class="form-control" placeholder="DD-MM-YYYY" />
+                            <span style="color: red;"> {{form.inputError.dob}} </span>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label class="col-lg-3 form-control-label">Mobile</label>
+                        <div class="col-lg-9">
+                            <input class="form-control" name="mobileNumber" value="{{form.mobileNumber}}">
+                            <span style="color: red;"> {{form.inputError.mobileNumber}} </span>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label class="col-lg-3 form-control-label">Role  </label>
+                        <div class="col-lg-9">
+                            {{ preload_data.role_select|safe }}
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label class="col-lg-3 form-control-label">Gender </label>
+                        <div class="col-lg-9">
+                            {{ preload_data.gender_select|safe }}
+                        </div>
+                    </div>
+
+                    <div class="form-group row">
+                        <div class="col-lg-12">
+                            <button type="submit" class="btn btn-primary"><i class="fas fa-save"></i> Save</button>
+                            <a href="/ORS/UserList" class="btn btn-secondary"><i class="fas fa-list"></i> List</a> {% if form.id %}
+                            <a href="/ORS/UserList/delete/{{form.id}}" class="btn btn-danger">
+                                <i class="fas fa-trash"></i> Delete
+                            </a>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
     </div>
 </div>
-</div>
 
-{% include  "./Footer.html"%}
+{% include "./Footer.html"%}
 </div>

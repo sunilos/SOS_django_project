@@ -10,10 +10,10 @@
     <form method="POST">
         <div class="form-group row">
             <div class="col-lg-3">
-                <input class="form-control" name="collegeName" value="{{form.collegeName}}" placeholder="College">
+                <input class="form-control" name="name" value="{{form.name}}" placeholder="College">
             </div>
             <div class="col-lg-3">
-                <input class="form-control" name="collegeAddress" value="{{form.collegeAddress}}" placeholder="Address">
+                <input class="form-control" name="address" value="{{form.address}}" placeholder="Address">
             </div>
             <div class="col-lg-1">
                 <button class="btn btn-primary" type="submit" value="Search">Search
@@ -53,11 +53,11 @@
                         {% for e in pageList %}
                         <tr>
                             <td>{{e.id}}</td>
-                            <td>{{e.collegeName}}</td>
-                            <td>{{e.collegeAddress}}</td>
-                            <td>{{e.collegeState}}</td>
-                            <td>{{e.collegeCity}}</td>
-                            <td>{{e.collegePhoneNumber}}</td>
+                            <td>{{e.name}}</td>
+                            <td>{{e.address}}</td>
+                            <td>{{e.state}}</td>
+                            <td>{{e.city}}</td>
+                            <td>{{e.phoneNumber}}</td>
 
                             <td><a href="/ORS/College/{{e.id}}"> Edit </a></td>
                         </tr>
