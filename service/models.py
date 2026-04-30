@@ -65,16 +65,16 @@ class BaseModel(models.Model):
         return data
 
 
-class Course(models.Model):  
-    courseName = models.CharField(max_length=50)  
-    courseDescription = models.CharField(max_length=100)  
-    courseDuration = models.CharField(max_length=100)  
+class Course(models.Model):
+    name = models.CharField(max_length=50)
+    description = models.CharField(max_length=100)
+    duration = models.CharField(max_length=100)
     def to_json(self):
         data={
         "id":self.id,
-        "name":self.courseName,
-        "description":self.courseDescription,
-        "duration":self.courseDuration
+        "name":self.name,
+        "description":self.description,
+        "duration":self.duration
         }
         return data
 

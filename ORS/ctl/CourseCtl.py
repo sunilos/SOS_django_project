@@ -1,86 +1,80 @@
-
-from django.http import HttpResponse
-from .BaseCtl import BaseCtl
 from django.shortcuts import render
-from ORS.utility.DataValidator import DataValidator
+from .BaseCtl import BaseCtl
+from service.utility.DataValidator import DataValidator
 from service.models import Course
-from service.forms import CourseForm
 from service.service.CourseService import CourseService
 
 
-class CourseCtl(BaseCtl): 
-    #Populate Form from HTTP Request 
-    def request_to_form(self,requestForm):
-        self.form["id"]  = requestForm["id"]
-        self.form["courseName"] = requestForm["courseName"]
-        self.form["courseDescription"] = requestForm["courseDescription"]
-        self.form["courseDuration"] = requestForm["courseDuration"]
+class CourseCtl(BaseCtl):
+    """Controller for managing Course CRUD operations."""
 
-    #Populate Form from Model 
-    def model_to_form(self,obj):
-        if (obj == None):
+    def preload(self, _request):
+        """Load preload data required by the Course page before rendering."""
+        return self.preload_data
+
+    def request_to_form(self, requestForm):
+        """Populate form dictionary from HTTP POST request data."""
+        self.form["id"] = requestForm.get("id", 0)
+        self.form["name"] = requestForm.get("name", "")
+        self.form["description"] = requestForm.get("description", "")
+        self.form["duration"] = requestForm.get("duration", "")
+
+    def model_to_form(self, obj):
+        """Populate form dictionary from a Course model instance."""
+        if obj is None:
             return
-        self.form["id"]  = obj.id 
-        self.form["courseName"] = obj.courseName
-        self.form["courseDescription"] = obj.courseDescription
-        self.form["courseDuration"] = obj.courseDuration
+        self.form["id"] = obj.id
+        self.form["name"] = obj.name
+        self.form["description"] = obj.description
+        self.form["duration"] = obj.duration
 
-    #Convert form into module
-    def form_to_model(self,obj):
-        pk = int(self.form["id"])
-        if(pk>0):
+    def form_to_model(self, obj):
+        """Populate a Course model instance from the form dictionary."""
+        pk = int(self.form.get("id", 0))
+        if pk > 0:
             obj.id = pk
-        obj.courseName = self.form["courseName"]
-        obj.courseDescription = self.form["courseDescription"]
-        obj.courseDuration=self.form["courseDuration"] 
+        obj.name = self.form.get("name", "")
+        obj.description = self.form.get("description", "")
+        obj.duration = self.form.get("duration", "")
         return obj
 
-    #Validate form 
     def input_validation(self):
+        """Validate required fields and populate inputError messages."""
         super().input_validation()
-        inputError =  self.form["inputError"]
-        if(DataValidator.isNull(self.form["courseName"])):
-            inputError["courseName"] = "Name can not be null"
+        inputError = self.form["inputError"]
+        if DataValidator.isNull(self.form.get("name")):
+            inputError["name"] = "Name can not be null"
             self.form["error"] = True
-        if(DataValidator.isNull(self.form["courseDescription"])):
-            inputError["courseDescription"] = "Description can not be null"
+        if DataValidator.isNull(self.form.get("description")):
+            inputError["description"] = "Description can not be null"
             self.form["error"] = True
-            
-        if(DataValidator.isNull(self.form["courseDuration"])):
-            inputError["courseDuration"] = "Duration can not be null"
+        if DataValidator.isNull(self.form.get("duration")):
+            inputError["duration"] = "Duration can not be null"
             self.form["error"] = True
+        return self.form["error"]
 
-        return self.form["error"]        
-
-
-    #Display Course page 
-    def display(self,request,params={}):
-        if( params["id"] > 0):
+    def display(self, request, params={}):
+        """Render the Course form, loading existing course data when an id is provided."""
+        if params["id"] > 0:
             r = self.get_service().get(params["id"])
             self.model_to_form(r)
-        res = render(request,self.get_template(), {"form":self.form})
+        res = render(request, self.get_template(), {"form": self.form, "preload_data": self.preload(request)})
         return res
 
-    #Submit Role page
-    def submit(self,request,params={}):
+    def submit(self, request, _params={}):
+        """Save the Course form data and re-render the form with a success message."""
         r = self.form_to_model(Course())
         self.get_service().save(r)
         self.form["id"] = r.id
         self.form["error"] = False
         self.form["message"] = "Data is saved"
-        res = render(request,self.get_template(),{"form":self.form})
+        res = render(request, self.get_template(), {"form": self.form, "preload_data": self.preload(request)})
         return res
-        
-    # Template html of Role page    
+
     def get_template(self):
-        return "ors/Course.html"          
+        """Return the template path for the Course form."""
+        return "ors/Course.html"
 
-    # Service of Role     
     def get_service(self):
-        return CourseService()        
-
-
-       
-
-
-
+        """Return the CourseService instance for database operations."""
+        return CourseService()

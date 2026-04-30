@@ -63,3 +63,13 @@ class DataValidator:
         if not val.isdigit():
             return False
         return True
+       
+    @classmethod
+    def isUrl(self, val):
+        if val == None or val == "":
+            return False
+        if not (val.startswith("http://") or val.startswith("https://")):
+            return False
+        if "." not in val:
+            return False
+        return True

@@ -1,73 +1,68 @@
-{% include  "./Header.html"%}
-<!DOCTYPE html>
-<html lang="en">
-
-<head>
-    <title>Document</title>
-</head>
-
-<body>
-    <div class="container">
+{% include "./Header.html"%}
+<br>
+<div class="container">
+    <form method="POST">
         <div>
-            <H2>Course</H2>
+            <H2>Course List</H2>
         </div>
-        <form method="POST">
-            <div class="form-group row">
-
-                <div class="col-lg-3">
-                    <input class="form-control" name="courseName" value="{{form.courseName}}" placeholder="Course Name">
-                </div>
-                <div class="col-lg-3">
-                    <input class="form-control" name="courseDuration" value="{{form.courseDuration}}"
-                        placeholder="Course Duration">
-                </div>
-                <div class="col-lg-1">
-                    <button class="btn btn-primary" type="submit">Search
-                        <i class="fas fa-search"></i>
-                    </button>
-                </div>
-        </form>
-        <div class="offset-lg-4">
-            <a href="/ORS/Course">
-                <font class="btn btn-success" data-target="#update" data-toggle="modal">Add
-                    <i class="fas fa-plus-circle"></i>
-                </font>
-            </a>
+        <div class="form-group row">
+            <div class="col-lg-2">
+                <input class="form-control" name="name" value="{{form.name}}" placeholder="Course Name">
+            </div>
+            <div class="col-lg-2">
+                <input class="form-control" name="description" value="{{form.description}}" placeholder="Description">
+            </div>
+            <div class="col-lg-2">
+                <input class="form-control" name="duration" value="{{form.duration}}" placeholder="Duration">
+            </div>
+            <div class="col-lg-1">
+                <button class="btn btn-primary" type="submit">Search
+                    <i class="fas fa-search"></i>
+                </button>
+            </div>
+            <div class="offset-lg-4">
+                <a href="/ORS/Course">
+                    <font class="btn btn-success" data-target="#update" data-toggle="modal">ADD <i class="fas fa-plus-circle"></i></font>
+                </a>
+            </div>
         </div>
-    </div>
+    </form>
 
     <div class="row">
         <div class="col-md-12">
             <table class="table table-sm table-bordered table-hover table-responsive-sm">
                 <thead class="thead-dark">
                     <th scope="row">#</th>
-                    <th scope="row">Course_Name
-                    </th>
-                    <th scope="row">Description
-                    </th>
-                    <th scope="row">Duration
-                    </th>
-                    <th scope="row">Edit</th>
+                    <th scope="row">COURSE_NAME</th>
+                    <th scope="row">DESCRIPTION</th>
+                    <th scope="row">DURATION</th>
+                    <th scope="row">ACTION</th>
                 </thead>
                 <tbody>
                     {% for e in pageList %}
                     <tr>
                         <td>{{e.id}}</td>
-                        <td>{{e.courseName}}</td>
-                        <td>{{e.courseDescription}}</td>
-                        <td>{{e.courseDuration}}</td>
-                        <td><a href="/ORS/Course/{{e.id}}">
+                        <td>{{e.name}}</td>
+                        <td>{{e.description}}</td>
+                        <td>{{e.duration}}</td>
+                        <td>
+                            <a href="/ORS/Course/{{e.id}}">
                                 <font data-target="#update" data-toggle="modal" class="btn btn-primary">
-                                    <i class="fas fa-edit"></i></font>
-                            </a></td>
+                                    <i class="fas fa-edit"></i>
+                                </font>
+                            </a>
+                            <a href="/ORS/CourseList/delete/{{e.id}}">
+                                <font data-target="#update" data-toggle="modal" class="btn btn-danger">
+                                    <i class="fas fa-trash"></i>
+                                </font>
+                            </a>
+                        </td>
                     </tr>
-
                     {% endfor %}
                 </tbody>
             </table>
         </div>
     </div>
-</body>
+</div>
 
-</html>
-{% include  "./Footer.html"%}
+{% include "./Footer.html"%}

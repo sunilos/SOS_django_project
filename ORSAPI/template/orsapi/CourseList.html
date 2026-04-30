@@ -15,10 +15,10 @@
             <div class="form-group row">
 
                 <div class="col-lg-3">
-                    <input class="form-control" name="courseName" value="{{form.courseName}}" placeholder="Course Name">
+                    <input class="form-control" name="name" value="{{form.name}}" placeholder="Course Name">
                 </div>
                 <div class="col-lg-3">
-                    <input class="form-control" name="courseDuration" value="{{form.courseDuration}}"
+                    <input class="form-control" name="duration" value="{{form.duration}}"
                         placeholder="Course Duration">
                 </div>
                 <div class="col-lg-1">
@@ -53,9 +53,9 @@
                     {% for e in pageList %}
                     <tr>
                         <td>{{e.id}}</td>
-                        <td>{{e.courseName}}</td>
-                        <td>{{e.courseDescription}}</td>
-                        <td>{{e.courseDuration}}</td>
+                        <td>{{e.name}}</td>
+                        <td>{{e.description}}</td>
+                        <td>{{e.duration}}</td>
                         <td><a href="/ORS/Course/{{e.id}}">
                                 <font data-target="#update" data-toggle="modal" class="btn btn-primary">
                                     <i class="fas fa-edit"></i></font>

@@ -60,9 +60,9 @@ class CourseCtl():
         pk = int(request["id"])
         if(pk>0):
             obj.id = pk
-        obj.courseName = request["courseName"]
-        obj.courseDescription = request["courseDescription"]
-        obj.courseDuration=request["courseDuration"] 
+        obj.name = request["name"]
+        obj.description = request["description"]
+        obj.duration=request["duration"] 
         return obj
 
     def save(self,request, params = {}):        

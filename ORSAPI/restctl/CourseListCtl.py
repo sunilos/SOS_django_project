@@ -10,9 +10,9 @@ from service.service.CourseService import CourseService
 class CourseListCtl(BaseCtl):
 
     def request_to_form(self,requestForm):
-        self.form["courseName"] = requestForm.get( "courseName", None)
-        self.form["courseDescription"] =  requestForm.get( "courseDescription", None) 
-        self.form["courseDuration"] =  requestForm.get( "courseDuration", None) 
+        self.form["name"] = requestForm.get( "name", None)
+        self.form["description"] =  requestForm.get( "description", None) 
+        self.form["duration"] =  requestForm.get( "duration", None) 
 
 
     def display(self,request,params={}):
