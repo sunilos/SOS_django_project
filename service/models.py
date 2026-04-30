@@ -1,12 +1,16 @@
 from django.db import models
 from abc import ABCMeta, abstractmethod
 
+
 class ModelABCMeta(type(models.Model), ABCMeta):
     """Combined metaclass resolving the conflict between Django's ModelBase and ABCMeta."""
+
     pass
+
 
 class DropdownItem(metaclass=ModelABCMeta):
     """Mixin that enforces a standard key/value interface for dropdown lists."""
+
     @abstractmethod
     def get_key(self):
         pass
@@ -15,10 +19,11 @@ class DropdownItem(metaclass=ModelABCMeta):
     def get_value(self):
         pass
 
+
 # Create your models here.
 class Role(models.Model, DropdownItem):
     name = models.CharField(max_length=100)
-    description =  models.CharField(max_length=500)
+    description = models.CharField(max_length=500)
 
     def get_key(self):
         return self.id
@@ -29,16 +34,17 @@ class Role(models.Model, DropdownItem):
     class Meta:
         db_table = "SOS_ROLE"
 
+
 class User(models.Model, DropdownItem):
     firstName = models.CharField(max_length=50)
     lastName = models.CharField(max_length=50)
-    login =  models.EmailField()
+    login = models.EmailField()
     password = models.CharField(max_length=20)
     dob = models.DateField(null=True, blank=True)
-    role_id=models.IntegerField()
+    role_id = models.IntegerField()
     role_Name = models.CharField(max_length=50)
     mobileNumber = models.CharField(max_length=15)
-    gender = models.CharField(max_length=10, default='Male')
+    gender = models.CharField(max_length=10, default="Male")
 
     def get_key(self):
         return self.id
@@ -49,94 +55,138 @@ class User(models.Model, DropdownItem):
     class Meta:
         db_table = "SOS_USER"
 
-class College(models.Model):
+
+class College(models.Model, DropdownItem):
     name = models.CharField(max_length=50)
     address = models.CharField(max_length=50)
     state = models.CharField(max_length=50)
     city = models.CharField(max_length=20)
     phoneNumber = models.CharField(max_length=20)
 
-    class Meta:  
-        db_table = "SOS_COLLEGE"          
+    def get_key(self):
+        return self.id
+
+    def get_value(self):
+        return self.name
+
+    class Meta:
+        db_table = "SOS_COLLEGE"
+
 
 class BaseModel(models.Model):
     def to_json(self):
-        data={}
+        data = {}
         return data
 
 
-class Course(models.Model):
+class Course(models.Model, DropdownItem):
     name = models.CharField(max_length=50)
     description = models.CharField(max_length=100)
     duration = models.CharField(max_length=100)
+
+    def get_key(self):
+        return self.id
+
+    def get_value(self):
+        return self.name
+
     def to_json(self):
-        data={
-        "id":self.id,
-        "name":self.name,
-        "description":self.description,
-        "duration":self.duration
+        data = {
+            "id": self.id,
+            "name": self.name,
+            "description": self.description,
+            "duration": self.duration,
         }
         return data
 
-    class Meta:  
-        db_table = "SOS_COURSE"          
+    class Meta:
+        db_table = "SOS_COURSE"
 
-class Faculty(models.Model):  
-    firstName = models.CharField(max_length=50)  
-    lastName = models.CharField(max_length=50)  
-    email =  models.EmailField()
+
+class Faculty(models.Model, DropdownItem):
+    firstName = models.CharField(max_length=50)
+    lastName = models.CharField(max_length=50)
+    email = models.EmailField()
     password = models.CharField(max_length=20)
-    mobileNumber=models.CharField(max_length=20)
+    mobileNumber = models.CharField(max_length=20)
     address = models.CharField(max_length=50)
-    gender = models.CharField(max_length=50) 
-    dob = models.DateField()
-    college_ID=models.IntegerField() 
-    collegeName = models.CharField(max_length=50) 
-    subject_ID=models.IntegerField() 
-    subjectName = models.CharField(max_length=50) 
-    course_ID=models.IntegerField() 
+    gender = models.CharField(max_length=50)
+    dob = models.DateField(null=True, blank=True)
+    college_ID = models.IntegerField()
+    collegeName = models.CharField(max_length=50)
+    subject_ID = models.IntegerField()
+    subjectName = models.CharField(max_length=50)
+    course_ID = models.IntegerField()
     courseName = models.CharField(max_length=50)
-    class Meta:  
+
+    def get_key(self):
+        return self.id
+
+    def get_value(self):
+        return f"{self.firstName} {self.lastName}"
+
+    class Meta:
         db_table = "SOS_FACULTY"
-          
-class Marksheet(models.Model):  
-    rollNumber = models.CharField(max_length=50)  
-    name = models.CharField(max_length=50)  
-    physics=models.IntegerField() 
-    chemistry=models.IntegerField() 
-    maths=models.IntegerField()
-    student_ID=models.IntegerField() 
-    class Meta:  
+
+
+class Marksheet(models.Model):
+    rollNumber = models.CharField(max_length=50)
+    name = models.CharField(max_length=50)
+    physics = models.IntegerField()
+    chemistry = models.IntegerField()
+    maths = models.IntegerField()
+    student_id = models.IntegerField()
+
+    @property
+    def total(self):
+        return self.physics + self.chemistry + self.maths
+
+    @property
+    def percentage(self):
+        return round((self.total / 300) * 100, 2)
+
+    class Meta:
         db_table = "SOS_MARKSHEET"
 
-class Student(models.Model):  
-    firstName = models.CharField(max_length=50)  
-    lastName = models.CharField(max_length=50)  
-    dob = models.DateField()
-    mobileNumber=models.CharField(max_length=20)
-    email =  models.EmailField()
-    college_ID=models.IntegerField()
+
+class Student(models.Model, DropdownItem):
+    firstName = models.CharField(max_length=50)
+    lastName = models.CharField(max_length=50)
+    dob = models.DateField(null=True, blank=True)
+    mobileNumber = models.CharField(max_length=20)
+    email = models.EmailField()
+    college_ID = models.IntegerField()
     collegeName = models.CharField(max_length=50)
+
+    def get_key(self):
+        return self.id
+
+    def get_value(self):
+        return f"{self.firstName} {self.lastName}"
+
     class Meta:
         db_table = "SOS_STUDENT"
 
-class Subject(models.Model):  
-    subjectName = models.CharField(max_length=50)  
-    subjectDescription = models.CharField(max_length=50)  
+
+class Subject(models.Model):
+    subjectName = models.CharField(max_length=50)
+    subjectDescription = models.CharField(max_length=50)
     dob = models.DateField()
-    course_ID=models.IntegerField()
+    course_ID = models.IntegerField()
     courseName = models.CharField(max_length=50)
-    class Meta:  
+
+    class Meta:
         db_table = "SOS_SUBJECT"
 
 
-class TimeTable(models.Model):  
+class TimeTable(models.Model):
     examTime = models.DateTimeField()
     examDate = models.DateField()
-    subject_ID=models.IntegerField() 
-    subjectName = models.CharField(max_length=50) 
-    course_ID=models.IntegerField() 
+    subject_ID = models.IntegerField()
+    subjectName = models.CharField(max_length=50)
+    course_ID = models.IntegerField()
     courseName = models.CharField(max_length=50)
     semester = models.CharField(max_length=50)
-    class Meta:  
+
+    class Meta:
         db_table = "SOS_TIMETABLE"

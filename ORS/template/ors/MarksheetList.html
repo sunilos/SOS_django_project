@@ -1,71 +1,82 @@
-{% include  "./Header.html"%}
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <title>Document</title>
-</head>
-<body>
-    <div class="container">
+{% include "./Header.html"%}
+<br>
+<div class="container">
+    <form method="POST">
         <div>
-            <H2>Marksheet</H2>
+            <H2>Marksheet List</H2>
         </div>
-        <form method="POST">
-            <div class="form-group row">
-                <div class="col-lg-3">
-                    <input class="form-control" name="rollNumber" value="{{form.rollNumber}}" placeholder="RolleNo">
-                </div>
-                <div class="col-lg-3">
-                    <input class="form-control" name="name" value="{{form.name}}" placeholder="Name">
-                </div>
-                <div class="col-lg-1">
-                    <button class="btn btn-primary" ng-click="search()">Search
-                        <i class="fas fa-search"></i>
-                    </button>
-                </div>
-                <div class="offset-lg-4">
-                    <a href="/ORS/Marksheet">
-                        <font class="btn btn-success" data-target="#update" data-toggle="modal">Add
-                            <i class="fas fa-plus-circle"></i>
-                        </font>
-                    </a>
-                </div>
+        <div class="form-group row">
+            <div class="col-lg-2">
+                <input class="form-control" name="rollNumber" value="{{form.rollNumber}}" placeholder="Roll No">
             </div>
-        </form>
-        <div class="row">
-            <div class="col-md-12">
-                <table class="table table-sm table-bordered table-hover table-responsive-sm">
-                    <thead class="thead-dark">
-                        <th scope="row">#</th>
-                        <th scope="row">Roll No </th>
-                        <th scope="row">Name</th>
-                        <th scope="row">Physics </th>
-                        <th scope="row">Chemistry </th>
-                        <th scope="row">Maths </th>
-                        <th scope="row">Action</th>
-                    </thead>
-                    <tbody>
-                        {% for e in pageList %}
-                        <tr>
-                            <td>{{e.id}}</td>
-                            <td>{{e.rollNumber}}</td>
-                            <td>{{e.name}}</td>
-                            <td>{{e.physics}}</td>
-                            <td>{{e.chemistry}}</td>
-                            <td>{{e.maths}}</td>
-                            <td><a href="/ORS/Marksheet/{{e.id}}">
-                                    <font type="button" ng-click="display(data.id)" data-target="#update"
-                                        data-toggle="modal" class="btn btn-primary">
-                                        <i class="fas fa-edit">
-                                        </i>
-                                    </font>
-                                </a></td>
-                        </tr>
-                        {% endfor %}
-
-                    </tbody>
-                </table>
+            <div class="col-lg-2">
+                <input class="form-control" name="name" value="{{form.name}}" placeholder="Name">
             </div>
-</body>
+            <div class="col-lg-2">
+                <input class="form-control" name="student_id" value="{{form.student_id}}" placeholder="Student ID">
+            </div>
+            <div class="col-lg-1">
+                <button class="btn btn-primary" type="submit">Search
+                    <i class="fas fa-search"></i>
+                </button>
+            </div>
+            <div class="offset-lg-4">
+                <a href="/ORS/Marksheet">
+                    <font class="btn btn-success" data-target="#update" data-toggle="modal">ADD <i class="fas fa-plus-circle"></i></font>
+                </a>
+            </div>
+        </div>
+    </form>
 
-</html>
-{% include  "./Footer.html"%}
+
+    <div class="row">
+        <div class="col-md-12">
+            <table class="table table-sm table-bordered table-hover table-responsive-sm">
+                <thead class="thead-dark">
+                    <th scope="row">#</th>
+                    <th scope="row">ROLL_NO
+                    </th>
+                    <th scope="row">NAME
+                    </th>
+                    <th scope="row">PHYSICS
+                    </th>
+                    <th scope="row">CHEMISTRY
+                    </th>
+                    <th scope="row">MATHS
+                    </th>
+                    <th scope="row">Total
+                    </th>
+                    <th scope="row">%
+                    </th>
+                    <th scope="row">ACTION</th>
+
+                </thead>
+                <tbody>
+                    {% for e in pageList %}
+                    <tr>
+                        <td>{{e.id}}</td>
+                        <td>{{e.rollNumber}}</td>
+                        <td><a href="/ORS/Student/{{e.student_id}}">{{e.name}}</a></td>
+                        <td>{{e.physics}}</td>
+                        <td>{{e.chemistry}}</td>
+                        <td>{{e.maths}}</td>
+                        <td>{{e.total}}</td>
+                        <td>{{e.percentage}}%</td>
+                        <td>    
+                            <a href="/ORS/Marksheet/{{e.id}}">
+                                <font data-target="#update" data-toggle="modal" class="btn btn-primary">
+                                    <i class="fas fa-edit"></i>
+                                </font>
+                            </a>
+                            <a href="/ORS/MarksheetList/delete/{{e.id}}">
+                                <font data-target="#update" data-toggle="modal" class="btn btn-danger">
+                                    <i class="fas fa-trash"></i>
+                                </font>
+                            </a>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+        {% include "./Footer.html"%}

@@ -1,27 +1,25 @@
-{% include  "./Header.html"%}
+{% include "./Header.html"%}
+
 <div class="container">
-    <div>
-        <H2>Student </H2>
-    </div>
-    <div class="modal-dialog" role="document">
+    <div class="modal-dialog">
+        {% if form.error %}
+        <p style="color: red;"> {{form.message}}</p>
+        {% else %}
+        <p style="color: green;"> {{form.message}}</p>
+        {% endif %}
+
         <div class="modal-content">
             <div class="modal-header text-center">
-                <h4 class="modal-title w-100 font-weight-bold">Student Information</h4>
+                <h4 class="modal-title ">Student Information</h4>
             </div>
-            <div class="modal-body">
-                {% if form.error  %}
-                <p style="color: red;"> {{form.message}}</p>
-                {% else %}
-                <p style="color: green;"> {{form.message}}</p>
-                {% endif %}
-
-                <form method="POST">
-                    <input type="hidden" name="id" value="{{form.id}}">
+            <form method="POST">
+                <input type="hidden" name="id" value="{{form.id}}">
+                <div class="modal-body">
                     <div class="form-group row">
                         <label class="col-lg-3 form-control-label">First Name * </label>
                         <div class="col-lg-9">
-                            <input class="form-control" name="firstName" value="{{form.firstName}}">
-                            <span style="color: red;"> {{form.inputError.firstName}}</span>
+                            <input name="firstName" value="{{form.firstName}}" class="form-control">
+                            <span style="color: red;"> {{form.inputError.firstName}} </span>
                         </div>
                     </div>
                     <div class="form-group row">
@@ -29,62 +27,52 @@
                         <div class="col-lg-9">
                             <input class="form-control" name="lastName" value="{{form.lastName}}">
                             <span style="color: red;"> {{form.inputError.lastName}} </span>
-
                         </div>
                     </div>
                     <div class="form-group row">
-                        <label class="col-lg-3 form-control-label">College </label>
+                        <label class="col-lg-3 form-control-label">College * </label>
                         <div class="col-lg-9">
-                            <select class="form-control" name="college_ID">
-                                {% for form in collegeList %}
-                                <option value="{{form.id}}">{{form.id}}</option>
-                                {% endfor %}
-                            </select>
+                            {{ preload_data.college_select|safe }}
+                            <span style="color: red;"> {{form.inputError.college_ID}} </span>
                         </div>
                     </div>
                     <div class="form-group row">
-                        <label class="col-lg-3 form-control-label">College Name * </label>
+                        <label class="col-lg-3 form-control-label">Date Of Birth * </label>
                         <div class="col-lg-9">
-                            <input class="form-control" name="collegeName" value="{{form.collegeName}}">
-                            <span style="color: red;"> {{form.inputError.collegeName}} </span>
-
-                        </div>
-                    </div>
-
-                    <div class="form-group row">
-                        <label class="col-lg-3 form-control-label">Date Of Birth </label>
-                        <div class="col-lg-9">
-                            <input style="cursor: pointer" type="date" class="form-control" name="dob"
-                                value="{{form.dob}}">
+                            <input style="cursor: pointer" type="date" name="dob" value="{{form.dob}}" class="form-control" placeholder="DD-MM-YYYY" />
                             <span style="color: red;"> {{form.inputError.dob}} </span>
                         </div>
                     </div>
                     <div class="form-group row">
-                        <label class="col-lg-3 form-control-label">Mobile </label>
+                        <label class="col-lg-3 form-control-label">Mobile * </label>
                         <div class="col-lg-9">
                             <input class="form-control" name="mobileNumber" value="{{form.mobileNumber}}">
-                            <span style="color: red;"> {{form.inputError.mobileNumber}} </span></div>
+                            <span style="color: red;"> {{form.inputError.mobileNumber}} </span>
+                        </div>
                     </div>
                     <div class="form-group row">
-                        <label class="col-lg-3 form-control-label">Email </label>
+                        <label class="col-lg-3 form-control-label">Email * </label>
                         <div class="col-lg-9">
                             <input class="form-control" name="email" value="{{form.email}}">
                             <span style="color: red;"> {{form.inputError.email}} </span>
                         </div>
                     </div>
+
                     <div class="form-group row">
                         <div class="col-lg-12">
-                            <button type="submit" class="btn btn-primary form-control">Save
-                                <span class="fas fa-paper-plane"></span>
-                            </button>
-                            <a href="/ORS/StudentList"> List </a>
+                            <button type="submit" class="btn btn-primary"><i class="fas fa-save"></i> Save</button>
+                            <a href="/ORS/StudentList" class="btn btn-secondary"><i class="fas fa-list"></i> List</a> {% if form.id %}
+                            <a href="/ORS/StudentList/delete/{{form.id}}" class="btn btn-danger">
+                                <i class="fas fa-trash"></i> Delete
+                            </a>
+                            {% endif %}
                         </div>
                     </div>
-            </div>
+                </div>
             </form>
         </div>
     </div>
 </div>
+
+{% include "./Footer.html"%}
 </div>
-</div>
-{% include  "./Footer.html"%}

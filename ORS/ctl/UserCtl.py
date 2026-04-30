@@ -1,3 +1,4 @@
+from datetime import datetime
 from django.db.models.manager import BaseManager
 from django.shortcuts import render, redirect
 from service.utility.DataValidator import DataValidator
@@ -65,7 +66,11 @@ class UserCtl(BaseCtl):
         obj.lastName = self.form.get("lastName", "")
         obj.login = self.form.get("login", "")
         obj.password = self.form.get("password", "")
-        obj.dob = self.form.get("dob") or None
+        obj.dob = (
+            datetime.strptime(self.form.get("dob"), "%Y-%m-%d").date()
+            if self.form.get("dob")
+            else None
+        )
         obj.mobileNumber = self.form.get("mobileNumber", "")
         obj.gender = self.form.get("gender", "")
         obj.role_id = self.form.get("role_id", 0)

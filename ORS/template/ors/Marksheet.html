@@ -1,76 +1,64 @@
-{% include  "./Header.html"%}
+{% include "./Header.html"%}
+
 <div class="container">
-    <div>
-    </div>
-    <div class="modal-dialog" role="document">
+    <div class="modal-dialog">
+        {% if form.error %}
+        <p style="color: red;"> {{form.message}}</p>
+        {% else %}
+        <p style="color: green;"> {{form.message}}</p>
+        {% endif %}
+
         <div class="modal-content">
             <div class="modal-header text-center">
                 <h4 class="modal-title ">Marksheet Information</h4>
             </div>
-            <form class="form" method="POST">
-
-                {% if form.error  %}
-                <p style="color: red;"> {{form.message}}</p>
-                {% else %}
-                <p style="color: green;"> {{form.message}}</p>
-                {% endif %}
+            <form method="POST">
+                <input type="hidden" name="id" value="{{form.id}}">
                 <div class="modal-body">
-                    <input type="hidden" name="id" value="{{form.id}}">
-
                     <div class="form-group row">
                         <label class="col-lg-3 form-control-label">Roll No * </label>
                         <div class="col-lg-9">
-                            <input class="form-control" name="rollNumber" value="{{form.rollNumber}}">
+                            <input name="rollNumber" value="{{form.rollNumber}}" class="form-control">
                             <span style="color: red;"> {{form.inputError.rollNumber}} </span>
                         </div>
                     </div>
                     <div class="form-group row">
-                        <label class="col-lg-3 form-control-label">Name * </label>
+                        <label class="col-lg-3 form-control-label">Student </label>
                         <div class="col-lg-9">
-                            <input class="form-control" name="name" value="{{form.name}}">
-                            <span style="color: red;"> {{form.inputError.name}} </span>
+                            {{ preload_data.student_select|safe }}
                         </div>
                     </div>
                     <div class="form-group row">
-                        <label class="col-lg-3 form-control-label">Physics *</label>
+                        <label class="col-lg-3 form-control-label">Physics * </label>
                         <div class="col-lg-9">
                             <input class="form-control" type="number" name="physics" value="{{form.physics}}">
                             <span style="color: red;"> {{form.inputError.physics}} </span>
                         </div>
                     </div>
                     <div class="form-group row">
-                        <label class="col-lg-3 form-control-label">Chemistry *</label>
+                        <label class="col-lg-3 form-control-label">Chemistry * </label>
                         <div class="col-lg-9">
                             <input class="form-control" type="number" name="chemistry" value="{{form.chemistry}}">
                             <span style="color: red;"> {{form.inputError.chemistry}} </span>
                         </div>
                     </div>
                     <div class="form-group row">
-                        <label class="col-lg-3 form-control-label">Maths *</label>
+                        <label class="col-lg-3 form-control-label">Maths * </label>
                         <div class="col-lg-9">
                             <input class="form-control" type="number" name="maths" value="{{form.maths}}">
                             <span style="color: red;"> {{form.inputError.maths}} </span>
                         </div>
                     </div>
-                    <div class="form-group row">
-                        <label class="col-lg-3 col-form-label form-control-label">Student</label>
-                        <div class="col-lg-9">
-                            <select class="form-control" name="student_ID">
-                                {% for form in studentList %}
-                                <option value="{{form.id}}">{{form.id}}</option>
-                                {% endfor %}
-                            </select>
-                        </div>
-                    </div>
+
 
                     <div class="form-group row">
                         <div class="col-lg-12">
-                            <button type="submit" class="btn btn-primary form-control">Save
-                                <span class="fas fa-paper-plane"></span>
-                            </button>
-
-                            <a href="/ORS/MarksheetList"> List </a>
-
+                            <button type="submit" class="btn btn-primary"><i class="fas fa-save"></i> Save</button>
+                            <a href="/ORS/MarksheetList" class="btn btn-secondary"><i class="fas fa-list"></i> List</a> {% if form.id %}
+                            <a href="/ORS/MarksheetList/delete/{{form.id}}" class="btn btn-danger">
+                                <i class="fas fa-trash"></i> Delete
+                            </a>
+                            {% endif %}
                         </div>
                     </div>
                 </div>
@@ -78,6 +66,6 @@
         </div>
     </div>
 </div>
+
+{% include "./Footer.html"%}
 </div>
-</div>
-{% include  "./Footer.html"%}

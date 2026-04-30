@@ -40,8 +40,7 @@
                     <div class="form-group row">
                         <div class="col-lg-12">
                             <button type="submit" class="btn btn-primary"><i class="fas fa-save"></i> Save</button>
-                            <a href="/ORS/CourseList" class="btn btn-secondary"><i class="fas fa-list"></i> List</a>
-                            {% if form.id %}
+                            <a href="/ORS/CourseList" class="btn btn-secondary"><i class="fas fa-list"></i> List</a> {% if form.id %}
                             <a href="/ORS/CourseList/delete/{{form.id}}" class="btn btn-danger">
                                 <i class="fas fa-trash"></i> Delete
                             </a>
