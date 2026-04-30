@@ -8,17 +8,16 @@ class BaseCtl(ABC):
     
     
 
-    #Contains list of objects, it will be displayed at list page
-    page_list = {}
-
     def __init__(self):
         """Initialize controller attributes with default form values."""
-        self.form = {}
-        self.form["id"] = 0
-        self.form["message"] = ""
-        self.form["error"] = False
-        self.form["inputError"] = {}
-        self.preload_data = {} #Contains preload data
+        self.page_list = []
+        self.preload_data = {}
+        self.form = {
+            "id": 0,
+            "message": "",
+            "error": False,
+            "inputError": {},
+        }
 
     def preload(self, request):
         """Load preload data required by the page before rendering."""

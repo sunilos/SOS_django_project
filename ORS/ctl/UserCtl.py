@@ -22,15 +22,15 @@ class UserCtl(BaseCtl):
 
     def request_to_form(self, requestForm):
         """Populate form dictionary from HTTP POST request data."""
-        self.form["id"] = requestForm["id"]
-        self.form["firstName"] = requestForm["firstName"]
-        self.form["lastName"] = requestForm["lastName"]
-        self.form["login"] = requestForm["login"]
-        self.form["password"] = requestForm["password"]
-        self.form["dob"] = requestForm.get("dob","")
-        self.form["mobileNumber"] = requestForm["mobileNumber"]
-        self.form["gender"] = requestForm["gender"]
-        self.form["role_id"] = requestForm.get("role_id", "")
+        self.form["id"] = requestForm.get("id", 0)
+        self.form["firstName"] = requestForm.get("firstName", "")
+        self.form["lastName"] = requestForm.get("lastName", "")
+        self.form["login"] = requestForm.get("login", "")
+        self.form["password"] = requestForm.get("password", "")
+        self.form["dob"] = requestForm.get("dob", "")
+        self.form["mobileNumber"] = requestForm.get("mobileNumber", "")
+        self.form["gender"] = requestForm.get("gender", "")
+        self.form["role_id"] = requestForm.get("role_id", 0)
 
     def model_to_form(self, obj):
         """Populate form dictionary from a User model instance."""
@@ -50,39 +50,39 @@ class UserCtl(BaseCtl):
 
     def form_to_model(self, obj):
         """Populate a User model instance from the form dictionary and return it."""
-        pk = int(self.form["id"])
+        pk = int(self.form.get("id", 0))
         if pk > 0:
             obj.id = pk
-        obj.firstName = self.form["firstName"]
-        obj.lastName = self.form["lastName"]
-        obj.login = self.form["login"]
-        obj.password = self.form["password"]
-        obj.dob = self.form["dob"] or None
-        obj.mobileNumber = self.form["mobileNumber"]
-        obj.gender = self.form["gender"]
-        obj.role_id = self.form["role_id"]
+        obj.firstName = self.form.get("firstName", "")
+        obj.lastName = self.form.get("lastName", "")
+        obj.login = self.form.get("login", "")
+        obj.password = self.form.get("password", "")
+        obj.dob = self.form.get("dob") or None
+        obj.mobileNumber = self.form.get("mobileNumber", "")
+        obj.gender = self.form.get("gender", "")
+        obj.role_id = self.form.get("role_id", 0)
         return obj
 
     def input_validation(self):
         """Validate required fields and populate inputError messages. Returns True if any error exists."""
         super().input_validation()
-        inputError = self.form["inputError"]
-        if DataValidator.isNull(self.form["firstName"]):
-            inputError["firstName"] = "Name can not be null"
+        inputError = self.form.get("inputError", {})
+        if DataValidator.isNull(self.form.get("firstName")):
+            inputError["firstName"] = "First Name can not be null"
             self.form["error"] = True
-        if DataValidator.isNull(self.form["lastName"]):
+        if DataValidator.isNull(self.form.get("lastName")):
             inputError["lastName"] = "Last Name can not be null"
             self.form["error"] = True
-        if DataValidator.isNull(self.form["login"]):
+        if DataValidator.isNull(self.form.get("login")):
             inputError["login"] = "Login can not be null"
             self.form["error"] = True
-        if DataValidator.isNull(self.form["password"]):
+        if DataValidator.isNull(self.form.get("password")):
             inputError["password"] = "Password can not be null"
             self.form["error"] = True
-        if DataValidator.isNull(self.form["mobileNumber"]):
-            inputError["mobileNumber"] = "mobileNumber can not be null"
+        if DataValidator.isNull(self.form.get("mobileNumber")):
+            inputError["mobileNumber"] = "Mobile Number can not be null"
             self.form["error"] = True
-        return self.form["error"]
+        return self.form.get("error", False)
 
     def _get_role_select(self):
         """Generate the Role dropdown HTML using HtmlUtility."""

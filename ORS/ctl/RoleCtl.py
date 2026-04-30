@@ -11,8 +11,8 @@ class RoleCtl(BaseCtl):
     #Populate Form from HTTP Request 
     def request_to_form(self,requestForm):
         self.form["id"]  = requestForm.get("id", 0)
-        self.form["name"] = requestForm["name"]
-        self.form["description"] = requestForm["description"]
+        self.form["name"] = requestForm.get("name", "")
+        self.form["description"] = requestForm.get("description", "")
 
     #Populate Form from Model 
     def model_to_form(self,obj):
@@ -24,11 +24,11 @@ class RoleCtl(BaseCtl):
 
     #Convert form into module
     def form_to_model(self,obj):
-        pk = int(self.form["id"])
+        pk = int(self.form.get("id", 0))
         if(pk>0):
             obj.id = pk
-        obj.name = self.form["name"]
-        obj.description = self.form["description"]
+        obj.name = self.form.get("name", "")
+        obj.description = self.form.get("description", "")
         return obj
 
     #Validate form 
