@@ -34,7 +34,7 @@ class User(models.Model, DropdownItem):
     lastName = models.CharField(max_length=50)
     login =  models.EmailField()
     password = models.CharField(max_length=20)
-    dob = models.DateField(default='2000-01-01')
+    dob = models.DateField(null=True, blank=True)
     role_id=models.IntegerField()
     role_Name = models.CharField(max_length=50)
     mobileNumber = models.CharField(max_length=15)

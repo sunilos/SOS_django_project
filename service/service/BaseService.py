@@ -18,14 +18,14 @@ class BaseService(ABC):
         except self.get_model().DoesNotExist :
             return None
 
-    def save(self,role):
-        if(role.id == 0):
-            role.id = None
-        role.save()
+    def save(self, obj):
+        if(obj.id == 0):
+            obj.id = None
+        obj.save()
         
        
-    def delete(self,rid):
-        r = self.get(rid)
+    def delete(self,id):
+        r = self.get(id)
         r.delete()       
 
     def find_by_unique_key(self, rid):

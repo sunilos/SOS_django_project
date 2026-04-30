@@ -58,14 +58,9 @@
                     </div>
                 </div>
                 <div class="form-group row">
-                    <label class="col-lg-3 form-control-label">Role_ID </label>
+                    <label class="col-lg-3 form-control-label">Role </label>
                     <div class="col-lg-9">
-                        <select class="form-control" name="role_ID">
-                            <option value="0">--Select--</option>
-                            {% for role in roleList %}
-                            <option value="{{role.id}}" {% if form.role_ID|stringformat:"s" == role.id|stringformat:"s" %}selected{% endif %}>{{role.name}}</option>
-                            {% endfor %}
-                        </select>
+                        {{ role_select|safe }}
                     </div>
                 </div>
                 <div class="form-group row">
@@ -82,10 +77,13 @@
 
                 <div class="form-group row">
                     <div class="col-lg-12">
-                        <button type="submit" class="btn btn-primary form-control">Save
-                            <span class="fas fa-paper-plane"></span>
-                        </button>
-                        <a href="/ORS/UserList"> List </a>
+                        <button type="submit" class="btn btn-primary"><i class="fas fa-save"></i> Save</button>
+                        <a href="/ORS/UserList" class="btn btn-secondary"><i class="fas fa-list"></i> List</a>
+                        {% if form.id %}
+                        <a href="/ORS/UserList/delete/{{form.id}}" class="btn btn-danger">
+                            <i class="fas fa-trash"></i> Delete
+                        </a>
+                        {% endif %}
                     </div>
                 </div>
             </div>

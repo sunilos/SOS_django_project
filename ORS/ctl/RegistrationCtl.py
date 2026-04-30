@@ -21,7 +21,7 @@ class RegistrationCtl(BaseCtl):
         self.form["dob"] = requestForm["dob"]
         self.form["mobileNumber"] = requestForm["mobileNumber"]
         self.form["gender"] = requestForm["gender"]
-        self.form["role_ID"] =2
+        self.form["role_id"] =2
 
     #Populate Form from Model 
     def model_to_form(self,obj):
@@ -35,7 +35,7 @@ class RegistrationCtl(BaseCtl):
         self.form["dob"] = obj.dob
         self.form["mobileNumber"] = obj.mobileNumber
         self.form["gender"] = obj.gender
-        self.form["role_ID"] = obj.role_ID
+        self.form["role_id"] = obj.role_id
 
 
     #Convert form into module
@@ -50,7 +50,7 @@ class RegistrationCtl(BaseCtl):
         obj.dob = self.form["dob"]
         obj.mobileNumber = self.form["mobileNumber"]
         obj.gender = self.form["gender"]
-        obj.role_ID = self.form["role_ID"]
+        obj.role_id = self.form["role_id"]
         return obj
 
     #Validate form 
