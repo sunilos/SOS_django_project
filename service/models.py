@@ -107,7 +107,6 @@ class Faculty(models.Model, DropdownItem):
     firstName = models.CharField(max_length=50)
     lastName = models.CharField(max_length=50)
     email = models.EmailField()
-    password = models.CharField(max_length=20)
     mobileNumber = models.CharField(max_length=20)
     address = models.CharField(max_length=50)
     gender = models.CharField(max_length=50)

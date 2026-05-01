@@ -17,6 +17,7 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 ORS_TEMPLATE = os.path.join(BASE_DIR,"ORS/template")
 TEST_TEMPLATE = os.path.join(BASE_DIR,"Test/template")
 ORSAPI_TEMPLATE = os.path.join(BASE_DIR,"ORSAPI/template")
+ROOT_TEMPLATE = os.path.join(BASE_DIR,"templates")
 
 
 # Quick-start development settings - unsuitable for production
@@ -64,14 +65,14 @@ CORS_ORIGIN_WHITELIST = [
     "https://localhost:4200",
 ]
 
-SESSION_SERIALIZER = 'django.contrib.sessions.serializers.PickleSerializer'
+SESSION_SERIALIZER = 'django.contrib.sessions.serializers.JSONSerializer'
 
 ROOT_URLCONF = 'SOS_django_projects.urls'
 
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [ORS_TEMPLATE, TEST_TEMPLATE,ORSAPI_TEMPLATE],
+        'DIRS': [ROOT_TEMPLATE, ORS_TEMPLATE, TEST_TEMPLATE, ORSAPI_TEMPLATE],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -142,5 +143,9 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/3.0/howto/static-files/
 
 STATIC_URL = '/static/'
+
+STATICFILES_DIRS = [
+    os.path.join(BASE_DIR, 'static'),
+]
 
 

@@ -1,0 +1,152 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Rays — Online Result System</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" crossorigin="anonymous">
+    <script defer src="https://use.fontawesome.com/releases/v5.0.8/js/all.js"></script>
+    <style>
+        body { background-color: #f8f9fa; }
+        .navbar-brand img { height: 40px; }
+        .hero {
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 60%, #0f3460 100%);
+            color: white;
+            padding: 70px 0 60px;
+            text-align: center;
+        }
+        .hero-logo { height: 120px; margin-bottom: 20px; }
+        .hero h1 { font-size: 3rem; font-weight: 700; letter-spacing: 2px; }
+        .hero p  { font-size: 1.2rem; opacity: 0.85; margin-top: 10px; }
+        .section-card {
+            border: none;
+            border-radius: 10px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.08);
+            transition: transform 0.2s, box-shadow 0.2s;
+            height: 100%;
+        }
+        .section-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 25px rgba(0,0,0,0.15);
+        }
+        .card-icon { font-size: 2.5rem; margin-bottom: 12px; }
+        .card-title { font-weight: 600; font-size: 1.1rem; }
+        .btn-card { border-radius: 20px; font-size: 0.85rem; margin: 3px 2px; }
+        footer { background: #1a1a2e; color: #aaa; padding: 20px 0; text-align: center; font-size: 0.9rem; }
+        footer img { height: 28px; vertical-align: middle; margin-right: 8px; }
+    </style>
+</head>
+<body>
+
+<!-- Navbar -->
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+    <a class="navbar-brand" href="/">
+        <img src="{% static 'images/logo.png' %}" alt="Rays Logo">
+    </a>
+    <div class="collapse navbar-collapse">
+        <ul class="navbar-nav ml-auto">
+            <li class="nav-item">
+                <a class="nav-link" href="/ORS/Registration"><i class="fas fa-user-plus"></i> Register</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link btn btn-outline-light btn-sm mt-1 ml-2 px-3" href="/ORS/Login">
+                    <i class="fas fa-sign-in-alt"></i> Login
+                </a>
+            </li>
+        </ul>
+    </div>
+</nav>
+
+<!-- Hero -->
+<div class="hero">
+    <div class="container">
+        <img src="{% static 'images/logo.png' %}" alt="Rays Logo" class="hero-logo">
+        <h1>Rays</h1>
+        <p>Online Result &amp; Management System</p>
+        <a href="/ORS/Login" class="btn btn-light btn-lg mt-3 px-5">
+            <i class="fas fa-sign-in-alt"></i> Get Started
+        </a>
+    </div>
+</div>
+
+<!-- Feature Cards -->
+<div class="container my-5">
+    <div class="row text-center">
+
+        <!-- Auth -->
+        <div class="col-md-4 col-lg mb-4">
+            <div class="card section-card p-4">
+                <div class="card-icon text-secondary"><i class="fas fa-lock"></i></div>
+                <div class="card-title mb-2">Auth</div>
+                <p class="text-muted small">Manage access and accounts</p>
+                <div>
+                    <a href="/ORS/Registration" class="btn btn-outline-secondary btn-sm btn-card">Register</a>
+                    <a href="/ORS/Login"        class="btn btn-outline-secondary btn-sm btn-card">Login</a>
+                </div>
+            </div>
+        </div>
+
+        <!-- Administration -->
+        <div class="col-md-4 col-lg mb-4">
+            <div class="card section-card p-4">
+                <div class="card-icon text-primary"><i class="fas fa-users-cog"></i></div>
+                <div class="card-title mb-2">Administration</div>
+                <p class="text-muted small">Manage roles and users</p>
+                <div>
+                    <a href="/ORS/RoleList" class="btn btn-outline-primary btn-sm btn-card">Roles</a>
+                    <a href="/ORS/UserList" class="btn btn-outline-primary btn-sm btn-card">Users</a>
+                </div>
+            </div>
+        </div>
+
+        <!-- Institution -->
+        <div class="col-md-4 col-lg mb-4">
+            <div class="card section-card p-4">
+                <div class="card-icon text-success"><i class="fas fa-university"></i></div>
+                <div class="card-title mb-2">Institution</div>
+                <p class="text-muted small">Colleges and courses</p>
+                <div>
+                    <a href="/ORS/CollegeList" class="btn btn-outline-success btn-sm btn-card">Colleges</a>
+                    <a href="/ORS/CourseList"  class="btn btn-outline-success btn-sm btn-card">Courses</a>
+                </div>
+            </div>
+        </div>
+
+        <!-- People -->
+        <div class="col-md-4 col-lg mb-4">
+            <div class="card section-card p-4">
+                <div class="card-icon text-warning"><i class="fas fa-chalkboard-teacher"></i></div>
+                <div class="card-title mb-2">People</div>
+                <p class="text-muted small">Faculty and students</p>
+                <div>
+                    <a href="/ORS/FacultyList" class="btn btn-outline-warning btn-sm btn-card">Faculty</a>
+                    <a href="/ORS/StudentList" class="btn btn-outline-warning btn-sm btn-card">Students</a>
+                </div>
+            </div>
+        </div>
+
+        <!-- Academics -->
+        <div class="col-md-4 col-lg mb-4">
+            <div class="card section-card p-4">
+                <div class="card-icon text-danger"><i class="fas fa-file-alt"></i></div>
+                <div class="card-title mb-2">Academics</div>
+                <p class="text-muted small">Results and marksheets</p>
+                <div>
+                    <a href="/ORS/MarksheetList" class="btn btn-outline-danger btn-sm btn-card">Marksheets</a>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+<footer>
+    <img src="{% static 'images/logo.png' %}" alt="Rays Logo">
+    &copy; 2026 Rays &mdash; Online Result &amp; Management System
+</footer>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" crossorigin="anonymous"></script>
+</body>
+</html>

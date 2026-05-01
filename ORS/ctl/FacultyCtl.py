@@ -40,7 +40,6 @@ class FacultyCtl(BaseCtl):
         self.form["firstName"] = requestForm.get("firstName", "")
         self.form["lastName"] = requestForm.get("lastName", "")
         self.form["email"] = requestForm.get("email", "")
-        self.form["password"] = requestForm.get("password", "")
         self.form["mobileNumber"] = requestForm.get("mobileNumber", "")
         self.form["address"] = requestForm.get("address", "")
         self.form["gender"] = requestForm.get("gender", "")
@@ -56,7 +55,6 @@ class FacultyCtl(BaseCtl):
         self.form["firstName"] = obj.firstName
         self.form["lastName"] = obj.lastName
         self.form["email"] = obj.email
-        self.form["password"] = obj.password
         self.form["mobileNumber"] = obj.mobileNumber
         self.form["address"] = obj.address
         self.form["gender"] = obj.gender
@@ -72,7 +70,6 @@ class FacultyCtl(BaseCtl):
         obj.firstName = self.form.get("firstName", "")
         obj.lastName = self.form.get("lastName", "")
         obj.email = self.form.get("email", "")
-        obj.password = self.form.get("password", "")
         obj.mobileNumber = self.form.get("mobileNumber", "")
         obj.address = self.form.get("address", "")
         obj.gender = self.form.get("gender", "")
@@ -112,10 +109,6 @@ class FacultyCtl(BaseCtl):
             self.form["error"] = True
         elif not DataValidator.isEmail(self.form.get("email")):
             inputError["email"] = "Email must be a valid email address"
-            self.form["error"] = True
-
-        if DataValidator.isNull(self.form.get("password")):
-            inputError["password"] = "Password can not be null"
             self.form["error"] = True
 
         if DataValidator.isNull(self.form.get("mobileNumber")):
