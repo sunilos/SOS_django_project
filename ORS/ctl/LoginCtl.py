@@ -36,6 +36,9 @@ class LoginCtl(BaseCtl):
                 res = render(request,self.get_template(),{"form":self.form})
             else:
                 request.session["user"] = user.login
+                request.session["loginId"] = user.id
+                request.session["firstName"] = user.firstName
+                request.session["lastName"] = user.lastName
                 res = redirect('/ORS/Welcome')
         return res
 

@@ -13,16 +13,7 @@
     <div class="collapse navbar-collapse" id="navbarToggler">
         <ul class="navbar-nav mr-auto mt-2 mt-lg-0">
 
-            <!-- Auth -->
-            <li class="nav-item dropdown">
-                <a class="nav-link dropdown-toggle" href="#" id="authDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                    Auth
-                </a>
-                <div class="dropdown-menu" aria-labelledby="authDropdown">
-                    <a class="dropdown-item" href="/ORS/Registration">Registration</a>
-                    <a class="dropdown-item" href="/ORS/auth/Logout">Logout</a>
-                </div>
-            </li>
+            {% if request.session.user %}
 
             <!-- Administration -->
             <li class="nav-item dropdown">
@@ -77,6 +68,41 @@
                 </div>
             </li>
 
+            {% endif %}
+
         </ul>
+
+        <ul class="navbar-nav ml-auto mt-2 mt-lg-0">
+            {% if request.session.user %}
+            <!-- Logged-in user dropdown -->
+            <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    <i class="fas fa-user-circle"></i> {{ request.session.firstName }} {{ request.session.lastName }}
+                </a>
+                <div class="dropdown-menu dropdown-menu-right" aria-labelledby="userDropdown">
+                    <a class="dropdown-item" href="/ORS/auth/ChangePassword">
+                        <i class="fas fa-key"></i> Change Password
+                    </a>
+                    <div class="dropdown-divider"></div>
+                    <a class="dropdown-item" href="/ORS/auth/Logout">
+                        <i class="fas fa-sign-out-alt"></i> Logout
+                    </a>
+                </div>
+            </li>
+            {% else %}
+            <!-- Guest links -->
+            <li class="nav-item">
+                <a class="nav-link" href="/ORS/auth/Login">
+                    <i class="fas fa-sign-in-alt"></i> Login
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="/ORS/Registration">
+                    <i class="fas fa-user-plus"></i> Register
+                </a>
+            </li>
+            {% endif %}
+        </ul>
+
     </div>
 </nav>

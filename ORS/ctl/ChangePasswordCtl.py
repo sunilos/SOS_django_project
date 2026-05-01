@@ -1,81 +1,55 @@
-
-from django.http import HttpResponse
-from .BaseCtl import BaseCtl
 from django.shortcuts import render
 from ORS.utility.DataValidator import DataValidator
-from service.models import User
+from .BaseCtl import BaseCtl
 from service.service.ChangePasswordService import ChangePasswordService
 
-class ChangePasswordCtl(BaseCtl):    
-    #Populate Form from HTTP Request 
-    def request_to_form(self,requestForm):
-        self.form["id"]  = requestForm["id"]
-        self.form["newPassword"] = requestForm["newPassword"]
-        self.form["oldPassword"] = requestForm["newPassword"]
-        self.form["confirmPassword"] = requestForm["confirmPassword"]
- 
-    #Populate Form from Model 
-    def model_to_form(self,obj):
-        if (obj == None):
-            return
-        self.form["id"]  = obj.id
-        self.form["newPassword"] = obj.newPassword
-        self.form["oldPassword"] = obj.oldPassword
-        self.form["confirmPassword"] = obj.confirmPassword
 
-    #Convert form into module
-    def form_to_model(self,obj):
-        pk = int(self.form["id"])
-        if(pk>0):
-            obj.id = pk
-        obj.newPassword=self.form["newPassword"]
-        obj.oldPassword=self.form["oldPassword"] 
-        obj.confirmPassword=self.form["confirmPassword"]
-        return obj
+class ChangePasswordCtl(BaseCtl):
 
-    #Validate form 
+    def request_to_form(self, requestForm):
+        self.form["oldPassword"] = requestForm.get("oldPassword", "")
+        self.form["newPassword"] = requestForm.get("newPassword", "")
+        self.form["confirmPassword"] = requestForm.get("confirmPassword", "")
+
     def input_validation(self):
         super().input_validation()
-        inputError =  self.form["inputError"]
-        if(DataValidator.isNull(self.form["newPassword"])):
-            inputError["newPassword"] = "newPassword can not be null"
+        inputError = self.form["inputError"]
+        if DataValidator.isNull(self.form.get("oldPassword")):
+            inputError["oldPassword"] = "Old Password cannot be null"
             self.form["error"] = True
-
-        if(DataValidator.isNull(self.form["oldPassword"])):
-            inputError["oldPassword"] = "oldPassword can not be null"
+        if DataValidator.isNull(self.form.get("newPassword")):
+            inputError["newPassword"] = "New Password cannot be null"
             self.form["error"] = True
-
-        if(DataValidator.isNull(self.form["confirmPassword"])):
-            inputError["confirmPassword"] = "confirmPassword can not be null"
+        if DataValidator.isNull(self.form.get("confirmPassword")):
+            inputError["confirmPassword"] = "Confirm Password cannot be null"
             self.form["error"] = True
-        return self.form["error"]        
+        elif self.form.get("newPassword") != self.form.get("confirmPassword"):
+            inputError["confirmPassword"] = "New Password and Confirm Password do not match"
+            self.form["error"] = True
+        return self.form["error"]
 
-    #Display Change Password page 
-    def display(self,request,params={}):
-        if( params["id"] > 0):
-            r = self.get_service().get(params["id"])
-            self.model_to_form(r)
-        res = render(request,self.get_template(), {"form":self.form})
-        return res
+    def display(self, request, params={}):
+        return render(request, self.get_template(), {"form": self.form})
 
-    #Submit Change Password page
-    def submit(self,request,params={}):
-        user = request.session.get("user",None)
-        if(user is not None):
-            self.form["message"] = "Welcome " + user.login
-        self.form["id"] = r.id
+    def submit(self, request, params={}):
+        login_id = request.session.get("loginId")
+        user = self.get_service().get(login_id)
+        if user is None:
+            self.form["error"] = True
+            self.form["message"] = "Session expired. Please login again."
+            return render(request, self.get_template(), {"form": self.form})
+        if user.password != self.form.get("oldPassword"):
+            self.form["inputError"]["oldPassword"] = "Old Password is incorrect"
+            self.form["error"] = True
+            return render(request, self.get_template(), {"form": self.form})
+        user.password = self.form.get("newPassword")
+        self.get_service().save(user)
         self.form["error"] = False
-        self.form["message"] = "Data is saved"
-        res = render(request,self.get_template(),{"form":self.form})
-        return res
-        
-    # Template html of Change Password page    
+        self.form["message"] = "Password changed successfully"
+        return render(request, self.get_template(), {"form": self.form})
+
     def get_template(self):
-        return "ors/ChangePassword.html"          
+        return "ors/ChangePassword.html"
 
-    # Service of Role     
     def get_service(self):
-        return ChangePasswordService()        
-
-
-
+        return ChangePasswordService()
