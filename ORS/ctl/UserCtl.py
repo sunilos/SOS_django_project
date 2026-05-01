@@ -93,6 +93,12 @@ class UserCtl(BaseCtl):
             if not DataValidator.isEmail(self.form.get("login")):
                 inputError["login"] = "Login must be a valid email address"
                 self.form["error"] = True
+            else:
+                current_id = int(self.form.get("id") or 0)
+                duplicate = User.objects.filter(login=self.form.get("login")).exclude(id=current_id).exists()
+                if duplicate:
+                    inputError["login"] = "This email is already registered"
+                    self.form["error"] = True
 
         if DataValidator.isNull(self.form.get("password")):
             inputError["password"] = "Password can not be null"

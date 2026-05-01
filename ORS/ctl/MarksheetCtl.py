@@ -63,6 +63,12 @@ class MarksheetCtl(BaseCtl):
         if DataValidator.isNull(self.form.get("rollNumber")):
             inputError["rollNumber"] = "Roll Number can not be null"
             self.form["error"] = True
+        else:
+            current_id = int(self.form.get("id") or 0)
+            duplicate = Marksheet.objects.filter(rollNumber=self.form.get("rollNumber")).exclude(id=current_id).exists()
+            if duplicate:
+                inputError["rollNumber"] = "This Roll Number is already registered"
+                self.form["error"] = True
         if DataValidator.isNull(self.form.get("physics")):
             inputError["physics"] = "Physics can not be null"
             self.form["error"] = True

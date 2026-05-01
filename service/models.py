@@ -38,7 +38,7 @@ class Role(models.Model, DropdownItem):
 class User(models.Model, DropdownItem):
     firstName = models.CharField(max_length=50)
     lastName = models.CharField(max_length=50)
-    login = models.EmailField()
+    login = models.EmailField(unique=True)
     password = models.CharField(max_length=20)
     dob = models.DateField(null=True, blank=True)
     role_id = models.IntegerField()
@@ -128,13 +128,19 @@ class Faculty(models.Model, DropdownItem):
         db_table = "SOS_FACULTY"
 
 
-class Marksheet(models.Model):
-    rollNumber = models.CharField(max_length=50)
+class Marksheet(models.Model, DropdownItem):
+    rollNumber = models.CharField(max_length=50, unique=True)
     name = models.CharField(max_length=50)
     physics = models.IntegerField()
     chemistry = models.IntegerField()
     maths = models.IntegerField()
     student_id = models.IntegerField()
+
+    def get_key(self):
+        return self.id
+
+    def get_value(self):
+        return f"{self.name} - {self.rollNumber}"
 
     @property
     def total(self):
@@ -167,18 +173,24 @@ class Student(models.Model, DropdownItem):
         db_table = "SOS_STUDENT"
 
 
-class Subject(models.Model):
+class Subject(models.Model, DropdownItem):
     subjectName = models.CharField(max_length=50)
     subjectDescription = models.CharField(max_length=50)
     dob = models.DateField()
     course_ID = models.IntegerField()
     courseName = models.CharField(max_length=50)
 
+    def get_key(self):
+        return self.id
+
+    def get_value(self):
+        return self.subjectName
+
     class Meta:
         db_table = "SOS_SUBJECT"
 
 
-class TimeTable(models.Model):
+class TimeTable(models.Model, DropdownItem):
     examTime = models.DateTimeField()
     examDate = models.DateField()
     subject_ID = models.IntegerField()
@@ -186,6 +198,14 @@ class TimeTable(models.Model):
     course_ID = models.IntegerField()
     courseName = models.CharField(max_length=50)
     semester = models.CharField(max_length=50)
+
+    def get_key(self):
+        return self.id
+
+    def get_value(self):
+        return (
+            f"{self.courseName} - {self.subjectName} - {self.examDate} {self.examTime}"
+        )
 
     class Meta:
         db_table = "SOS_TIMETABLE"
