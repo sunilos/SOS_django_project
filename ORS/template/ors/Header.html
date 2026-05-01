@@ -6,67 +6,75 @@
 <script defer src="https://use.fontawesome.com/releases/v5.0.8/js/all.js"></script>
 
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-    <a class="navbar-brand" href="/ORS/Login">NCS</a>
+    <a class="navbar-brand" href="/ORS/Login">Rays</a>
     <div class="collapse navbar-collapse" id="navbarToggler">
         <ul class="navbar-nav mr-auto mt-2 mt-lg-0">
-            <li class="nav-item">
-                <a class="nav-link" href="/ORS/Registration">Registration</a>
+
+            <!-- Auth -->
+            <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" href="#" id="authDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    Auth
+                </a>
+                <div class="dropdown-menu" aria-labelledby="authDropdown">
+                    <a class="dropdown-item" href="/ORS/Registration">Registration</a>
+                    <a class="dropdown-item" href="/ORS/Login">Login</a>
+                    <a class="dropdown-item" href="/ORS/auth/Logout">Logout</a>
+                </div>
             </li>
 
-            <li class="nav-item">
-                <a class="nav-link" href="/ORS/Login">Login</a>
+            <!-- Administration -->
+            <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" href="#" id="adminDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    Administration
+                </a>
+                <div class="dropdown-menu" aria-labelledby="adminDropdown">
+                    <a class="dropdown-item" href="/ORS/Role">Role</a>
+                    <a class="dropdown-item" href="/ORS/RoleList">Role List</a>
+                    <div class="dropdown-divider"></div>
+                    <a class="dropdown-item" href="/ORS/User">User</a>
+                    <a class="dropdown-item" href="/ORS/UserList">User List</a>
+                </div>
             </li>
-            <li class="nav-item">
-                <a class="nav-link" href="/ORS/User">User</a>
+
+            <!-- Institution -->
+            <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" href="#" id="institutionDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    Institution
+                </a>
+                <div class="dropdown-menu" aria-labelledby="institutionDropdown">
+                    <a class="dropdown-item" href="/ORS/College">College</a>
+                    <a class="dropdown-item" href="/ORS/CollegeList">College List</a>
+                    <div class="dropdown-divider"></div>
+                    <a class="dropdown-item" href="/ORS/Course">Course</a>
+                    <a class="dropdown-item" href="/ORS/CourseList">Course List</a>
+                </div>
             </li>
-            <li class="nav-item">
-                <a class="nav-link" href="/ORS/UserList">UserList</a>
+
+            <!-- People -->
+            <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" href="#" id="peopleDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    People
+                </a>
+                <div class="dropdown-menu" aria-labelledby="peopleDropdown">
+                    <a class="dropdown-item" href="/ORS/Faculty">Faculty</a>
+                    <a class="dropdown-item" href="/ORS/FacultyList">Faculty List</a>
+                    <div class="dropdown-divider"></div>
+                    <a class="dropdown-item" href="/ORS/Student">Student</a>
+                    <a class="dropdown-item" href="/ORS/StudentList">Student List</a>
+                </div>
             </li>
-            <li class="nav-item">
-                <a class="nav-link" href="/ORS/College">College</a>
+
+            <!-- Academics -->
+            <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" href="#" id="academicsDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    Academics
+                </a>
+                <div class="dropdown-menu" aria-labelledby="academicsDropdown">
+                    <a class="dropdown-item" href="/ORS/Marksheet">Marksheet</a>
+                    <a class="dropdown-item" href="/ORS/MarksheetList">Marksheet List</a>
+                </div>
             </li>
-            <li class="nav-item">
-                <a class="nav-link" href="/ORS/CollegeList">CollegeList</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" href="/ORS/Course">Course</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" href="/ORS/CourseList">CourseList</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" href="/ORS/Marksheet">Marksheet</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" href="/ORS/MarksheetList">MarksheetList</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" href="/ORS/Role">Role</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" href="/ORS/RoleList">RoleList</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" href="/ORS/Student">Student</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" href="/ORS/StudentList">StudentList</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" href="/ORS/auth/Logout">Logout</a>
-            </li>
+
         </ul>
-
     </div>
 </nav>
-<!--
-<a class="nav-link dropdown-toggle" id="navbarDropdown" role="button" data-toggle="dropdown"
-aria-haspopup="true" aria-expanded="false">  
-
-<div class="dropdown-menu" aria-labelledby="navbarDropdown">
-<a class="dropdown-item" href="/ORS/UserList">UserList</a>
-<a class="dropdown-item" href="#!login">Logout</a>
-<a class="dropdown-item" href="#!changePassword">Change Password</a>
-<a class="dropdown-item" href="#!profile">Edit Profile</a>
-</div></a>
--->
