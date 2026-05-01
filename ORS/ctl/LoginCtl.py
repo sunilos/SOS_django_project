@@ -8,7 +8,8 @@ class LoginCtl(BaseCtl):
 
     def request_to_form(self,requestFrom):
         self.form["loginId"]  = requestFrom["loginId"]
-        self.form["password"] = requestFrom["password"] 
+        self.form["password"]   = requestFrom["password"]
+        self.form["rememberMe"] = requestFrom.get("rememberMe", False)
 
     def input_validation(self):
         super().input_validation()
@@ -35,6 +36,10 @@ class LoginCtl(BaseCtl):
                 self.form["message"] = "Invalid ID or Password"
                 res = render(request,self.get_template(),{"form":self.form})
             else:
+                if self.form.get("rememberMe"):
+                    request.session.set_expiry(30 * 24 * 60 * 60)  # 30 days
+                else:
+                    request.session.set_expiry(0)  # expires when browser closes
                 request.session["user"] = user.login
                 request.session["loginId"] = user.id
                 request.session["firstName"] = user.firstName
