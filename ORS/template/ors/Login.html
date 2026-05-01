@@ -2,51 +2,50 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" crossorigin="anonymous"></script>
 <script defer src="https://use.fontawesome.com/releases/v5.0.8/js/all.js"></script>
-<br>
+
 <div class="col-sm-6">
+    <p></p>
     <div class="card">
-        <div class="card-header ">
+        <div class="card-header">
             <h2>Login</h2>
         </div>
         <div class="card-body">
             <div class="container">
+                {% if form.error %}
                 <p style="color: red;"> {{form.message}}</p>
+                {% else %}
+                <p style="color: green;"> {{form.message}}</p>
+                {% endif %}
 
-                <form method="POST" novalidate>
-                    <fieldset>
-                        <div class="form-group">
-                            <label class="col-md-12 control-label">Login </label>
-                            <div class="col-md-12 inputGroupContainer">
-                                <div class="input-group">
-                                    <input name="loginId" value="{{form.loginId}}" class="form-control" type="email">
-                                    <span style="color: red;"> {{form.inputError.loginId}} </span>
-                                </div>
-                            </div>
+                <form method="POST">
+                    <div class="form-group">
+                        <label class="col-md-12 control-label">Email</label>
+                        <div class="col-md-12">
+                            <input name="loginId" value="{{form.loginId}}" class="form-control" type="email" placeholder="you@example.com">
+                            <span style="color: red;"> {{form.inputError.loginId}} </span>
                         </div>
-                        <div class="form-group">
-                            <label class="col-md-12 control-label">Password</label>
-                            <div class="col-md-12 inputGroupContainer">
-                                <div class="input-group">
-                                    <input name="password" value="{{form.password}}" class="form-control"
-                                        type="password" id="password" required class="form-control">
-                                    <span style="color: red;"> {{form.inputError.password}} </span>
-
-                                </div>
-                            </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-md-12 control-label">Password</label>
+                        <div class="col-md-12">
+                            <input name="password" class="form-control" type="password" placeholder="Password">
+                            <span style="color: red;"> {{form.inputError.password}} </span>
                         </div>
-                        <div class="form-group row">
-                            <label class="col-md-12 control-label"></label>
-                            <div class="col-md-10 pull-right">
-                                <button type="submit" value="SingnIn" class="btn btn-primary">Login
-                                    <span class="fas fa-paper-plane"></span>
-                                </button>
-                            </div>
-                        </div>
-                        <a href="/ORS/ForgetPassword">forgot Password</a>
-                    </fieldset>
+                    </div>
+                    <div class="form-group col-md-12">
+                        <button type="submit" class="btn btn-primary form-control">
+                            <i class="fas fa-sign-in-alt"></i> Login
+                        </button>
+                    </div>
+                    <div class="form-group col-md-12 text-center">
+                        <a href="/ORS/ForgetPassword">Forgot Password</a>
+                        <span class="mx-2">|</span>
+                        <a href="/ORS/Registration">Create an account</a>
+                    </div>
                 </form>
             </div>
         </div>
     </div>
 </div>
-{% include  "./Footer.html"%}
+
+{% include "./Footer.html"%}
