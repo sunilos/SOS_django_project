@@ -23,8 +23,8 @@ class LoginCtl(BaseCtl):
         return self.form["error"]
 
     def display(self,request,params={}):
-        res = render(request,self.get_template())
-        return res
+        request.session.flush()
+        return render(request,self.get_template())
 
     def submit(self,request,params={}):
         if(self.input_validation()):

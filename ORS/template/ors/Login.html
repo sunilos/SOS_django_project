@@ -1,51 +1,94 @@
-<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" crossorigin="anonymous">
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" crossorigin="anonymous"></script>
-<script defer src="https://use.fontawesome.com/releases/v5.0.8/js/all.js"></script>
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login | Online Result System</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" crossorigin="anonymous">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" crossorigin="anonymous"></script>
+    <script defer src="https://use.fontawesome.com/releases/v5.0.8/js/all.js"></script>
+</head>
+<body class="bg-light">
 
-<div class="col-sm-6">
-    <p></p>
-    <div class="card">
-        <div class="card-header">
-            <h2>Login</h2>
-        </div>
-        <div class="card-body">
-            <div class="container">
-                {% if form.error %}
-                <p style="color: red;"> {{form.message}}</p>
-                {% else %}
-                <p style="color: green;"> {{form.message}}</p>
-                {% endif %}
+<div class="container">
+    <div class="row justify-content-center mt-5">
+        <div class="col-md-5">
+            <div class="text-center mb-4">
+                <img src="{% static 'images/logo.png' %}" alt="Rays" style="height: 60px;">
+                <h4 class="mt-2 text-muted">Online Result System</h4>
+            </div>
 
-                <form method="POST">
-                    <div class="form-group">
-                        <label class="col-md-12 control-label">Email</label>
-                        <div class="col-md-12">
-                            <input name="loginId" value="{{form.loginId}}" class="form-control" type="email" placeholder="you@example.com">
-                            <span style="color: red;"> {{form.inputError.loginId}} </span>
+            <div class="card shadow">
+                <div class="card-header bg-dark text-white text-center">
+                    <h4 class="mb-0"><i class="fas fa-sign-in-alt"></i> Login</h4>
+                </div>
+                <div class="card-body p-4">
+
+                    {% if form.message %}
+                        {% if form.error %}
+                        <div class="alert alert-danger">{{ form.message }}</div>
+                        {% else %}
+                        <div class="alert alert-success">{{ form.message }}</div>
+                        {% endif %}
+                    {% endif %}
+
+                    <form method="POST">
+                        {% csrf_token %}
+                        <div class="form-group">
+                            <label><i class="fas fa-envelope"></i> Email</label>
+                            <input name="loginId" value="{{ form.loginId }}" class="form-control" type="email" placeholder="you@example.com" autofocus>
+                            <span class="text-danger small">{{ form.inputError.loginId }}</span>
                         </div>
-                    </div>
-                    <div class="form-group">
-                        <label class="col-md-12 control-label">Password</label>
-                        <div class="col-md-12">
-                            <input name="password" class="form-control" type="password" placeholder="Password">
-                            <span style="color: red;"> {{form.inputError.password}} </span>
+                        <div class="form-group">
+                            <label><i class="fas fa-lock"></i> Password</label>
+                            <div class="input-group">
+                                <input id="passwordInput" name="password" class="form-control" type="password" placeholder="Password">
+                                <div class="input-group-append">
+                                    <button type="button" class="btn btn-outline-secondary" id="togglePassword">
+                                        <i class="fas fa-eye" id="toggleIcon"></i>
+                                    </button>
+                                </div>
+                            </div>
+                            <span class="text-danger small">{{ form.inputError.password }}</span>
                         </div>
-                    </div>
-                    <div class="form-group col-md-12">
-                        <button type="submit" class="btn btn-primary form-control">
-                            <i class="fas fa-sign-in-alt"></i> Login
-                        </button>
-                    </div>
-                    <div class="form-group col-md-12 text-center">
-                        <a href="/ORS/ForgetPassword">Forgot Password</a>
-                        <span class="mx-2">|</span>
-                        <a href="/ORS/Registration">Create an account</a>
-                    </div>
-                </form>
+                        <div class="form-group mt-3">
+                            <button type="submit" class="btn btn-primary btn-block">
+                                <i class="fas fa-sign-in-alt"></i> Login
+                            </button>
+                        </div>
+                        <hr>
+                        <div class="text-center small">
+                            <a href="/">Home</a>
+                            <span class="mx-2">|</span>
+                            <a href="/ORS/auth/FP">Forgot Password</a>
+                            <span class="mx-2">|</span>
+                            <a href="/ORS/Registration">Create an account</a>
+                        </div>
+                    </form>
+
+                </div>
             </div>
         </div>
     </div>
 </div>
 
-{% include "./Footer.html"%}
+{% include "./Footer.html" %}
+
+<script>
+    document.getElementById('togglePassword').addEventListener('click', function () {
+        var input = document.getElementById('passwordInput');
+        var icon = document.getElementById('toggleIcon');
+        if (input.type === 'password') {
+            input.type = 'text';
+            icon.classList.replace('fa-eye', 'fa-eye-slash');
+        } else {
+            input.type = 'password';
+            icon.classList.replace('fa-eye-slash', 'fa-eye');
+        }
+    });
+</script>
+
+</body>
+</html>
