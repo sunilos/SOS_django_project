@@ -3,6 +3,9 @@ from .BaseCtl import BaseCtl
 from django.shortcuts import render,redirect
 from service.utility.DataValidator import DataValidator
 from service.service.ForgetPasswordService import ForgetPasswordService
+from service.service.EmailService import EmailService
+from service.service.EmailBuilder import EmailBuilder
+from service.service.EmailMessage import EmailMessage
 
 class ForgetPasswordCtl(BaseCtl):
 
@@ -31,8 +34,15 @@ class ForgetPasswordCtl(BaseCtl):
                 self.form["message"] = "Invalid ID"
                 res = render(request,self.get_template(),{"form":self.form})
             else:
-                request.session["user"] = user_qs[0].login
-                res = redirect('/ORS/Login')
+                user = user_qs[0]
+                request.session["user"] = user.login
+                msg = EmailMessage()
+                msg.to = [user.login]
+                msg.subject = "Forgot Password Request"
+                msg.text = EmailBuilder.forgot_password({"login": user.login})
+                EmailService.send(msg)
+                self.form["message"] = "Password reset email has been sent"
+                res = render(request,self.get_template(),{"form":self.form})
         return res
 
     # Template html of Role page    

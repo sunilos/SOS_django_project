@@ -2,6 +2,10 @@ from django.shortcuts import render
 from ORS.utility.DataValidator import DataValidator
 from .BaseCtl import BaseCtl
 from service.service.ChangePasswordService import ChangePasswordService
+from service.service.EmailService import EmailService
+from service.service.EmailBuilder import EmailBuilder
+from service.service.EmailMessage import EmailMessage
+from django.http import HttpResponse
 
 
 class ChangePasswordCtl(BaseCtl):
@@ -46,6 +50,12 @@ class ChangePasswordCtl(BaseCtl):
         self.get_service().save(user)
         self.form["error"] = False
         self.form["message"] = "Password changed successfully"
+        msg = EmailMessage()
+        msg.to = [user.login]
+        msg.subject = "Password Changed Successfully"
+        msg.text = EmailBuilder.change_password({"login": user.login})
+        EmailService.send(msg)
+        
         return render(request, self.get_template(), {"form": self.form})
 
     def get_template(self):

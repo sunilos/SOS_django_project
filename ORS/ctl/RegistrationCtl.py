@@ -5,6 +5,9 @@ from .BaseCtl import BaseCtl
 from service.models import User
 from service.service.UserService import UserService
 from ORS.utility.HtmlUtility import HtmlUtility
+from service.service.EmailService import EmailService
+from service.service.EmailBuilder import EmailBuilder
+from service.service.EmailMessage import EmailMessage
 
 
 class RegistrationCtl(BaseCtl):
@@ -105,6 +108,11 @@ class RegistrationCtl(BaseCtl):
         self.form["id"] = r.id
         self.form["error"] = False
         self.form["message"] = "Registration successful"
+        msg = EmailMessage()
+        msg.to = [self.form["login"]]
+        msg.subject = "Welcome - Registration Successful"
+        msg.text = EmailBuilder.sign_up({"login": self.form["login"]})
+        EmailService.send(msg)
         res = render(request, self.get_template(), {"form": self.form, "preload_data": self.preload(request)})
         return res
 
