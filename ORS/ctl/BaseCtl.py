@@ -1,6 +1,9 @@
+import logging
 from abc import ABC, abstractmethod
 from django.http import HttpResponse
 from django.shortcuts import render
+
+logger = logging.getLogger(__name__)
 
 
 class BaseCtl(ABC):
@@ -19,7 +22,6 @@ class BaseCtl(ABC):
 
     def preload(self, request):
         """Load preload data required by the page before rendering."""
-        print("This is preload")
         return self.preload_data
 
     def execute(self, request, params={}):
@@ -27,18 +29,19 @@ class BaseCtl(ABC):
         Execute method called for each HTTP request.
         Calls display() for GET and submit() for POST after validation.
         """
-        print("This is execute")
+        logger.info("%s.execute() method=%s params=%s", self.__class__.__name__, request.method, params)
 
         if "delete" == params.get("action"):
             id: int = params.get("id")
             self.get_service().delete(id)
-            print("This is deleted id", id)
+            logger.info("%s deleted id=%s", self.__class__.__name__, id)
 
         if "GET" == request.method:
             return self.display(request, params)
         elif "POST" == request.method:
             self.request_to_form(request.POST)
             if self.input_validation():
+                logger.warning("%s.input_validation() failed form=%s", self.__class__.__name__, self.form)
                 return render(
                     request,
                     self.get_template(),
@@ -47,6 +50,7 @@ class BaseCtl(ABC):
             else:
                 return self.submit(request, params)
         else:
+            logger.error("%s unsupported request method=%s", self.__class__.__name__, request.method)
             message = "Request is not supported"
             return HttpResponse(message)
 
