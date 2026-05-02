@@ -3,8 +3,8 @@ from django.shortcuts import redirect
 PUBLIC_URLS = [
     '/',
     '/ORS/auth/Login',
-    '/ORS/auth/FP',
-    '/ORS/Registration',
+    '/ORS/auth/ForgetPassword',
+    '/ORS/auth/Registration',
 ]
 
 

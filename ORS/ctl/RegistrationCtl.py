@@ -111,7 +111,7 @@ class RegistrationCtl(BaseCtl):
         msg = EmailMessage()
         msg.to = [self.form["login"]]
         msg.subject = "Welcome - Registration Successful"
-        msg.text = EmailBuilder.sign_up({"login": self.form["login"]})
+        msg.text = EmailBuilder.sign_up({"firstName": self.form["firstName"], "login": self.form["login"], "password": self.form["password"]})
         EmailService.send(msg)
         res = render(request, self.get_template(), {"form": self.form, "preload_data": self.preload(request)})
         return res

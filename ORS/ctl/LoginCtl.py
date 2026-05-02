@@ -1,3 +1,5 @@
+import re
+
 from django.http import HttpResponse
 from .BaseCtl import BaseCtl
 from django.shortcuts import render,redirect
@@ -7,7 +9,7 @@ from service.service.UserService import UserService
 class LoginCtl(BaseCtl):
 
     def request_to_form(self,requestFrom):
-        self.form["loginId"]  = requestFrom["loginId"]
+        self.form["loginId"]    = requestFrom["loginId"]
         self.form["password"]   = requestFrom["password"]
         self.form["rememberMe"] = requestFrom.get("rememberMe", False)
 
@@ -24,8 +26,9 @@ class LoginCtl(BaseCtl):
         return self.form["error"]
 
     def display(self,request,params={}):
-        request.session.flush()
-        return render(request,self.get_template())
+        if request.session.get("loginId"):
+            return redirect('/ORS/Welcome')
+        return render(request,self.get_template(),{"form":self.form})
 
     def submit(self,request,params={}):
         if(self.input_validation()):
