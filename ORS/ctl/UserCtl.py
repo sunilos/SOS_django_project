@@ -77,7 +77,7 @@ class UserCtl(BaseCtl):
         )
         obj.mobileNumber = self.form.get("mobileNumber", "")
         obj.gender = self.form.get("gender", "")
-        obj.role_id = self.form.get("role_id", 0)
+        obj.role_id = int(self.form.get("role_id") or 0)
         obj.photo = self.form.get("photo", "")
         return obj
 

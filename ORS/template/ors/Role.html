@@ -1,14 +1,17 @@
-{% include  "./Header.html"%}
+{% include "./Header.html"%}
 <div class="container"></div>
 <div class="modal-dialog" role="document">
     <div class="modal-content">
         <div class="modal-header text-center">
             <h4 class="modal-title ">Role Information</h4>
         </div>
-        {% if form.error  %}
-        <p style="color: red;"> {{form.message}}</p>
-        {% else %}
-        <p style="color: green;"> {{form.message}}</p>
+        {% if form.message %}
+        <div class="alert {% if form.error %}alert-danger{% else %}alert-success{% endif %} alert-dismissible fade show" role="alert">
+            <strong>{% if form.error %}Error:{% else %}Success:{% endif %}</strong> {{form.message}}
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
         {% endif %}
 
         <form class="form" method="POST">
@@ -49,4 +52,4 @@
 </div>
 </div>
 </div>
-{% include  "./Footer.html"%}
+{% include "./Footer.html"%}
