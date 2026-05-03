@@ -13,16 +13,14 @@ Including another URLconf
     1. Import the include() function: from django.urls import include, path
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
-from django.contrib import admin
 from django.urls import path
-from . import views
 from .rest.CollegeCtl import CollegeCtl
 from .rest.StudentCtl import StudentCtl
 from .rest.CourseCtl import CourseCtl
 from .rest.FacultyCtl import FacultyCtl
 from .rest.RoleCtl import RoleCtl
 from .rest.MarksheetCtl import MarksheetCtl
-from .rest.UserCtl import UserCtl
+from .rest.UserCtl import UserCtl, UserLoginCtl, ChangePasswordCtl, ForgotPasswordCtl, UserRegistrationCtl
 
 urlpatterns = [
     # REST API routes — must be before the generic catch-all patterns
@@ -40,4 +38,8 @@ urlpatterns = [
     path('api/Marksheet/<int:id>/', MarksheetCtl.as_view()),
     path('api/User/', UserCtl.as_view()),
     path('api/User/<int:id>/', UserCtl.as_view()),
+    path('api/User/login/', UserLoginCtl.as_view()),
+    path('api/User/change-password/', ChangePasswordCtl.as_view()),
+    path('api/User/forgot-password/', ForgotPasswordCtl.as_view()),
+    path('api/User/register/', UserRegistrationCtl.as_view()),
 ]
