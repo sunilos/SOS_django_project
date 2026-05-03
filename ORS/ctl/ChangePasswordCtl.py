@@ -1,7 +1,7 @@
 from django.shortcuts import render
 from ORS.utility.DataValidator import DataValidator
+from service.service.UserService import UserService
 from .BaseCtl import BaseCtl
-from service.service.ChangePasswordService import ChangePasswordService
 from service.service.EmailService import EmailService
 from service.service.EmailBuilder import EmailBuilder
 from service.service.EmailMessage import EmailMessage
@@ -62,4 +62,5 @@ class ChangePasswordCtl(BaseCtl):
         return "ors/ChangePassword.html"
 
     def get_service(self):
-        return ChangePasswordService()
+        return UserService()
+    
