@@ -45,6 +45,7 @@ class User(models.Model, DropdownItem):
     role_Name = models.CharField(max_length=50)
     mobileNumber = models.CharField(max_length=15)
     gender = models.CharField(max_length=10, default="Male")
+    photo = models.CharField(max_length=200, blank=True, default="")
 
     def get_key(self):
         return self.id
@@ -134,6 +135,7 @@ class Marksheet(models.Model, DropdownItem):
     physics = models.IntegerField()
     chemistry = models.IntegerField()
     maths = models.IntegerField()
+    year = models.IntegerField()
     student_id = models.IntegerField()
 
     def get_key(self):

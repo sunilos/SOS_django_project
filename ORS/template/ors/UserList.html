@@ -23,12 +23,12 @@
                     <i class="fas fa-search"></i>
                 </button>
             </div>
-    <div class="offset-lg-4">
-        <a href="/ORS/User">
+            <div class="offset-lg-4">
+                <a href="/ORS/User">
                     <font class="btn btn-success" data-target="#update" data-toggle="modal">ADD <i class="fas fa-plus-circle"></i></font>
-        </a>
-    </div>
-    </div>
+                </a>
+            </div>
+        </div>
     </form>
 
 
@@ -37,22 +37,15 @@
             <table class="table table-sm table-bordered table-hover table-responsive-sm">
                 <thead class="thead-dark">
                     <th scope="row">#</th>
-                    <th scope="row">FIRST_NAME
-                    </th>
-                    <th scope="row">LAST_NAME
-                    </th>
-                    <th scope="row">LOGIN
-                    </th>
-                    <th scope="row">PASSWORD
-                    </th>
-                    <th scope="row">DATE_OF_BIRTH
-                    </th>
-                    <th scope="row">MOBILE_NO
-                    </th>
-                    <th scope="row">ROLE_ID
-                    </th>
-                    <th scope="row">GENDER
-                    </th>
+                    <th scope="row">PHOTO</th>
+                    <th scope="row">FIRST_NAME</th>
+                    <th scope="row">LAST_NAME</th>
+                    <th scope="row">LOGIN</th>
+                    <th scope="row">PASSWORD</th>
+                    <th scope="row">DATE_OF_BIRTH</th>
+                    <th scope="row">MOBILE_NO</th>
+                    <th scope="row">ROLE_ID</th>
+                    <th scope="row">GENDER</th>
                     <th scope="row">ACTION</th>
 
                 </thead>
@@ -60,6 +53,14 @@
                     {% for e in pageList %}
                     <tr>
                         <td>{{e.id}}</td>
+                        <td>
+                            {% if e.photo %}
+                            <img src="{{MEDIA_URL}}{{e.photo}}" alt="photo"
+                                style="width:40px;height:40px;object-fit:cover;border-radius:50%;">
+                            {% else %}
+                            <span class="text-muted">—</span>
+                            {% endif %}
+                        </td>
                         <td>{{e.firstName}}</td>
                         <td>{{e.lastName}}</td>
                         <td>{{e.login}}</td>

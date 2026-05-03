@@ -79,6 +79,7 @@ TEMPLATES = [
             'context_processors': [
                 'django.template.context_processors.debug',
                 'django.template.context_processors.request',
+                'django.template.context_processors.media',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
             ],
@@ -149,6 +150,10 @@ STATICFILES_DIRS = [
     os.path.join(BASE_DIR, 'static'),
 ]
 
+MEDIA_URL = '/media/'
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+USER_PHOTO_DIR = 'user_photos'
+
 LOGGING = {
     'version': 1,
     'disable_existing_loggers': False,
@@ -166,6 +171,11 @@ LOGGING = {
     },
     'loggers': {
         'ORS': {
+            'handlers': ['console'],
+            'level': 'DEBUG',
+            'propagate': False,
+        },
+        'service': {
             'handlers': ['console'],
             'level': 'DEBUG',
             'propagate': False,

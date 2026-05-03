@@ -23,6 +23,13 @@
                         </div>
                     </div>
                     <div class="form-group row">
+                        <label class="col-lg-3 form-control-label">Year * </label>
+                        <div class="col-lg-9">
+                            <input class="form-control" type="number" name="year" value="{{form.year}}">
+                            <span style="color: red;"> {{form.inputError.year}} </span>
+                        </div>
+                    </div>
+                    <div class="form-group row">
                         <label class="col-lg-3 form-control-label">Student </label>
                         <div class="col-lg-9">
                             {{ preload_data.student_select|safe }}
@@ -50,6 +57,21 @@
                         </div>
                     </div>
 
+
+                    {% if form.id %}
+                    <div class="form-group row">
+                        <label class="col-lg-3 form-control-label">Total</label>
+                        <div class="col-lg-9">
+                            <input class="form-control-plaintext font-weight-bold" readonly value="{{form.total}} / 300">
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label class="col-lg-3 form-control-label">Percentage</label>
+                        <div class="col-lg-9">
+                            <input class="form-control-plaintext font-weight-bold" readonly value="{{form.percentage}} %">
+                        </div>
+                    </div>
+                    {% endif %}
 
                     <div class="form-group row">
                         <div class="col-lg-12">

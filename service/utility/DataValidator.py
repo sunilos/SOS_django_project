@@ -63,9 +63,10 @@ class DataValidator:
         if not val.isdigit():
             return False
         return True
-       
+
     @classmethod
     def isUrl(self, val):
+        """Return True if val is a non-empty string starting with http:// or https:// and containing a dot."""
         if val == None or val == "":
             return False
         if not (val.startswith("http://") or val.startswith("https://")):
@@ -73,3 +74,12 @@ class DataValidator:
         if "." not in val:
             return False
         return True
+
+    @classmethod
+    def isRange(self, val, min_val, max_val):
+        """Return True if val can be converted to float and falls within [min_val, max_val] inclusive."""
+        try:
+            val = float(val)
+            return min_val <= val <= max_val
+        except ValueError:
+            return False

@@ -1,4 +1,7 @@
+import os
+import uuid
 from datetime import datetime
+from django.conf import settings
 from django.db.models.manager import BaseManager
 from django.shortcuts import render, redirect
 from service.utility.DataValidator import DataValidator
@@ -56,6 +59,7 @@ class UserCtl(BaseCtl):
         self.form["mobileNumber"] = obj.mobileNumber
         self.form["gender"] = obj.gender
         self.form["role_id"] = int(obj.role_id) if obj.role_id else 0
+        self.form["photo"] = obj.photo or ""
 
     def form_to_model(self, obj):
         """Populate a User model instance from the form dictionary and return it."""
@@ -74,6 +78,7 @@ class UserCtl(BaseCtl):
         obj.mobileNumber = self.form.get("mobileNumber", "")
         obj.gender = self.form.get("gender", "")
         obj.role_id = self.form.get("role_id", 0)
+        obj.photo = self.form.get("photo", "")
         return obj
 
     def input_validation(self):
@@ -128,6 +133,28 @@ class UserCtl(BaseCtl):
 
     def submit(self, request, params={}):
         """Save the User form data to the database and re-render the form with a success message."""
+        current_id = int(self.form.get("id", 0))
+        photo_file = request.FILES.get("photo")
+
+        if photo_file:
+            ext = os.path.splitext(photo_file.name)[1].lower()
+            filename = f"user_{uuid.uuid4().hex}{ext}"
+            dest_dir = os.path.join(settings.MEDIA_ROOT, settings.USER_PHOTO_DIR)
+            os.makedirs(dest_dir, exist_ok=True)
+            dest_path = os.path.join(dest_dir, filename)
+            with open(dest_path, "wb+") as f:
+                for chunk in photo_file.chunks():
+                    f.write(chunk)
+            self.form["photo"] = f"{settings.USER_PHOTO_DIR}/{filename}"
+        elif current_id > 0:
+            try:
+                existing = User.objects.get(id=current_id)
+                self.form["photo"] = existing.photo or ""
+            except User.DoesNotExist:
+                self.form["photo"] = ""
+        else:
+            self.form["photo"] = ""
+
         r = self.form_to_model(User())
         self.get_service().save(r)
         self.form["id"] = r.id
