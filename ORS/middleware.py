@@ -1,7 +1,6 @@
 from django.shortcuts import redirect
 
 PUBLIC_URLS = [
-    '/',
     '/ORS/auth/Login',
     '/ORS/auth/ForgetPassword',
     '/ORS/auth/Registration',
@@ -13,6 +12,8 @@ class FrontController:
         self.get_response = get_response
 
     def __call__(self, request):
+        if not request.path.startswith('/ORS/'):
+            return self.get_response(request)
         if not request.session.get('user') and request.path not in PUBLIC_URLS:
             return redirect('/ORS/auth/Login')
         return self.get_response(request)

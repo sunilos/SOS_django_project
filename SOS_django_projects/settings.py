@@ -46,6 +46,7 @@ INSTALLED_APPS = [
     'ORSAPI',
     'service',
     'corsheaders',#RESTAPI
+    'rest_framework',
 
 ]
 
