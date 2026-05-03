@@ -1,6 +1,9 @@
-from rest_framework.views import APIView
+from datetime import datetime
+
 from rest_framework.response import Response
 from rest_framework import status
+
+from ORSAPI.rest.BaseRestCtl import BaseRestCtl
 from service.models import User
 from service.Serializers import UserSerializers
 from service.service.UserService import UserService
@@ -10,68 +13,15 @@ from service.service.EmailBuilder import EmailBuilder
 from service.service.EmailMessage import EmailMessage
 
 
-class UserCtl(APIView):
-    """REST controller for User CRUD operations."""
+class UserCtl(BaseRestCtl):
+    def get_model(self):
+        return User
 
-    def get(self, request, id=None):
-        if id:
-            try:
-                user = User.objects.get(id=id)
-            except User.DoesNotExist:
-                return Response(
-                    {"error": True, "message": "User not found"},
-                    status=status.HTTP_404_NOT_FOUND,
-                )
-            serializer = UserSerializers(user)
-        else:
-            serializer = UserSerializers(User.objects.all(), many=True)
-        return Response({"error": False, "data": serializer.data})
-
-    def post(self, request):
-        serializer = UserSerializers(data=request.data)
-        if serializer.is_valid():
-            serializer.save()
-            return Response(
-                {"error": False, "message": "User saved successfully", "data": serializer.data},
-                status=status.HTTP_201_CREATED,
-            )
-        return Response(
-            {"error": True, "message": "Validation failed", "errors": serializer.errors},
-            status=status.HTTP_400_BAD_REQUEST,
-        )
-
-    def put(self, request, id):
-        try:
-            user = User.objects.get(id=id)
-        except User.DoesNotExist:
-            return Response(
-                {"error": True, "message": "User not found"},
-                status=status.HTTP_404_NOT_FOUND,
-            )
-        serializer = UserSerializers(user, data=request.data)
-        if serializer.is_valid():
-            serializer.save()
-            return Response(
-                {"error": False, "message": "User updated successfully", "data": serializer.data}
-            )
-        return Response(
-            {"error": True, "message": "Validation failed", "errors": serializer.errors},
-            status=status.HTTP_400_BAD_REQUEST,
-        )
-
-    def delete(self, request, id):
-        try:
-            user = User.objects.get(id=id)
-        except User.DoesNotExist:
-            return Response(
-                {"error": True, "message": "User not found"},
-                status=status.HTTP_404_NOT_FOUND,
-            )
-        user.delete()
-        return Response({"error": False, "message": "User deleted successfully"})
+    def get_serializer_class(self):
+        return UserSerializers
 
 
-class UserLoginCtl(APIView):
+class UserLoginCtl(BaseRestCtl):
     """
     REST endpoint for user authentication.
 
@@ -89,15 +39,18 @@ class UserLoginCtl(APIView):
         401 - Wrong credentials   : {"error": true,  "message": "Invalid login or password"}
     """
 
+    def get_model(self):
+        return User
+
+    def get_serializer_class(self):
+        return UserSerializers
+
     def post(self, request):
         login = request.data.get("login", "")
         password = request.data.get("password", "")
 
         if not login or not password:
-            return Response(
-                {"error": True, "message": "Login and password are required"},
-                status=status.HTTP_400_BAD_REQUEST,
-            )
+            return self.bad_request("Login and password are required")
 
         user = UserService().authenticate({"login": login, "password": password})
         if user is None:
@@ -106,11 +59,15 @@ class UserLoginCtl(APIView):
                 status=status.HTTP_401_UNAUTHORIZED,
             )
 
+        request.session['api_user'] = user.login
+        request.session['api_user_id'] = user.id
+        request.session['api_role_id'] = user.role_id
+
         serializer = UserSerializers(user)
         return Response({"error": False, "message": "Login successful", "data": serializer.data})
 
 
-class ChangePasswordCtl(APIView):
+class ChangePasswordCtl(BaseRestCtl):
     """
     REST endpoint to change a user's password.
 
@@ -130,6 +87,12 @@ class ChangePasswordCtl(APIView):
         404 - User missing : {"error": true,  "message": "User not found"}
     """
 
+    def get_model(self):
+        return User
+
+    def get_serializer_class(self):
+        return UserSerializers
+
     def post(self, request):
         login = request.data.get("login", "")
         old_password = request.data.get("oldPassword", "")
@@ -148,24 +111,15 @@ class ChangePasswordCtl(APIView):
         elif new_password and new_password != confirm_password:
             errors["confirmPassword"] = "New Password and Confirm Password do not match"
         if errors:
-            return Response(
-                {"error": True, "message": "Validation failed", "errors": errors},
-                status=status.HTTP_400_BAD_REQUEST,
-            )
+            return self.validation_error(errors)
 
         try:
             user = User.objects.get(login=login)
         except User.DoesNotExist:
-            return Response(
-                {"error": True, "message": "User not found"},
-                status=status.HTTP_404_NOT_FOUND,
-            )
+            return self.not_found()
 
         if user.password != old_password:
-            return Response(
-                {"error": True, "message": "Validation failed", "errors": {"oldPassword": "Old Password is incorrect"}},
-                status=status.HTTP_400_BAD_REQUEST,
-            )
+            return self.validation_error({"oldPassword": "Old Password is incorrect"})
 
         user.password = new_password
         UserService().save(user)
@@ -176,10 +130,10 @@ class ChangePasswordCtl(APIView):
         msg.text = EmailBuilder.change_password({"firstName": user.firstName, "login": user.login, "password": new_password})
         EmailService.send(msg)
 
-        return Response({"error": False, "message": "Password changed successfully"})
+        return self.deleted("Password changed successfully")
 
 
-class ForgotPasswordCtl(APIView):
+class ForgotPasswordCtl(BaseRestCtl):
     """
     REST endpoint to trigger a forgot-password email.
 
@@ -196,21 +150,21 @@ class ForgotPasswordCtl(APIView):
         404 - Not found    : {"error": true,  "message": "No account found with this email"}
     """
 
+    def get_model(self):
+        return User
+
+    def get_serializer_class(self):
+        return UserSerializers
+
     def post(self, request):
         login = request.data.get("login", "")
 
         if not login:
-            return Response(
-                {"error": True, "message": "Login cannot be null"},
-                status=status.HTTP_400_BAD_REQUEST,
-            )
+            return self.bad_request("Login cannot be null")
 
         user_qs = ForgetPasswordService().search({"login": login})
         if user_qs.count() == 0:
-            return Response(
-                {"error": True, "message": "No account found with this email"},
-                status=status.HTTP_404_NOT_FOUND,
-            )
+            return self.not_found("No account found with this email")
 
         user = user_qs[0]
         msg = EmailMessage()
@@ -219,10 +173,10 @@ class ForgotPasswordCtl(APIView):
         msg.text = EmailBuilder.forgot_password({"firstName": user.firstName, "login": user.login, "password": user.password})
         EmailService.send(msg)
 
-        return Response({"error": False, "message": "Password reset email has been sent"})
+        return self.deleted("Password reset email has been sent")
 
 
-class UserRegistrationCtl(APIView):
+class UserRegistrationCtl(BaseRestCtl):
     """
     REST endpoint for new user self-registration.
 
@@ -243,6 +197,12 @@ class UserRegistrationCtl(APIView):
         201 - Registered   : {"error": false, "message": "Registration successful", "data": {...user}}
         400 - Validation   : {"error": true,  "message": "Validation failed", "errors": {...}}
     """
+
+    def get_model(self):
+        return User
+
+    def get_serializer_class(self):
+        return UserSerializers
 
     def post(self, request):
         data = request.data
@@ -273,12 +233,8 @@ class UserRegistrationCtl(APIView):
         elif not mobile.isdigit() or len(mobile) != 10:
             errors["mobileNumber"] = "Mobile Number must be 10 digits"
         if errors:
-            return Response(
-                {"error": True, "message": "Validation failed", "errors": errors},
-                status=status.HTTP_400_BAD_REQUEST,
-            )
+            return self.validation_error(errors)
 
-        from datetime import datetime
         user = User()
         user.firstName = first_name
         user.lastName = last_name
@@ -297,8 +253,4 @@ class UserRegistrationCtl(APIView):
         msg.text = EmailBuilder.sign_up({"firstName": first_name, "login": login, "password": password})
         EmailService.send(msg)
 
-        serializer = UserSerializers(user)
-        return Response(
-            {"error": False, "message": "Registration successful", "data": serializer.data},
-            status=status.HTTP_201_CREATED,
-        )
+        return self.created(UserSerializers(user).data, "Registration successful")

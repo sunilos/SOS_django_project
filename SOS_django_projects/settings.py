@@ -59,6 +59,7 @@ MIDDLEWARE = [
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     'corsheaders.middleware.CorsMiddleware',#RESTAPI
+    'ORSAPI.middleware.RestFrontCtl',
     'ORS.middleware.FrontController',
 
 ]
@@ -172,6 +173,11 @@ LOGGING = {
     },
     'loggers': {
         'ORS': {
+            'handlers': ['console'],
+            'level': 'DEBUG',
+            'propagate': False,
+        },
+        'ORSAPI': {
             'handlers': ['console'],
             'level': 'DEBUG',
             'propagate': False,
