@@ -38,7 +38,7 @@ class UserService(BaseService):
 
         val = params.get("mobileNumber", None)
         if DataValidator.isNotNull(val):
-            q = q.filter(mobileNumber=val)
+            q = q.filter(mobileNumber__icontains=val)
 
         val = params.get("gender", None)
         if DataValidator.isNotNull(val):

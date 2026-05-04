@@ -11,11 +11,11 @@ class StudentService(BaseService):
 
         val = params.get("firstName",None)
         if( DataValidator.isNotNull(val)):
-            q= q.filter( firstName = val)
+            q= q.filter( firstName__icontains = val)
 
         val = params.get("lastName",None)
         if( DataValidator.isNotNull(val)):
-            q= q.filter( lastName = val)
+            q= q.filter( lastName__icontains = val)
 
         val = params.get("dob",None)
         if( DataValidator.isNotNull(val)):
@@ -23,7 +23,7 @@ class StudentService(BaseService):
 
         val = params.get("mobileNumber",None)
         if( DataValidator.isNotNull(val)):
-            q= q.filter( mobileNumber = val)
+            q= q.filter( mobileNumber__icontains = val)
 
         val = params.get("email",None)
         if( DataValidator.isNotNull(val)):
@@ -35,7 +35,7 @@ class StudentService(BaseService):
 
         val = params.get("collegeName",None)
         if( DataValidator.isNotNull(val)):
-            q= q.filter( collegeName = val)
+            q= q.filter( collegeName__icontains = val)
         return q
 
     def get_model(self):

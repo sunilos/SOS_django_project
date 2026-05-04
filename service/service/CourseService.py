@@ -10,11 +10,11 @@ class CourseService(BaseService):
 
         val = params.get("name", None)
         if DataValidator.isNotNull(val):
-            q = q.filter(name=val)
+            q = q.filter(name__icontains=val)
 
         val = params.get("description", None)
         if DataValidator.isNotNull(val):
-            q = q.filter(description=val)
+            q = q.filter(description__icontains=val)
 
         val = params.get("duration", None)
         if DataValidator.isNotNull(val):

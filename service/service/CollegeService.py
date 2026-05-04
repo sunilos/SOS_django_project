@@ -12,11 +12,11 @@ class CollegeService(BaseService):
 
         val = params.get("name",None)
         if( DataValidator.isNotNull(val)):
-            q= q.filter( name = val)
+            q= q.filter( name__icontains = val)
 
         val = params.get("address",None)
         if( DataValidator.isNotNull(val)):
-            q= q.filter( address = val)
+            q= q.filter( address__icontains = val)
 
         val = params.get("state",None)
         if( DataValidator.isNotNull(val)):
@@ -24,11 +24,11 @@ class CollegeService(BaseService):
 
         val = params.get("city",None)
         if( DataValidator.isNotNull(val)):
-            q= q.filter( city = val)
+            q= q.filter( city__icontains = val)
 
         val = params.get("phoneNumber",None)
         if( DataValidator.isNotNull(val)):
-            q= q.filter( phoneNumber = val)
+            q= q.filter( phoneNumber__icontains = val)
 
 
         return q
