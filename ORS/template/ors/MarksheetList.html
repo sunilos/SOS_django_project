@@ -2,56 +2,51 @@
 <br>
 <div class="container">
     <form method="POST">
-        <div>
-            <H2>Marksheet List</H2>
-        </div>
-        <div class="form-group row">
-            <div class="col-lg-2">
-                <input class="form-control" name="rollNumber" value="{{form.rollNumber}}" placeholder="Roll No">
-            </div>
-            <div class="col-lg-2">
-                <input class="form-control" name="name" value="{{form.name}}" placeholder="Name">
-            </div>
-            <div class="col-lg-2">
-                <input class="form-control" name="student_id" value="{{form.student_id}}" placeholder="Student ID">
-            </div>
-            <div class="col-lg-1">
-                <button class="btn btn-primary" type="submit">Search
-                    <i class="fas fa-search"></i>
-                </button>
-            </div>
-            <div class="offset-lg-4">
-                <a href="/ORS/Marksheet">
-                    <font class="btn btn-success" data-target="#update" data-toggle="modal">ADD <i class="fas fa-plus-circle"></i></font>
+        <div class="card mb-3">
+            <div class="card-header d-flex justify-content-between align-items-center">
+                <h5 class="mb-0"><i class="fas fa-file-alt"></i> Marksheet List</h5>
+                <a href="/ORS/Marksheet" class="btn btn-success btn-sm">
+                    <i class="fas fa-plus-circle"></i> Add Marksheet
                 </a>
+            </div>
+            <div class="card-body">
+                <div class="form-row align-items-end">
+                    <div class="col-lg-2 col-md-4 mb-2">
+                        <label class="small mb-1">Roll No</label>
+                        <input class="form-control form-control-sm" name="rollNumber" value="{{form.rollNumber}}" placeholder="Roll No">
+                    </div>
+                    <div class="col-lg-3 col-md-4 mb-2">
+                        <label class="small mb-1">Student Name</label>
+                        <input class="form-control form-control-sm" name="name" value="{{form.name}}" placeholder="Student Name">
+                    </div>
+                    <div class="col-lg-2 col-md-4 mb-2">
+                        <label class="small mb-1">Student ID</label>
+                        <input class="form-control form-control-sm" name="student_id" value="{{form.student_id}}" placeholder="Student ID">
+                    </div>
+                    <div class="col-lg-2 col-md-4 mb-2">
+                        <button class="btn btn-primary btn-sm btn-block" type="submit">
+                            <i class="fas fa-search"></i> Search
+                        </button>
+                    </div>
+                </div>
             </div>
         </div>
     </form>
-
 
     <div class="row">
         <div class="col-md-12">
             <table class="table table-sm table-bordered table-hover table-responsive-sm">
                 <thead class="thead-dark">
-                    <th scope="row">#</th>
-                    <th scope="row">ROLL_NO
-                    </th>
-                    <th scope="row">NAME
-                    </th>
-                    <th scope="row">PHYSICS
-                    </th>
-                    <th scope="row">CHEMISTRY
-                    </th>
-                    <th scope="row">MATHS
-                    </th>
-                    <th scope="row">YEAR
-                    </th>
-                    <th scope="row">Total
-                    </th>
-                    <th scope="row">%
-                    </th>
-                    <th scope="row">ACTION</th>
-
+                    <th scope="col">#</th>
+                    <th scope="col">ROLL NO</th>
+                    <th scope="col">NAME</th>
+                    <th scope="col">PHYSICS</th>
+                    <th scope="col">CHEMISTRY</th>
+                    <th scope="col">MATHS</th>
+                    <th scope="col">YEAR</th>
+                    <th scope="col">TOTAL</th>
+                    <th scope="col">%</th>
+                    <th scope="col">ACTION</th>
                 </thead>
                 <tbody>
                     {% for e in pageList %}
@@ -65,16 +60,12 @@
                         <td>{{e.year}}</td>
                         <td>{{e.total}}</td>
                         <td>{{e.percentage}}%</td>
-                        <td>    
-                            <a href="/ORS/Marksheet/{{e.id}}">
-                                <font data-target="#update" data-toggle="modal" class="btn btn-primary">
-                                    <i class="fas fa-edit"></i>
-                                </font>
+                        <td>
+                            <a href="/ORS/Marksheet/{{e.id}}" class="btn btn-primary btn-sm">
+                                <i class="fas fa-edit"></i>
                             </a>
-                            <a href="/ORS/MarksheetList/delete/{{e.id}}">
-                                <font data-target="#update" data-toggle="modal" class="btn btn-danger">
-                                    <i class="fas fa-trash"></i>
-                                </font>
+                            <a href="/ORS/MarksheetList/delete/{{e.id}}" class="btn btn-danger btn-sm">
+                                <i class="fas fa-trash"></i>
                             </a>
                         </td>
                     </tr>
@@ -82,4 +73,7 @@
                 </tbody>
             </table>
         </div>
-        {% include "./Footer.html"%}
+    </div>
+</div>
+
+{% include "./Footer.html"%}

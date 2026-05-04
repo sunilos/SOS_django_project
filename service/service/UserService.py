@@ -36,6 +36,18 @@ class UserService(BaseService):
         if DataValidator.isNotNull(val):
             q = q.filter(password=val)
 
+        val = params.get("mobileNumber", None)
+        if DataValidator.isNotNull(val):
+            q = q.filter(mobileNumber=val)
+
+        val = params.get("gender", None)
+        if DataValidator.isNotNull(val):
+            q = q.filter(gender=val)
+
+        val = params.get("role_id", None)
+        if DataValidator.isNotNull(val) and str(val) != "0":
+            q = q.filter(role_id=val)
+
         return q
 
     def get_model(self):

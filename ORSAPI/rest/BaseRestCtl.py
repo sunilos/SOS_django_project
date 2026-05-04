@@ -90,7 +90,12 @@ class BaseRestCtl(APIView, ABC):
     # --- Default CRUD implementations ---
 
     def get(self, request, id=None):
-        """Return a single record by id, or all records when id is omitted."""
+        """Return a single record by id, or a (optionally filtered) list when id is omitted.
+
+        When id is omitted and the request carries a JSON body, each key/value
+        pair is forwarded to queryset.filter() so the caller can narrow results
+        without a dedicated search endpoint.
+        """
         logger.info("%s.get() id=%s", self.__class__.__name__, id)
         model = self.get_model()
         serializer_class = self.get_serializer_class()
@@ -100,7 +105,19 @@ class BaseRestCtl(APIView, ABC):
             except model.DoesNotExist:
                 return self.not_found()
             return self.ok(serializer_class(obj).data)
-        return self.ok(serializer_class(model.objects.all(), many=True).data)
+
+        filters = request.data if isinstance(request.data, dict) else {}
+        if filters:
+            logger.info("%s.get() applying filters=%s", self.__class__.__name__, filters)
+            try:
+                queryset = model.objects.filter(**filters)
+            except Exception as exc:
+                logger.warning("%s.get() invalid filter: %s", self.__class__.__name__, exc)
+                return self.bad_request(f"Invalid filter parameter: {exc}")
+        else:
+            queryset = model.objects.all()
+
+        return self.ok(serializer_class(queryset, many=True).data)
 
     def post(self, request):
         """Validate and create a new record; return 201 on success or 400 on validation failure."""

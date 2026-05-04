@@ -2,52 +2,63 @@
 <br>
 <div class="container">
     <form method="POST">
-        <div>
-            <H2>User List</H2>
-        </div>
-        <div class="form-group row">
-            <div class="col-lg-2">
-                <input class="form-control" name="firstName" value="{{form.firstName}}" placeholder="First Name">
-            </div>
-            <div class="col-lg-2">
-                <input class="form-control" name="lastName" value="{{form.lastName}}" placeholder="Last Name">
-            </div>
-            <div class="col-lg-2">
-                <input class="form-control" name="login" value="{{form.login}}" placeholder="Login">
-            </div>
-            <div class="col-lg-2">
-                <input class="form-control" name="mobileNumber" value="{{form.mobileNumber}}" placeholder="Mobile">
-            </div>
-            <div class="col-lg-1">
-                <button class="btn btn-primary" type="submit">Search
-                    <i class="fas fa-search"></i>
-                </button>
-            </div>
-            <div class="offset-lg-4">
-                <a href="/ORS/User">
-                    <font class="btn btn-success" data-target="#update" data-toggle="modal">ADD <i class="fas fa-plus-circle"></i></font>
+        <div class="card mb-3">
+            <div class="card-header d-flex justify-content-between align-items-center">
+                <h5 class="mb-0"><i class="fas fa-users"></i> User List</h5>
+                <a href="/ORS/User" class="btn btn-success btn-sm">
+                    <i class="fas fa-plus-circle"></i> Add User
                 </a>
+            </div>
+            <div class="card-body">
+                <div class="form-row align-items-end">
+                    <div class="col-lg-2 col-md-4 mb-2">
+                        <label class="small mb-1">First Name</label>
+                        <input class="form-control form-control-sm" name="firstName" value="{{form.firstName}}" placeholder="First Name">
+                    </div>
+                    <div class="col-lg-2 col-md-4 mb-2">
+                        <label class="small mb-1">Last Name</label>
+                        <input class="form-control form-control-sm" name="lastName" value="{{form.lastName}}" placeholder="Last Name">
+                    </div>
+                    <div class="col-lg-2 col-md-4 mb-2">
+                        <label class="small mb-1">Login (Email)</label>
+                        <input class="form-control form-control-sm" name="login" value="{{form.login}}" placeholder="Login">
+                    </div>
+                    <div class="col-lg-2 col-md-4 mb-2">
+                        <label class="small mb-1">Mobile</label>
+                        <input class="form-control form-control-sm" name="mobileNumber" value="{{form.mobileNumber}}" placeholder="Mobile">
+                    </div>
+                    <div class="col-lg-2 col-md-4 mb-2">
+                        <label class="small mb-1">Gender</label>
+                        {{ preload_data.gender_select|safe }}
+                    </div>
+                    <div class="col-lg-2 col-md-4 mb-2">
+                        <label class="small mb-1">Role</label>
+                        {{ preload_data.role_select|safe }}
+                    </div>
+                    <div class="col-lg-2 col-md-4 mb-2">
+                        <button class="btn btn-primary btn-sm btn-block" type="submit">
+                            <i class="fas fa-search"></i> Search
+                        </button>
+                    </div>
+                </div>
             </div>
         </div>
     </form>
-
 
     <div class="row">
         <div class="col-md-12">
             <table class="table table-sm table-bordered table-hover table-responsive-sm">
                 <thead class="thead-dark">
-                    <th scope="row">#</th>
-                    <th scope="row">PHOTO</th>
-                    <th scope="row">FIRST_NAME</th>
-                    <th scope="row">LAST_NAME</th>
-                    <th scope="row">LOGIN</th>
-                    <th scope="row">PASSWORD</th>
-                    <th scope="row">DATE_OF_BIRTH</th>
-                    <th scope="row">MOBILE_NO</th>
-                    <th scope="row">ROLE_ID</th>
-                    <th scope="row">GENDER</th>
-                    <th scope="row">ACTION</th>
-
+                    <th scope="col">#</th>
+                    <th scope="col">PHOTO</th>
+                    <th scope="col">FIRST NAME</th>
+                    <th scope="col">LAST NAME</th>
+                    <th scope="col">LOGIN</th>
+                    <th scope="col">DATE OF BIRTH</th>
+                    <th scope="col">MOBILE NO</th>
+                    <th scope="col">ROLE</th>
+                    <th scope="col">GENDER</th>
+                    <th scope="col">ACTION</th>
                 </thead>
                 <tbody>
                     {% for e in pageList %}
@@ -64,21 +75,16 @@
                         <td>{{e.firstName}}</td>
                         <td>{{e.lastName}}</td>
                         <td>{{e.login}}</td>
-                        <td>{{e.password}}</td>
                         <td>{{e.dob}}</td>
                         <td>{{e.mobileNumber}}</td>
-                        <td>{{e.role_id}}</td>
+                        <td>{{e.role_Name}}</td>
                         <td>{{e.gender}}</td>
                         <td>
-                            <a href="/ORS/User/{{e.id}}">
-                                <font data-target="#update" data-toggle="modal" class="btn btn-primary">
-                                    <i class="fas fa-edit"></i>
-                                </font>
+                            <a href="/ORS/User/{{e.id}}" class="btn btn-primary btn-sm">
+                                <i class="fas fa-edit"></i>
                             </a>
-                            <a href="/ORS/UserList/delete/{{e.id}}">
-                                <font data-target="#update" data-toggle="modal" class="btn btn-danger">
-                                    <i class="fas fa-trash"></i>
-                                </font>
+                            <a href="/ORS/UserList/delete/{{e.id}}" class="btn btn-danger btn-sm">
+                                <i class="fas fa-trash"></i>
                             </a>
                         </td>
                     </tr>
@@ -86,4 +92,7 @@
                 </tbody>
             </table>
         </div>
-        {% include "./Footer.html"%}
+    </div>
+</div>
+
+{% include "./Footer.html"%}
