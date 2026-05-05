@@ -44,69 +44,6 @@ class BaseRestCtl(APIView, ABC):
         }
         return Response(res_data, status=stcode)
 
-
-    def ok(self, data):
-        """Return 200 OK with a data payload."""
-        return Response({"error": False, "data": data})
-
-    def created(self, data, message=None):
-        """Return 201 Created; message defaults to '<Resource> saved successfully'."""
-        return Response(
-            {
-                "error": False,
-                "message": message or f"{self.get_resource_name()} saved successfully",
-                "data": data,
-            },
-            status=status.HTTP_201_CREATED,
-        )
-
-    def updated(self, data, message=None):
-        """Return 200 OK after a successful update; message defaults to '<Resource> updated successfully'."""
-
-        return Response(
-            {
-                "error": False,
-                "message": message
-                or f"{self.get_resource_name()} updated successfully",
-                "data": data,
-            },
-        )
-
-    def deleted(self, message=None):
-        """Return 200 OK after a successful delete; message defaults to '<Resource> deleted successfully'."""
-        return Response(
-            {
-                "error": False,
-                "message": message
-                or f"{self.get_resource_name()} deleted successfully",
-            },
-            status=status.HTTP_200_OK,
-        )
-
-    def not_found(self, message=None):
-        """Return 404 Not Found; message defaults to '<Resource> not found'."""
-        return Response(
-            {
-                "error": True,
-                "message": message or f"{self.get_resource_name()} not found",
-            },
-            status=status.HTTP_404_NOT_FOUND,
-        )
-
-    def validation_error(self, errors):
-        """Return 400 Bad Request with a field-level errors dict."""
-        return Response(
-            {"error": True, "message": "Validation failed", "errors": errors},
-            status=status.HTTP_400_BAD_REQUEST,
-        )
-
-    def bad_request(self, message):
-        """Return 400 Bad Request with a plain error message."""
-        return Response(
-            {"error": True, "message": message},
-            status=status.HTTP_400_BAD_REQUEST,
-        )
-
     # --- Default CRUD implementations ---
 
     def get(self, request, id=None):
@@ -124,7 +61,7 @@ class BaseRestCtl(APIView, ABC):
                 obj = model.objects.get(id=id)
             except model.DoesNotExist:
                 return self.not_found()
-            return self.ok(serializer_class(obj).data)
+            return self.success_response(True,serializer_class(obj).data)
 
         filters = request.data if isinstance(request.data, dict) else {}
         if filters:
