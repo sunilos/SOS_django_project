@@ -137,7 +137,12 @@ class BaseRestCtl(APIView, ABC):
                 logger.warning(
                     "%s.get() invalid filter: %s", self.__class__.__name__, exc
                 )
-                return self.bad_request(f"Invalid filter parameter: {exc}")
+                msg = f"Invalid filter parameter: {exc}"
+                return self.error_response(
+                    None,
+                    msg,
+                    status.HTTP_400_BAD_REQUEST,
+                )
         else:
             queryset = model.objects.all()
         return self.success_response(serializer_class(queryset, many=True).data)
