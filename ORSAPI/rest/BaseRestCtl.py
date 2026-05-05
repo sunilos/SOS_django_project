@@ -26,6 +26,25 @@ class BaseRestCtl(APIView, ABC):
 
     # --- Response helpers ---
 
+    def success_response(self, data=None, message="", stcode=status.HTTP_200_OK):
+        res_data = {
+            "error": False,
+            "message": message,
+            "data": data,
+        }
+        return Response(res_data, status=stcode)
+
+    def error_response(
+        self, errors=None, message="", stcode=status.HTTP_400_BAD_REQUEST
+    ):
+        res_data = {
+            "error": True,
+            "message": message,
+            "errors": errors,
+        }
+        return Response(res_data, status=stcode)
+
+
     def ok(self, data):
         """Return 200 OK with a data payload."""
         return Response({"error": False, "data": data})
@@ -43,6 +62,7 @@ class BaseRestCtl(APIView, ABC):
 
     def updated(self, data, message=None):
         """Return 200 OK after a successful update; message defaults to '<Resource> updated successfully'."""
+
         return Response(
             {
                 "error": False,
@@ -108,16 +128,19 @@ class BaseRestCtl(APIView, ABC):
 
         filters = request.data if isinstance(request.data, dict) else {}
         if filters:
-            logger.info("%s.get() applying filters=%s", self.__class__.__name__, filters)
+            logger.info(
+                "%s.get() applying filters=%s", self.__class__.__name__, filters
+            )
             try:
                 queryset = model.objects.filter(**filters)
             except Exception as exc:
-                logger.warning("%s.get() invalid filter: %s", self.__class__.__name__, exc)
+                logger.warning(
+                    "%s.get() invalid filter: %s", self.__class__.__name__, exc
+                )
                 return self.bad_request(f"Invalid filter parameter: {exc}")
         else:
             queryset = model.objects.all()
-
-        return self.ok(serializer_class(queryset, many=True).data)
+        return self.success_response(serializer_class(queryset, many=True).data)
 
     def post(self, request):
         """Validate and create a new record; return 201 on success or 400 on validation failure."""
@@ -125,8 +148,15 @@ class BaseRestCtl(APIView, ABC):
         serializer = self.get_serializer_class()(data=request.data)
         if serializer.is_valid():
             serializer.save()
-            return self.created(serializer.data)
-        return self.validation_error(serializer.errors)
+            # return self.created(serializer.data)
+            msg = f"{self.get_resource_name()} saved successfully"
+            return self.success_response(
+                serializer.data,
+                msg,
+                status.HTTP_201_CREATED,
+            )
+
+        return self.error_response(serializer.errors, "Validation failed")
 
     def put(self, request, id):
         """Validate and update an existing record by id; return 404 if not found or 400 on validation failure."""
@@ -135,12 +165,17 @@ class BaseRestCtl(APIView, ABC):
         try:
             obj = model.objects.get(id=id)
         except model.DoesNotExist:
-            return self.not_found()
+            msg = f"{self.get_resource_name()} not found"
+            return self.error_response(None, msg, status.HTTP_404_NOT_FOUND)
+
         serializer = self.get_serializer_class()(obj, data=request.data)
+
         if serializer.is_valid():
             serializer.save()
-            return self.updated(serializer.data)
-        return self.validation_error(serializer.errors)
+            msg = f"{self.get_resource_name()} updated successfully"
+            return self.success_response(serializer.data, msg)
+
+        return self.error_response(serializer.errors, "Validation failed")
 
     def delete(self, request, id):
         """Delete a record by id; return 404 if not found."""
@@ -149,6 +184,8 @@ class BaseRestCtl(APIView, ABC):
         try:
             obj = model.objects.get(id=id)
         except model.DoesNotExist:
-            return self.not_found()
+            msg = f"{self.get_resource_name()} not found"
+            return self.error_response(None, msg, status.HTTP_404_NOT_FOUND)
         obj.delete()
-        return self.deleted()
+        msg = f"{self.get_resource_name()} deleted successfully"
+        return self.success_response(None, msg)
