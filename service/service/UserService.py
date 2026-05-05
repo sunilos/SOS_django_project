@@ -1,4 +1,7 @@
 from service.models import User
+from service.service.EmailBuilder import EmailBuilder
+from service.service.EmailMessage import EmailMessage
+from service.service.EmailService import EmailService
 from service.utility.DataValidator import DataValidator
 from .BaseService import BaseService
 
@@ -30,7 +33,7 @@ class UserService(BaseService):
 
         val = params.get("login", None)
         if DataValidator.isNotNull(val):
-            q = q.filter(login=val)
+            q = q.filter(login__icontains=val)
 
         val = params.get("password", None)
         if DataValidator.isNotNull(val):
@@ -49,6 +52,63 @@ class UserService(BaseService):
             q = q.filter(role_id=val)
 
         return q
+
+    def change_password(self, id, newPassword):
+        try:
+            user = self.get_model().objects.get(login=id)
+        except self.get_model().DoesNotExist:
+            return None
+
+        user.password = newPassword
+        user.save()
+
+        msg = EmailMessage()
+        msg.to = [user.login]
+        msg.subject = "Password Changed Successfully"
+        msg.text = EmailBuilder.change_password(
+            {
+                "firstName": user.firstName,
+                "login": user.login,
+                "password": newPassword,
+            }
+        )
+
+        EmailService.send(msg)
+
+        return user
+
+    def forgot_password(self, login):
+        try:
+            user = self.get_model().objects.get(login=login)
+            msg = EmailMessage()
+            msg.to = [user.login]
+            msg.subject = "Forgot Password Request"
+            msg.text = EmailBuilder.forgot_password(
+                {
+                    "firstName": user.firstName,
+                    "login": user.login,
+                    "password": user.password,
+                }
+            )
+            EmailService.send(msg)
+            return user
+        except self.get_model().DoesNotExist:
+            return None
+
+    def signup(self, user):
+        self.save(user)
+        msg = EmailMessage()
+        msg.to = [user.login]
+        msg.subject = "Welcome - Registration Successful"
+        msg.text = EmailBuilder.sign_up(
+            {
+                "firstName": user.firstName,
+                "login": user.login,
+                "password": user.password,
+            }
+        )
+        EmailService.send(msg)
+        return user
 
     def get_model(self):
         return User

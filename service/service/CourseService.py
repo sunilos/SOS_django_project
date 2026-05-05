@@ -18,7 +18,7 @@ class CourseService(BaseService):
 
         val = params.get("duration", None)
         if DataValidator.isNotNull(val):
-            q = q.filter(duration=val)
+            q = q.filter(duration__icontains=val)
 
         return q
 

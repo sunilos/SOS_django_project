@@ -42,7 +42,7 @@ class HtmlUtility:
             An HTML <select> string with a default --Select-- option.
         """
         sb = [f"<select class='form-control' name='{name}'>"]
-        sb.append("<option value='0'>--Select--</option>")
+        sb.append("<option value=''>--Select--</option>")
 
         for val in list_data:
             if val == selected_val:

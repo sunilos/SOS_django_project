@@ -20,8 +20,8 @@
                         <input class="form-control form-control-sm" name="name" value="{{form.name}}" placeholder="Student Name">
                     </div>
                     <div class="col-lg-2 col-md-4 mb-2">
-                        <label class="small mb-1">Student ID</label>
-                        <input class="form-control form-control-sm" name="student_id" value="{{form.student_id}}" placeholder="Student ID">
+                        <label class="small mb-1">Student</label>
+                        {{ preload_data.student_select|safe }}
                     </div>
                     <div class="col-lg-2 col-md-4 mb-2">
                         <button class="btn btn-primary btn-sm btn-block" type="submit">

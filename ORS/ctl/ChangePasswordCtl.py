@@ -2,10 +2,6 @@ from django.shortcuts import render
 from ORS.utility.DataValidator import DataValidator
 from service.service.UserService import UserService
 from .BaseCtl import BaseCtl
-from service.service.EmailService import EmailService
-from service.service.EmailBuilder import EmailBuilder
-from service.service.EmailMessage import EmailMessage
-from django.http import HttpResponse
 
 
 class ChangePasswordCtl(BaseCtl):
@@ -28,7 +24,9 @@ class ChangePasswordCtl(BaseCtl):
             inputError["confirmPassword"] = "Confirm Password cannot be null"
             self.form["error"] = True
         elif self.form.get("newPassword") != self.form.get("confirmPassword"):
-            inputError["confirmPassword"] = "New Password and Confirm Password do not match"
+            inputError["confirmPassword"] = (
+                "New Password and Confirm Password do not match"
+            )
             self.form["error"] = True
         return self.form["error"]
 
@@ -37,25 +35,18 @@ class ChangePasswordCtl(BaseCtl):
 
     def submit(self, request, params={}):
         login_id = request.session.get("loginId")
-        user = self.get_service().get(login_id)
+        service = self.get_service()
+        user = service.get(login_id)
         if user is None:
-            self.form["error"] = True
-            self.form["message"] = "Session expired. Please login again."
+            self.update_from(True, "Session expired. Please login again.")
             return render(request, self.get_template(), {"form": self.form})
         if user.password != self.form.get("oldPassword"):
-            self.form["inputError"]["oldPassword"] = "Old Password is incorrect"
-            self.form["error"] = True
+            self.update_from(True, "Old Password is incorrect.")
             return render(request, self.get_template(), {"form": self.form})
-        user.password = self.form.get("newPassword")
-        self.get_service().save(user)
-        self.form["error"] = False
-        self.form["message"] = "Password changed successfully"
-        msg = EmailMessage()
-        msg.to = [user.login]
-        msg.subject = "Password Changed Successfully"
-        msg.text = EmailBuilder.change_password({"firstName": user.firstName, "login": user.login, "password": self.form.get("newPassword")})
-        EmailService.send(msg)
-        
+
+        service.change_password(user.login, self.form.get("newPassword"))
+
+        self.update_from(False, "Password changed successfully")
         return render(request, self.get_template(), {"form": self.form})
 
     def get_template(self):
@@ -63,4 +54,3 @@ class ChangePasswordCtl(BaseCtl):
 
     def get_service(self):
         return UserService()
-    

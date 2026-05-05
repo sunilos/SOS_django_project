@@ -99,21 +99,23 @@ class RegistrationCtl(BaseCtl):
         if params.get("id", 0) > 0:
             r = self.get_service().get(params["id"])
             self.model_to_form(r)
-        res = render(request, self.get_template(), {"form": self.form, "preload_data": self.preload(request)})
+        res = render(
+            request,
+            self.get_template(),
+            {"form": self.form, "preload_data": self.preload(request)},
+        )
         return res
 
     def submit(self, request, params={}):
-        r = self.form_to_model(User())
-        self.get_service().save(r)
+        r = self.get_service().signup(self.form_to_model(User()))
         self.form["id"] = r.id
-        self.form["error"] = False
-        self.form["message"] = "Registration successful"
-        msg = EmailMessage()
-        msg.to = [self.form["login"]]
-        msg.subject = "Welcome - Registration Successful"
-        msg.text = EmailBuilder.sign_up({"firstName": self.form["firstName"], "login": self.form["login"], "password": self.form["password"]})
-        EmailService.send(msg)
-        res = render(request, self.get_template(), {"form": self.form, "preload_data": self.preload(request)})
+        self.update_from(error=False, message="Registration successful")
+
+        res = render(
+            request,
+            self.get_template(),
+            {"form": self.form, "preload_data": self.preload(request)},
+        )
         return res
 
     def get_template(self):

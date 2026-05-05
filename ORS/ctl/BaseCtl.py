@@ -82,6 +82,13 @@ class BaseCtl(ABC):
         self.form["message"] = ""
         self.form["inputError"] = {}  # add this
 
+
+    def update_from(self, error=False, message="", data={}, inputError={}):
+        """Apply input validation and reset error state before each submission."""
+        self.form["error"] = error
+        self.form["message"] = message
+        self.form["inputError"] = inputError
+
     @abstractmethod
     def get_template(self):
         """Return the template path for this controller."""
