@@ -41,7 +41,7 @@ DATABASES = {
     # MySQL Database
     'mysql_db': {
         'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'studentdb',
+        'NAME': 'orsdb',
         'USER': 'root',
         'PASSWORD': 'root',
         'HOST': 'localhost',
@@ -51,7 +51,7 @@ DATABASES = {
     # PostgreSQL Database
     'postgres_db': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'employeedb',
+        'NAME': 'orsdb',
         'USER': 'postgres',
         'PASSWORD': 'root',
         'HOST': 'localhost',
@@ -121,13 +121,13 @@ students = Student.objects.using('postgres_db').all()
 Create file:
 
 ```bash
-db_router.py
+ors_db_router.py
 ```
 
 Add router logic:
 
 ```python
-class StudentRouter:
+class ORSDBRouter:
 
     def db_for_read(self, model, **hints):
 
@@ -153,7 +153,7 @@ class StudentRouter:
 # settings.py
 
 DATABASE_ROUTERS = [
-    'project.db_router.StudentRouter'
+    'project.ors_db_router.ORSDBRouter'
 ]
 ```
 
@@ -228,7 +228,7 @@ DATABASES = {
 
     'default': {
         'ENGINE': 'djongo',
-        'NAME': 'mydb',
+        'NAME': 'orsdb',
         'HOST': 'localhost',
         'PORT': 27017,
     }
@@ -256,7 +256,7 @@ project/
 ├── project/
 │   ├── settings.py
 │   ├── urls.py
-│   ├── db_router.py
+│   ├── ors_db_router.py
 │   └── wsgi.py
 │
 ├── studentapp/
