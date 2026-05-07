@@ -8,7 +8,7 @@ logger = logging.getLogger(__name__)
 
 
 class BaseRestCtl(APIView, ABC):
-    """Abstract base class inherited by all REST API controllers. 123456"""
+    """Abstract base class inherited by all REST API controllers."""
 
     @abstractmethod
     def get_model(self):
