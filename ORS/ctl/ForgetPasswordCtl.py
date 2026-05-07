@@ -2,9 +2,6 @@ from django.shortcuts import render
 from service.service.UserService import UserService
 from service.utility.DataValidator import DataValidator
 from service.service.ForgetPasswordService import ForgetPasswordService
-from service.service.EmailService import EmailService
-from service.service.EmailBuilder import EmailBuilder
-from service.service.EmailMessage import EmailMessage
 from .BaseCtl import BaseCtl
 
 

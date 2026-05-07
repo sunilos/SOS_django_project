@@ -5,9 +5,6 @@ from .BaseCtl import BaseCtl
 from service.models import User
 from service.service.UserService import UserService
 from ORS.utility.HtmlUtility import HtmlUtility
-from service.service.EmailService import EmailService
-from service.service.EmailBuilder import EmailBuilder
-from service.service.EmailMessage import EmailMessage
 
 
 class RegistrationCtl(BaseCtl):

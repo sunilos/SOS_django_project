@@ -1,7 +1,7 @@
 from service.dao.UserDAO import UserDAO
-from service.service.EmailBuilder import EmailBuilder
-from service.service.EmailMessage import EmailMessage
-from service.service.EmailService import EmailService
+from service.mail.EmailBuilder import EmailBuilder
+from service.mail.EmailMessage import EmailMessage
+from service.mail.EmailService import EmailService
 from .BaseService import BaseService
 
 

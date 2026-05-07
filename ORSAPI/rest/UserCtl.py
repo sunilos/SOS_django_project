@@ -8,9 +8,9 @@ from service.models import User
 from service.Serializers import UserSerializers
 from service.service.UserService import UserService
 from service.service.ForgetPasswordService import ForgetPasswordService
-from service.service.EmailService import EmailService
-from service.service.EmailBuilder import EmailBuilder
-from service.service.EmailMessage import EmailMessage
+from service.mail.EmailService import EmailService
+from service.mail.EmailBuilder import EmailBuilder
+from service.mail.EmailMessage import EmailMessage
 
 
 class UserCtl(BaseRestCtl):
