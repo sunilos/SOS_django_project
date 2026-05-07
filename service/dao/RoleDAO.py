@@ -1,0 +1,22 @@
+from service.models import Role
+from service.utility.DataValidator import DataValidator
+from .BaseDAO import BaseDAO
+
+
+class RoleDAO(BaseDAO):
+
+    def search(self, params):
+        q = self.get_model().objects.filter()
+
+        val = params.get("name", None)
+        if DataValidator.isNotNull(val):
+            q = q.filter(name__icontains=val)
+
+        val = params.get("description", None)
+        if DataValidator.isNotNull(val):
+            q = q.filter(description__icontains=val)
+
+        return q
+
+    def get_model(self):
+        return Role
