@@ -14,6 +14,7 @@ Including another URLconf
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
 from django.urls import path
+from rest_framework_simplejwt.views import TokenRefreshView
 from .rest.CollegeCtl import CollegeCtl
 from .rest.StudentCtl import StudentCtl
 from .rest.CourseCtl import CourseCtl
@@ -23,6 +24,7 @@ from .rest.MarksheetCtl import MarksheetCtl
 from .rest.UserCtl import UserCtl, UserLoginCtl, ChangePasswordCtl, ForgotPasswordCtl, UserRegistrationCtl
 
 urlpatterns = [
+    path('api/token/refresh/', TokenRefreshView.as_view()),
     # REST API routes — must be before the generic catch-all patterns
     path('api/College/', CollegeCtl.as_view()),
     path('api/College/<int:id>/', CollegeCtl.as_view()),

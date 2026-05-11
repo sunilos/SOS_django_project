@@ -41,6 +41,10 @@ class User(DropdownItem):
     gender = models.CharField(max_length=10, default="Male")
     photo = models.CharField(max_length=200, blank=True, default="")
 
+    @property
+    def is_authenticated(self):
+        return True
+
     def get_value(self):
         return f"{self.firstName} {self.lastName}"
 

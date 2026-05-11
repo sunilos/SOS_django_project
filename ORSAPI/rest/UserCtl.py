@@ -1,7 +1,9 @@
 from datetime import datetime
 
+from rest_framework.permissions import AllowAny
 from rest_framework.response import Response
 from rest_framework import status
+from rest_framework_simplejwt.tokens import RefreshToken
 
 from ORSAPI.rest.BaseRestCtl import BaseRestCtl
 from service.models import User
@@ -34,10 +36,12 @@ class UserLoginCtl(BaseRestCtl):
         }
 
     Responses:
-        200 - Valid credentials   : {"error": false, "message": "Login successful", "data": {...user}}
+        200 - Valid credentials   : {"error": false, "message": "Login successful", "data": {"user": {...}, "access": "...", "refresh": "..."}}
         400 - Missing fields      : {"error": true,  "message": "Login and password are required"}
         401 - Wrong credentials   : {"error": true,  "message": "Invalid login or password"}
     """
+
+    permission_classes = [AllowAny]
 
     def get_model(self):
         return User
@@ -59,12 +63,20 @@ class UserLoginCtl(BaseRestCtl):
                 status=status.HTTP_401_UNAUTHORIZED,
             )
 
-        request.session['api_user'] = user.login
-        request.session['api_user_id'] = user.id
-        request.session['api_role_id'] = user.role_id
+        refresh = RefreshToken()
+        refresh["user_id"] = user.id
+        refresh["login"] = user.login
+        refresh["role_id"] = user.role_id
 
-        serializer = UserSerializers(user)
-        return Response({"error": False, "message": "Login successful", "data": serializer.data})
+        return Response({
+            "error": False,
+            "message": "Login successful",
+            "data": {
+                "user": UserSerializers(user).data,
+                "access": str(refresh.access_token),
+                "refresh": str(refresh),
+            },
+        })
 
 
 class ChangePasswordCtl(BaseRestCtl):
@@ -150,6 +162,8 @@ class ForgotPasswordCtl(BaseRestCtl):
         404 - Not found    : {"error": true,  "message": "No account found with this email"}
     """
 
+    permission_classes = [AllowAny]
+
     def get_model(self):
         return User
 
@@ -197,6 +211,8 @@ class UserRegistrationCtl(BaseRestCtl):
         201 - Registered   : {"error": false, "message": "Registration successful", "data": {...user}}
         400 - Validation   : {"error": true,  "message": "Validation failed", "errors": {...}}
     """
+
+    permission_classes = [AllowAny]
 
     def get_model(self):
         return User
