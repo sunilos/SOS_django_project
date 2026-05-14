@@ -80,6 +80,10 @@
                     <i class="fas fa-user-circle"></i> {{ request.session.firstName }} {{ request.session.lastName }}
                 </a>
                 <div class="dropdown-menu dropdown-menu-right" aria-labelledby="userDropdown">
+                    <a class="dropdown-item" href="/ORS/Profile">
+                        <i class="fas fa-id-card"></i> My Profile
+                    </a>
+                    <div class="dropdown-divider"></div>
                     <a class="dropdown-item" href="/ORS/auth/ChangePassword">
                         <i class="fas fa-key"></i> Change Password
                     </a>

@@ -15,7 +15,7 @@ class MarksheetCtl(BaseRestCtl):
             try:
                 obj = Marksheet.objects.get(id=id)
             except Marksheet.DoesNotExist:
-                return self.not_found()
+                return self.error_response(None, "Marksheet not found", status.HTTP_404_NOT_FOUND)
             data = dict(MarksheetSerializers(obj).data)
             data["total"] = obj.total
             data["percentage"] = obj.percentage
@@ -27,4 +27,4 @@ class MarksheetCtl(BaseRestCtl):
                 entry["total"] = obj.total
                 entry["percentage"] = obj.percentage
                 data.append(entry)
-        return self.ok(data)
+        return self.success_response(True, data,status=200)

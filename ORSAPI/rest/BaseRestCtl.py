@@ -60,8 +60,8 @@ class BaseRestCtl(APIView, ABC):
             try:
                 obj = model.objects.get(id=id)
             except model.DoesNotExist:
-                return self.not_found()
-            return self.success_response(True,serializer_class(obj).data)
+                return self.error_response(None, "Object not found", status.HTTP_404_NOT_FOUND)
+            return self.success_response(serializer_class(obj).data)
 
         filters = request.data if isinstance(request.data, dict) else {}
         if filters:
@@ -90,7 +90,6 @@ class BaseRestCtl(APIView, ABC):
         serializer = self.get_serializer_class()(data=request.data)
         if serializer.is_valid():
             serializer.save()
-            # return self.created(serializer.data)
             msg = f"{self.get_resource_name()} saved successfully"
             return self.success_response(
                 serializer.data,

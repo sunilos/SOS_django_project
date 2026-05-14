@@ -61,6 +61,7 @@ class RestFrontCtl:
             return self.get_response(request)
 
         # --- Authentication ---
+        """
         api_user = request.session.get('api_user')
         if not api_user:
             logger.warning(
@@ -71,7 +72,7 @@ class RestFrontCtl:
                 {"error": True, "message": "Authentication required. Please login."},
                 status=401,
             )
-
+        """
         # --- Authorization ---
 
         """

@@ -27,6 +27,7 @@ from ORS.ctl.StudentListCtl import StudentListCtl
 from ORS.ctl.RegistrationCtl import RegistrationCtl
 from ORS.ctl.ForgetPasswordCtl import ForgetPasswordCtl
 from ORS.ctl.ChangePasswordCtl import ChangePasswordCtl
+from ORS.ctl.ProfileCtl import ProfileCtl
 
 
 def info(request, page, action):

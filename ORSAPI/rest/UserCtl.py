@@ -54,14 +54,11 @@ class UserLoginCtl(BaseRestCtl):
         password = request.data.get("password", "")
 
         if not login or not password:
-            return self.bad_request("Login and password are required")
+            return self.error_response(None, "Login and password are required", status.HTTP_400_BAD_REQUEST)
 
         user = UserService().authenticate({"login": login, "password": password})
         if user is None:
-            return Response(
-                {"error": True, "message": "Invalid login or password"},
-                status=status.HTTP_401_UNAUTHORIZED,
-            )
+            return self.error_response(None, "Invalid login or password", status.HTTP_401_UNAUTHORIZED)
 
         refresh = RefreshToken()
         refresh["user_id"] = user.id
@@ -123,15 +120,15 @@ class ChangePasswordCtl(BaseRestCtl):
         elif new_password and new_password != confirm_password:
             errors["confirmPassword"] = "New Password and Confirm Password do not match"
         if errors:
-            return self.validation_error(errors)
+            return self.error_response(errors, "Validation failed", status.HTTP_400_BAD_REQUEST)
 
         try:
             user = User.objects.get(login=login)
         except User.DoesNotExist:
-            return self.not_found()
+            return self.error_response(None, "User not found", status.HTTP_404_NOT_FOUND)
 
         if user.password != old_password:
-            return self.validation_error({"oldPassword": "Old Password is incorrect"})
+            return self.error_response({"oldPassword": "Old Password is incorrect"}, "Validation failed", status.HTTP_400_BAD_REQUEST)
 
         user.password = new_password
         UserService().save(user)
@@ -142,7 +139,7 @@ class ChangePasswordCtl(BaseRestCtl):
         msg.text = EmailBuilder.change_password({"firstName": user.firstName, "login": user.login, "password": new_password})
         EmailService.send(msg)
 
-        return self.deleted("Password changed successfully")
+        return self.error_response(None, "Password changed successfully", status.HTTP_200_OK)
 
 
 class ForgotPasswordCtl(BaseRestCtl):
@@ -174,11 +171,11 @@ class ForgotPasswordCtl(BaseRestCtl):
         login = request.data.get("login", "")
 
         if not login:
-            return self.bad_request("Login cannot be null")
+            return self.error_response(None, "Login cannot be null", status.HTTP_400_BAD_REQUEST)
 
         user_qs = ForgetPasswordService().search({"login": login})
         if user_qs.count() == 0:
-            return self.not_found("No account found with this email")
+            return self.error_response(None, "No account found with this email", status.HTTP_404_NOT_FOUND)
 
         user = user_qs[0]
         msg = EmailMessage()
@@ -187,7 +184,7 @@ class ForgotPasswordCtl(BaseRestCtl):
         msg.text = EmailBuilder.forgot_password({"firstName": user.firstName, "login": user.login, "password": user.password})
         EmailService.send(msg)
 
-        return self.deleted("Password reset email has been sent")
+        return self.error_response(None, "Password reset email has been sent", status.HTTP_200_OK)
 
 
 class UserRegistrationCtl(BaseRestCtl):
@@ -249,7 +246,7 @@ class UserRegistrationCtl(BaseRestCtl):
         elif not mobile.isdigit() or len(mobile) != 10:
             errors["mobileNumber"] = "Mobile Number must be 10 digits"
         if errors:
-            return self.validation_error(errors)
+            return self.error_response(errors, "Validation failed", status.HTTP_400_BAD_REQUEST)
 
         user = User()
         user.firstName = first_name
@@ -269,4 +266,5 @@ class UserRegistrationCtl(BaseRestCtl):
         msg.text = EmailBuilder.sign_up({"firstName": first_name, "login": login, "password": password})
         EmailService.send(msg)
 
-        return self.created(UserSerializers(user).data, "Registration successful")
+        return self.success_response(UserSerializers(user).data, "Registration successful", status.HTTP_201_CREATED)
+    
