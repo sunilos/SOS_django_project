@@ -51,7 +51,7 @@
                 <tbody>
                     {% for e in pageList %}
                     <tr>
-                        <td>{{e.id}}</td>
+                        <td>{{forloop.counter}}</td>
                         <td>{{e.rollNumber}}</td>
                         <td><a href="/ORS/Student/{{e.student_id}}">{{e.name}}</a></td>
                         <td>{{e.physics}}</td>

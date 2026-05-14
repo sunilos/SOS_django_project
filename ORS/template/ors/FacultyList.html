@@ -59,7 +59,7 @@
                 <tbody>
                     {% for e in pageList %}
                     <tr>
-                        <td>{{e.id}}</td>
+                        <td>{{forloop.counter}}</td>
                         <td>{{e.firstName}}</td>
                         <td>{{e.lastName}}</td>
                         <td>{{e.email}}</td>

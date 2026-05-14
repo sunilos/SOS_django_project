@@ -46,7 +46,7 @@
                 <tbody>
                     {% for e in pageList %}
                     <tr>
-                        <td>{{e.id}}</td>
+                        <td>{{forloop.counter}}</td>
                         <td>{{e.name}}</td>
                         <td>{{e.description}}</td>
                         <td>{{e.duration}}</td>

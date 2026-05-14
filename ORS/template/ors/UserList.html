@@ -63,7 +63,7 @@
                 <tbody>
                     {% for e in pageList %}
                     <tr>
-                        <td>{{e.id}}</td>
+                        <td>{{forloop.counter}}</td>
                         <td>
                             {% if e.photo %}
                             <img src="{{MEDIA_URL}}{{e.photo}}" alt="photo"
