@@ -5,9 +5,7 @@ from .BaseDAO import BaseDAO
 
 class MarksheetDAO(BaseDAO):
 
-    def search(self, params):
-        q = self.get_model().objects.filter()
-
+    def apply_filters(self, q, params):
         val = params.get("rollNumber", None)
         if DataValidator.isNotNull(val):
             q = q.filter(rollNumber=val)
@@ -29,7 +27,7 @@ class MarksheetDAO(BaseDAO):
             q = q.filter(maths=val)
 
         val = params.get("student_id", None)
-        if DataValidator.isNotNull(val):
+        if DataValidator.isNotNull(val) and str(val) != "0":
             q = q.filter(student_id=val)
 
         return q

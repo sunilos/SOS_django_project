@@ -1,9 +1,7 @@
 import logging
 from abc import ABC, abstractmethod
 
-from django.db.models import CharField, TextField, IntegerField
-
-from service.utility.DataValidator import DataValidator
+from django.core.paginator import Paginator
 
 logger = logging.getLogger(__name__)
 
@@ -35,27 +33,35 @@ class BaseDAO(ABC):
 
     def find_by_unique_key(self, pk):
         return self.get(pk)
+    
+    def apply_filters(self, q, params):
+        pass
 
-    def search(self, params):
-        model = self.get_model()
-        field_map = {f.name: f for f in model._meta.get_fields() if hasattr(f, "column")}
-        q = model.objects.filter()
+    def search(self, params, page_number=1, page_size=10):
+        """
+        Search records with subclass-defined filters and optional pagination.
 
-        for key, val in params.items():
-            if not DataValidator.isNotNull(val):
-                continue
-            field = field_map.get(key)
-            if field is None:
-                continue
-            # IntegerField whose name ends with _id/_ID is a reference ID — skip sentinel "0"
-            if isinstance(field, IntegerField) and field.name.lower().endswith("_id") and str(val) == "0":
-                continue
-            if isinstance(field, (CharField, TextField)):
-                q = q.filter(**{f"{key}__icontains": val})
-            else:
-                q = q.filter(**{key: val})
+        Args:
+            params      : dict of filter criteria passed to apply_filters()
+            page_number : page to return (1-based); pass 0 to get all records
+            page_size   : number of records per page (default 10)
 
-        return q
+        Returns:
+            Page object when page_number > 0, QuerySet when page_number == 0
+        """
+        # Start with all records for this model
+        q = self.get_model().objects.filter()
+
+        # Delegate field-level filtering to the subclass
+        q = self.apply_filters(q, params)
+
+        # page_number == 0 means return all records without pagination
+        if page_number == 0:
+            return q
+
+        # Apply pagination and return the requested page
+        paginator = Paginator(q, page_size)
+        return paginator.get_page(page_number)
 
     @abstractmethod
     def get_model(self):

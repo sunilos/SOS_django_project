@@ -5,9 +5,7 @@ from .BaseDAO import BaseDAO
 
 class ForgetPasswordDAO(BaseDAO):
 
-    def search(self, params):
-        q = self.get_model().objects.filter()
-
+    def apply_filters(self, q, params):
         val = params.get("login", None)
         if DataValidator.isNotNull(val):
             q = q.filter(login=val)

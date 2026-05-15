@@ -5,9 +5,7 @@ from .BaseDAO import BaseDAO
 
 class FacultyDAO(BaseDAO):
 
-    def search(self, params):
-        q = self.get_model().objects.filter()
-
+    def apply_filters(self, q, params):
         val = params.get("firstName", None)
         if DataValidator.isNotNull(val):
             q = q.filter(firstName__icontains=val)

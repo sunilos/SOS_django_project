@@ -5,9 +5,7 @@ from .BaseDAO import BaseDAO
 
 class StudentDAO(BaseDAO):
 
-    def search(self, params):
-        q = self.get_model().objects.filter()
-
+    def apply_filters(self, q, params):
         val = params.get("firstName", None)
         if DataValidator.isNotNull(val):
             q = q.filter(firstName__icontains=val)
@@ -29,7 +27,7 @@ class StudentDAO(BaseDAO):
             q = q.filter(email=val)
 
         val = params.get("college_ID", None)
-        if DataValidator.isNotNull(val):
+        if DataValidator.isNotNull(val) and str(val) != "0":
             q = q.filter(college_ID=val)
 
         val = params.get("collegeName", None)
