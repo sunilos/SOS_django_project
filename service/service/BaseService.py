@@ -12,7 +12,7 @@ class BaseService(ABC):
     def get(self, pk):
         return self._dao.get(pk)
 
-    def search(self, params=None, page_number=1, page_size=10):
+    def search(self, params=None, page_number=0, page_size=10):
         # Normalise early so all code below can safely use params as a dict
         params = params or {}
         result = self._dao.search(params, page_number, page_size)

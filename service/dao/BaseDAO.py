@@ -23,7 +23,12 @@ class BaseDAO(ABC):
         if is_new:
             obj.id = None
         obj.save()
-        logger.info("%s.save() %s pk=%s", self.__class__.__name__, "inserted" if is_new else "updated", obj.id)
+        logger.info(
+            "%s.save() %s pk=%s",
+            self.__class__.__name__,
+            "inserted" if is_new else "updated",
+            obj.id,
+        )
 
     def delete(self, pk):
         obj = self.get(pk)
@@ -33,11 +38,11 @@ class BaseDAO(ABC):
 
     def find_by_unique_key(self, pk):
         return self.get(pk)
-    
+
     def apply_filters(self, q, params):
         pass
 
-    def search(self, params, page_number=1, page_size=10):
+    def search(self, params, page_number=0, page_size=10):
         """
         Search records with subclass-defined filters and optional pagination.
 

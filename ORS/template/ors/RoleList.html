@@ -70,7 +70,8 @@
                 <div>
                     {% if pageList.has_previous %}
                     <button type="button" class="btn btn-outline-secondary btn-sm"
-                            onclick="gotoPage({{pageList.previous_page_number}})">
+                            data-page="{{pageList.previous_page_number}}"
+                            onclick="gotoPage(this.dataset.page)">
                         &laquo; Previous
                     </button>
                     {% endif %}
@@ -81,7 +82,8 @@
 
                     {% if pageList.has_next %}
                     <button type="button" class="btn btn-outline-secondary btn-sm"
-                            onclick="gotoPage({{pageList.next_page_number}})">
+                            data-page="{{pageList.next_page_number}}"
+                            onclick="gotoPage(this.dataset.page)">
                         Next &raquo;
                     </button>
                     {% endif %}

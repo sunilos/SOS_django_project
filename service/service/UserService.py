@@ -8,9 +8,10 @@ from .BaseService import BaseService
 class UserService(BaseService):
 
     def authenticate(self, params):
-        userList = self.search(params)
-        if userList.count() > 0:
-            return userList[0]
+        # Use exact login lookup then verify password — avoids icontains partial-match on login
+        user = self._dao.get_by_login(params.get("loginId"))
+        if user is not None and user.password == params.get("password"):
+            return user
         return None
 
     def change_password(self, login, newPassword):
