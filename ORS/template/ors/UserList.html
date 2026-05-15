@@ -1,7 +1,9 @@
 {% include "./Header.html"%}
 <br>
 <div class="container">
-    <form method="POST">
+    <form method="POST" id="searchForm">
+        {% csrf_token %}
+        <input type="hidden" id="page_number" name="page_number" value="{{form.page_number|default:1}}">
         <div class="card mb-3">
             <div class="card-header d-flex justify-content-between align-items-center">
                 <h5 class="mb-0"><i class="fas fa-users"></i> User List</h5>
@@ -36,7 +38,8 @@
                         {{ preload_data.role_select|safe }}
                     </div>
                     <div class="col-lg-2 col-md-4 mb-2">
-                        <button class="btn btn-primary btn-sm btn-block" type="submit">
+                        <button class="btn btn-primary btn-sm btn-block" type="button"
+                                onclick="gotoPage(1)">
                             <i class="fas fa-search"></i> Search
                         </button>
                     </div>
@@ -63,7 +66,7 @@
                 <tbody>
                     {% for e in pageList %}
                     <tr>
-                        <td>{{forloop.counter}}</td>
+                        <td>{{pageList.start_index|add:forloop.counter0}}</td>
                         <td>
                             {% if e.photo %}
                             <img src="{{MEDIA_URL}}{{e.photo}}" alt="photo"
@@ -91,8 +94,40 @@
                     {% endfor %}
                 </tbody>
             </table>
+
+            <div class="d-flex justify-content-between align-items-center mt-1 mb-3">
+                <small class="text-muted">
+                    {% if pageList.paginator.count %}
+                        Showing {{pageList.start_index}} to {{pageList.end_index}} of {{pageList.paginator.count}} records
+                    {% endif %}
+                </small>
+                <div>
+                    {% if pageList.has_previous %}
+                    <button type="button" class="btn btn-outline-secondary btn-sm"
+                            data-page="{{pageList.previous_page_number}}"
+                            onclick="gotoPage(this.dataset.page)">
+                        &laquo; Previous
+                    </button>
+                    {% endif %}
+                    <span class="mx-2 small">Page {{pageList.number}} of {{pageList.paginator.num_pages}}</span>
+                    {% if pageList.has_next %}
+                    <button type="button" class="btn btn-outline-secondary btn-sm"
+                            data-page="{{pageList.next_page_number}}"
+                            onclick="gotoPage(this.dataset.page)">
+                        Next &raquo;
+                    </button>
+                    {% endif %}
+                </div>
+            </div>
         </div>
     </div>
 </div>
+
+<script>
+    function gotoPage(page) {
+        document.getElementById('page_number').value = page;
+        document.getElementById('searchForm').submit();
+    }
+</script>
 
 {% include "./Footer.html"%}

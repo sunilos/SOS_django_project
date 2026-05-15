@@ -27,19 +27,21 @@ class UserListCtl(BaseCtl):
         self.form["mobileNumber"] = requestForm.get("mobileNumber", None)
         self.form["gender"] = requestForm.get("gender", None)
         self.form["role_id"] = requestForm.get("role_id", None)
+        self.form["page_number"] = int(requestForm.get("page_number", 1))
 
     def display(self, request, params={}):
-        self.page_list = self.get_service().search(self.form)
+        self.page_list = self.get_service().search(self.form, page_number=1)
         res = render(
             request,
             self.get_template(),
-            {"pageList": self.page_list, "preload_data": self.preload(request)},
+            {"pageList": self.page_list, "form": self.form, "preload_data": self.preload(request)},
         )
         return res
 
     def submit(self, request, params={}):
         self.request_to_form(request.POST)
-        self.page_list = self.get_service().search(self.form)
+        page_number = self.form.get("page_number", 1)
+        self.page_list = self.get_service().search(self.form, page_number=page_number)
         res = render(
             request,
             self.get_template(),
