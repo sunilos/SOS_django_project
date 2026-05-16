@@ -1,0 +1,137 @@
+{% include "./Header.html"%}
+<br>
+
+<div class="container">
+
+    <form method="POST" id="searchForm">
+        {% csrf_token %}
+        <input type="hidden" id="page_number" name="page_number" value="{{page_list.number|default:1}}">
+
+        <div class="card mb-3">
+            <div class="card-header d-flex justify-content-between align-items-center">
+                <h5 class="mb-0"><i class="fas fa-chalkboard-teacher"></i> TimeTable List</h5>
+                <a href="/ORS/TimeTable" class="btn btn-success btn-sm">
+                    <i class="fas fa-plus-circle"></i> Add TimeTable
+                </a>
+            </div>
+            <div class="card-body">
+                <div class="form-row align-items-end">
+
+                    <div class="col-lg-2 col-md-4 mb-2">
+                        <label class="small mb-1">Exam Date</label>
+                        <input type="date" class="form-control form-control-sm" name="examDate"
+                               value="{{form.exam_date}}">
+                    </div>
+
+                    <div class="col-lg-2 col-md-4 mb-2">
+                        <label class="small mb-1">Exam Time</label>
+                        {{ preload_data.exam_time_select|safe }}
+                    </div>
+
+                    <div class="col-lg-2 col-md-4 mb-2">
+                        <label class="small mb-1">Semester</label>
+                        {{ preload_data.semester_select|safe }}
+                    </div>
+
+                    <div class="col-lg-2 col-md-4 mb-2">
+                        <label class="small mb-1">Course</label>
+                        {{ preload_data.course_select|safe }}
+                    </div>
+
+                    <div class="col-lg-2 col-md-4 mb-2">
+                        <label class="small mb-1">Subject</label>
+                        {{ preload_data.subject_select|safe }}
+                    </div>
+
+                    <div class="col-lg-2 col-md-4 mb-2">
+                        <button class="btn btn-primary btn-sm btn-block" type="button"
+                                onclick="gotoPage(1)">
+                            <i class="fas fa-search"></i> Search
+                        </button>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </form>
+
+    <div class="row">
+        <div class="col-md-12">
+
+            <table class="table table-sm table-bordered table-hover table-responsive-sm">
+                <thead class="thead-dark text-center">
+                    <th scope="col">#</th>
+                    <th scope="col">EXAM DATE</th>
+                    <th scope="col">EXAM TIME</th>
+                    <th scope="col">SEMESTER</th>
+                    <th scope="col">COURSE</th>
+                    <th scope="col">SUBJECT</th>
+                    <th scope="col">ACTION</th>
+                </thead>
+                <tbody class="text-center">
+                    {% for e in page_list %}
+                    <tr>
+                        <td>{{page_list.start_index|add:forloop.counter0}}</td>
+                        <td>{{e.exam_date}}</td>
+                        <td>{{e.exam_time}}</td>
+                        <td>{{e.semester}}</td>
+                        <td>{{e.course_name}}</td>
+                        <td>{{e.subject_name}}</td>
+                        <td>
+                            <a href="/ORS/TimeTable/{{e.id}}" class="btn btn-primary btn-sm">
+                                <i class="fas fa-edit"></i>
+                            </a>
+                            <a href="/ORS/TimeTableList/delete/{{e.id}}" class="btn btn-danger btn-sm">
+                                <i class="fas fa-trash"></i>
+                            </a>
+                        </td>
+                    </tr>
+                    {% empty %}
+                    <tr>
+                        <td colspan="7" class="text-center text-muted p-3">No Records Found</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+
+            <div class="d-flex justify-content-between align-items-center mt-1 mb-3">
+                <small class="text-muted">
+                    {% if page_list.paginator.count %}
+                        Showing {{page_list.start_index}} to {{page_list.end_index}} of {{page_list.paginator.count}} records
+                    {% endif %}
+                </small>
+                <div>
+                    {% if page_list.has_previous %}
+                    <button type="button" class="btn btn-outline-secondary btn-sm"
+                            data-page="{{page_list.previous_page_number}}"
+                            onclick="gotoPage(this.dataset.page)">
+                        &laquo; Previous
+                    </button>
+                    {% endif %}
+
+                    <span class="mx-2 small">
+                        Page {{page_list.number}} of {{page_list.paginator.num_pages}}
+                    </span>
+
+                    {% if page_list.has_next %}
+                    <button type="button" class="btn btn-outline-secondary btn-sm"
+                            data-page="{{page_list.next_page_number}}"
+                            onclick="gotoPage(this.dataset.page)">
+                        Next &raquo;
+                    </button>
+                    {% endif %}
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+<script>
+    function gotoPage(page) {
+        document.getElementById('page_number').value = page;
+        document.getElementById('searchForm').submit();
+    }
+</script>
+
+{% include "./Footer.html"%}

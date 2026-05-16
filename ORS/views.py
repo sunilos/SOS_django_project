@@ -17,7 +17,9 @@ from ORS.ctl.CourseCtl import CourseCtl
 from ORS.ctl.StudentCtl import StudentCtl
 from ORS.ctl.MarksheetCtl import MarksheetCtl
 from ORS.ctl.SubjectCtl import SubjectCtl
-from ORS.ctl.TimetableCtl import TimetableCtl
+from ORS.ctl.SubjectListCtl import SubjectListCtl
+from ORS.ctl.TimetableCtl import TimeTableCtl
+from ORS.ctl.TimeTableListCtl import TimeTableListCtl
 from ORS.ctl.UserListCtl import UserListCtl
 from ORS.ctl.UserCtl import UserCtl
 from ORS.ctl.CollegeListCtl import CollegeListCtl

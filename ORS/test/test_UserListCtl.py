@@ -75,7 +75,7 @@ class TestUserListCtlDisplay(TestCase):
 
         self.ctl.display(self.request, params={})
 
-        mock_service.search.assert_called_once_with(self.ctl.form)
+        mock_service.search.assert_called_once_with(self.ctl.form, page_number=1)
         context = mock_render.call_args[0][2]
         self.assertEqual(context["pageList"], ["u1", "u2"])
 

@@ -1,0 +1,84 @@
+{% include "./Header.html"%}
+
+<div class="container">
+
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+
+            <div class="modal-header text-center">
+                <h4 class="modal-title">Subject Information</h4>
+            </div>
+
+            {% if form.message %}
+            <div class="alert {% if form.error %}alert-danger{% else %}alert-success{% endif %} alert-dismissible fade show"
+                 role="alert">
+
+                <strong>{% if form.error %}Error:{% else %}Success:{% endif %}</strong> {{form.message}}
+
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+
+            </div>
+            {% endif %}
+
+            <form class="form" method="POST">
+
+                <input type="hidden" name="id" value="{{form.id}}">
+
+                <div class="modal-body">
+
+                    <div class="form-group row">
+                        <label class="col-lg-3 form-control-label">Name *</label>
+                        <div class="col-lg-9">
+                            <input class="form-control" name="name" value="{{form.name}}">
+                            <span style="color: red;">{{form.inputError.name}}</span>
+                        </div>
+                    </div>
+
+                    <div class="form-group row">
+                        <label class="col-lg-3 form-control-label">Description *</label>
+                        <div class="col-lg-9">
+                            <input class="form-control" name="description" value="{{form.description}}">
+                            <span style="color: red;">{{form.inputError.description}}</span>
+                        </div>
+                    </div>
+
+                    <div class="form-group row">
+                        <label class="col-lg-3 form-control-label">Course *</label>
+                        <div class="col-lg-9">
+                            {{ preload_data.course_select|safe }}
+                            <span style="color: red;">{{form.inputError.course_id}}</span>
+                        </div>
+                    </div>
+
+                    <div class="form-group row">
+                        <div class="offset-lg-3 col-lg-9">
+
+                            <button type="submit" class="btn btn-primary">
+                                <i class="fas fa-save"></i> Save
+                            </button>
+
+                            <a href="/ORS/SubjectList" class="btn btn-secondary">
+                                <i class="fas fa-list"></i> List
+                            </a>
+
+                            {% if form.id > 0 %}
+                            <a href="/ORS/SubjectList/delete/{{form.id}}" class="btn btn-danger">
+                                <i class="fas fa-trash"></i> Delete
+                            </a>
+                            {% endif %}
+
+                        </div>
+                    </div>
+
+                </div>
+
+            </form>
+
+        </div>
+    </div>
+
+</div>
+
+{% include "./Footer.html"%}

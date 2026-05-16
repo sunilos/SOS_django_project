@@ -1,0 +1,96 @@
+{% include "./Header.html"%}
+<br>
+
+<div class="container">
+
+    <div class="modal-dialog">
+        <div class="modal-content">
+
+            <div class="modal-header text-center">
+                <h4 class="modal-title">TimeTable Information</h4>
+            </div>
+
+            {% if form.message %}
+            <div class="alert {% if form.error %}alert-danger{% else %}alert-success{% endif %} alert-dismissible fade show"
+                 role="alert">
+                <strong>{% if form.error %}Error:{% else %}Success:{% endif %}</strong> {{form.message}}
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            {% endif %}
+
+            <form method="POST">
+                {% csrf_token %}
+                <input type="hidden" name="id" value="{{form.id}}">
+
+                <div class="modal-body">
+
+                    <div class="form-group row">
+                        <label class="col-lg-3 form-control-label">Exam Date *</label>
+                        <div class="col-lg-9">
+                            <input type="date" class="form-control" name="examDate" value="{{form.exam_date}}">
+                            <span style="color:red;">{{form.inputError.exam_date}}</span>
+                        </div>
+                    </div>
+
+                    <div class="form-group row">
+                        <label class="col-lg-3 form-control-label">Exam Time *</label>
+                        <div class="col-lg-9">
+                            {{ preload_data.exam_time_select|safe }}
+                            <span style="color:red;">{{form.inputError.exam_time}}</span>
+                        </div>
+                    </div>
+
+                    <div class="form-group row">
+                        <label class="col-lg-3 form-control-label">Semester *</label>
+                        <div class="col-lg-9">
+                            {{ preload_data.semester_select|safe }}
+                            <span style="color:red;">{{form.inputError.semester}}</span>
+                        </div>
+                    </div>
+
+                    <div class="form-group row">
+                        <label class="col-lg-3 form-control-label">Course *</label>
+                        <div class="col-lg-9">
+                            {{ preload_data.course_select|safe }}
+                            <span style="color:red;">{{form.inputError.course_id}}</span>
+                        </div>
+                    </div>
+
+                    <div class="form-group row">
+                        <label class="col-lg-3 form-control-label">Subject *</label>
+                        <div class="col-lg-9">
+                            {{ preload_data.subject_select|safe }}
+                            <span style="color:red;">{{form.inputError.subject_id}}</span>
+                        </div>
+                    </div>
+
+                    <div class="form-group row">
+                        <div class="offset-lg-3 col-lg-9">
+
+                            <button type="submit" class="btn btn-primary">
+                                <i class="fas fa-save"></i> Save
+                            </button>
+
+                            <a href="/ORS/TimeTableList" class="btn btn-secondary">
+                                <i class="fas fa-list"></i> List
+                            </a>
+
+                            {% if form.id > 0 %}
+                            <a href="/ORS/TimeTableList/delete/{{form.id}}" class="btn btn-danger">
+                                <i class="fas fa-trash"></i> Delete
+                            </a>
+                            {% endif %}
+
+                        </div>
+                    </div>
+
+                </div>
+            </form>
+
+        </div>
+    </div>
+</div>
+
+{% include "./Footer.html"%}

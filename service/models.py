@@ -151,31 +151,42 @@ class Student(DropdownItem):
 
 class Subject(DropdownItem):
     subjectName = models.CharField(max_length=50)
-    subjectDescription = models.CharField(max_length=50)
-    dob = models.DateField()
-    course_ID = models.IntegerField()
-    courseName = models.CharField(max_length=50)
+    subjectDescription = models.CharField(max_length=200)
+    dob = models.DateField(null=True, blank=True)
+    course_ID = models.IntegerField(default=0)
+    courseName = models.CharField(max_length=50, default="")
 
     def get_value(self):
         return self.subjectName
 
+    @property
+    def name(self):
+        return self.subjectName
+
+    @property
+    def description(self):
+        return self.subjectDescription
+
+    @property
+    def course_name(self):
+        return self.courseName
+
     class Meta:
         db_table = "SOS_SUBJECT"
+        unique_together = ("subjectName", "course_ID")
 
 
 class TimeTable(DropdownItem):
-    examTime = models.DateTimeField()
-    examDate = models.DateField()
-    subject_ID = models.IntegerField()
-    subjectName = models.CharField(max_length=50)
-    course_ID = models.IntegerField()
-    courseName = models.CharField(max_length=50)
+    exam_date = models.DateField(null=True, blank=True)
+    exam_time = models.CharField(max_length=50)
+    subject_id = models.IntegerField(default=0)
+    subject_name = models.CharField(max_length=50, default="")
+    course_id = models.IntegerField(default=0)
+    course_name = models.CharField(max_length=50, default="")
     semester = models.CharField(max_length=50)
 
     def get_value(self):
-        return (
-            f"{self.courseName} - {self.subjectName} - {self.examDate} {self.examTime}"
-        )
+        return f"{self.course_name} - {self.subject_name} - {self.exam_date} {self.exam_time}"
 
     class Meta:
         db_table = "SOS_TIMETABLE"
